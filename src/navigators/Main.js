@@ -4,7 +4,6 @@ import 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Auth from '../screens/Auth';
@@ -28,7 +27,11 @@ const Main = () => {
 
   return (
     <>
-      {isNew ? <OnBoarding /> : <Auth />}
+      {isNew ? <OnBoarding setIsNew={setIsNew} /> : <Auth />}
+      {/* <Stack.Navigator headerMode="none">
+        <Stack.Screen name="OnBoarding" component={OnBoarding} />
+        <Stack.Screen name="Authentication" component={Auth} />
+      </Stack.Navigator> */}
       <Modal transparent visible={loading} animationType="fade">
         <View style={styles.modal}>
           <LottieView
@@ -46,13 +49,13 @@ const Main = () => {
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    backgroundColor: '#f5ab5140',
+    backgroundColor: '#f7f7f790',
     alignItems: 'center',
     justifyContent: 'center',
   },
   loadingAnim: {
-    width: '30%',
-    height: '30%',
+    width: '40%',
+    height: '40%',
     justifyContent: 'center',
     alignItems: 'center',
   },

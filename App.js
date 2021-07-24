@@ -3,6 +3,7 @@ import {View, Text, StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import RNBootSplash from 'react-native-bootsplash';
+import {NavigationContainer} from '@react-navigation/native';
 
 import Main from './src/navigators/Main';
 import {PRIMARY, BACKGROUND, BLACK_TEXT} from './src/utils/colors';
@@ -22,11 +23,13 @@ const App = () => {
   return (
     <View style={{backgroundColor: BACKGROUND, flex: 1}}>
       <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Main />
-        </PersistGate>
-      </Provider>
+      <NavigationContainer>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Main />
+          </PersistGate>
+        </Provider>
+      </NavigationContainer>
     </View>
   );
 };

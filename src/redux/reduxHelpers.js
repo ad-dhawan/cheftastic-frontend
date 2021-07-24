@@ -5,4 +5,4 @@ export const StartLoading = {
   stopLoading = {
     type: 'LOADING',
     payload: false,
-  };
+  },
