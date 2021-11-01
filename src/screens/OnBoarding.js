@@ -10,7 +10,8 @@ import {
 import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {PRIMARY, BLACK_TEXT, BACKGROUND, ACCENT} from '../utils/colors';
+import {PRIMARY, BLACK_TEXT, BACKGROUND, ACCENT, TRANSPARENT} from '../utils/colors';
+import StatusBar from '../components/StatusBar'
 import Button from '../components/Button';
 
 const {width, height} = Dimensions.get('screen');
@@ -94,6 +95,7 @@ const OnBoarding = (props) => {
 
   return (
     <View style={styles.mainContainer}>
+      <StatusBar bgColor={TRANSPARENT} translucent={true} />
       <Square scrollX={scrollX} />
       <Animated.FlatList
         data={DATA}

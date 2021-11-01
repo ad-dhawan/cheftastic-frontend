@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, StatusBar} from 'react-native';
+import {View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import RNBootSplash from 'react-native-bootsplash';
@@ -22,7 +22,6 @@ const App = () => {
 
   return (
     <View style={{backgroundColor: BACKGROUND, flex: 1}}>
-      <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
       <NavigationContainer>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>

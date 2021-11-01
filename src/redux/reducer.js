@@ -11,6 +11,9 @@ export default (state = initialState, action) => {
     case 'LOADING':
       return {...state, loading: action.payload};
 
+    case 'LOGIN':
+      return {...state, ...action.payload, loggedIn: true};
+
     default:
       return state;
   }
