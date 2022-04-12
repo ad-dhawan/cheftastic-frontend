@@ -8,6 +8,8 @@ import {
   Text,
 } from 'react-native';
 
+import {BACKGROUND} from '../utils/colors';
+
 const MAX_WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 const CONTENT_HEIGHT = HEIGHT / 3;
@@ -40,7 +42,7 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-const InifiniteCarousel = () => {
+const InifiniteCarousel = ({data}) => {
   const animation = useRef(new Animated.Value(0));
   const [currentImage, setCurrentImage] = useState(0);
   useInterval(() => handleAnimation(), 4000);
@@ -61,23 +63,44 @@ const InifiniteCarousel = () => {
   };
 
   return (
-      <React.Fragment>
-        <View>
-          <Animated.View
-            style={[
-              styles.container,
-              {
-                transform: [{translateX: animation.current}],
-              },
-            ]}>
-            {images.map(image => (
-              <Image source={{uri: image}} style={styles.image} />
-            ))}
-          </Animated.View>
+    <React.Fragment>
+      <View>
+        <Animated.View
+          style={[
+            styles.container,
+            {
+              transform: [{translateX: animation.current}],
+            },
+          ]}>
+          {images.map(image => (
+            <Image source={{uri: image}} style={styles.image} />
+          ))}
+        </Animated.View>
+        <View style={styles.indicatorContainer}>
+          {images.map((image, index) => (
+            <View
+              key={`${image}_${index}`}
+              style={[
+                styles.indicator,
+                index === currentImage
+                  ? styles.activeIndicator
+                  : styles.inActiveIndicator,
+              ]}
+            />
+          ))}
         </View>
+      </View>
 
-        <View style={{width: MAX_WIDTH, height: HEIGHT, flex: 1, position: 'absolute'}} />
-      </React.Fragment>
+      {/* <View
+        style={{
+          width: MAX_WIDTH,
+          height: CONTENT_HEIGHT,
+          flex: 1,
+          position: 'absolute',
+          backgroundColor: '#00000040',
+        }}
+      /> */}
+    </React.Fragment>
   );
 };
 
@@ -93,6 +116,33 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     width: MAX_WIDTH,
+  },
+  indicatorContainer: {
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: MAX_WIDTH,
+    bottom: 5,
+    zIndex: 2,
+  },
+  indicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 8,
+    borderColor: BACKGROUND,
+    borderWidth: 1,
+    marginHorizontal: 6,
+    marginBottom: 5,
+  },
+  activeIndicator: {
+    backgroundColor: BACKGROUND,
+  },
+  inActiveIndicator: {
+    width: 6,
+    height: 6,
+    borderRadius: 6,
+    opacity: 0.7,
   },
 });
 

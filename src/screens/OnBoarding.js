@@ -3,14 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   Animated,
   Dimensions,
 } from 'react-native';
 import LottieView from 'lottie-react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {useDispatch, useSelector} from 'react-redux'
 
-import {PRIMARY, BLACK_TEXT, BACKGROUND, ACCENT, TRANSPARENT} from '../utils/colors';
+import {PRIMARY, BLACK_TEXT, BACKGROUND, ACCENT, TRANSPARENT, DARK_TEXT} from '../utils/colors';
 import StatusBar from '../components/StatusBar'
 import Button from '../components/Button';
 
@@ -87,11 +86,9 @@ const Square = ({scrollX}) => {
   );
 };
 
-const onGetStarted = async() => {
-}
-
-const OnBoarding = (props) => {
+const OnBoarding = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.mainContainer}>
@@ -99,7 +96,6 @@ const OnBoarding = (props) => {
       <Square scrollX={scrollX} />
       <Animated.FlatList
         data={DATA}
-        keyExtractor={item => item.key}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
@@ -132,8 +128,7 @@ const OnBoarding = (props) => {
         text="Get Started"
         style={styles.button}
         onPress={() => {
-          AsyncStorage.setItem('isAppFirstLaunched', 'true');
-          props.setIsNew(false)
+          dispatch({type: 'NEW_USER'});
         }}
       />
       <Indicator scrollX={scrollX} />
@@ -165,10 +160,9 @@ const styles = StyleSheet.create({
     flex: 0.3,
   },
   itemTitle: {
-    fontSize: 24,
-    fontWeight: '800',
+    fontSize: 20,
     marginBottom: 10,
-    color: BLACK_TEXT,
+    color: DARK_TEXT,
     textAlign: 'center',
   },
   itemDescription: {

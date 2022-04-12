@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-import {ACCENT, BLACK_TEXT} from '../utils/colors'
+import {ACCENT, LIGHT_TEXT, DARK_TEXT} from '../utils/colors'
 
 const Button = ({style, text, onPress, disabled}) => {
   return (
@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 8,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.8,
+        shadowOffset: { width: 0, height: .5 },
+        shadowOpacity: 0.6,
         shadowRadius: 2,  
         elevation: 3,
     },
     text: {
-        color: BLACK_TEXT,
+        color: DARK_TEXT,
         fontSize: 16
     }
 });

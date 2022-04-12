@@ -1,11 +1,11 @@
 const initialState = {
   loading: false,
   loggedIn: false,
+  newUser: true
 };
 
 export default (state = initialState, action) => {
   console.log(action);
-  let newState = null;
 
   switch (action.type) {
     case 'LOADING':
@@ -13,6 +13,12 @@ export default (state = initialState, action) => {
 
     case 'LOGIN':
       return {...state, ...action.payload, loggedIn: true};
+
+    case 'LOGOUT':
+      return {...initialState, loggedIn: false};
+
+    case 'NEW_USER':
+      return {...state, ...action.payload, newUser: false};
 
     default:
       return state;

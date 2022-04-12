@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
-import {View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 
-import Main from './src/navigators/Main';
-import {PRIMARY, BACKGROUND, BLACK_TEXT} from './src/utils/colors';
+import AppNavigation from './src/navigators/AppNavigation';
+import Statusbar from './src/components/StatusBar';
 import {persistor, store} from './src/redux/store';
 
 const App = () => {
@@ -21,15 +20,16 @@ const App = () => {
   }, []);
 
   return (
-    <View style={{backgroundColor: BACKGROUND, flex: 1}}>
+    <>
+      <Statusbar />
       <NavigationContainer>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <Main />
+            <AppNavigation />
           </PersistGate>
         </Provider>
       </NavigationContainer>
-    </View>
+    </>
   );
 };
 
