@@ -1,4 +1,4 @@
-package com.frontend;
+package com.dhawan.cheftastic;
 
 import android.os.Bundle; // <- add this necessary import
 

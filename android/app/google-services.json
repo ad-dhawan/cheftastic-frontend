@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "72186085234",
+    "project_id": "cheftastic-2",
+    "storage_bucket": "cheftastic-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72186085234:android:7a0040917333c91c6567eb",
+        "android_client_info": {
+          "package_name": "com.dhawan.cheftastic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72186085234-efpoe8aj0o9pdjkvvn1abo1lsugn335g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB59Bte-fj02pHDNgfIg4l58tEGgXvNHEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72186085234-efpoe8aj0o9pdjkvvn1abo1lsugn335g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
