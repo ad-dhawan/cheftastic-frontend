@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
-import {TRANSPARENT} from '../utils/colors';
+import {TRANSPARENT, PRIMARY} from '../utils/colors';
 import StatusBar from '../components/StatusBar';
 import Carousel from '../components/Caraousel';
 
@@ -9,8 +9,8 @@ const Feed = () => {
 
   return (
     <>
-      <StatusBar translucent={true} bgColor={TRANSPARENT} />
-      <Carousel />
+      <StatusBar translucent={false} backgroundColor={PRIMARY} />
+      {/* <Carousel /> */}
 
       <SafeAreaView>
         <Text>Feed</Text>

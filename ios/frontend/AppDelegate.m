@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+@import Firebase;
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -52,6 +53,7 @@ static void InitializeFlipper(UIApplication *application) {
 
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; // <- initialization using the storyboard file name
   
+  [FIRApp configure];
   return YES;
 }
 

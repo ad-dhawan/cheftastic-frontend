@@ -86,7 +86,7 @@ const Square = ({scrollX}) => {
   );
 };
 
-const OnBoarding = () => {
+const OnBoarding = ({navigation}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
 
@@ -113,7 +113,7 @@ const OnBoarding = () => {
                   style={styles.itemAnim}
                   source={item.animation}
                   autoPlay
-                  loop
+                  loop={false}
                 />
               </View>
               <View style={styles.itemTextContainer}>
@@ -128,6 +128,7 @@ const OnBoarding = () => {
         text="Get Started"
         style={styles.button}
         onPress={() => {
+          navigation.replace('Auth');
           dispatch({type: 'NEW_USER'});
         }}
       />
