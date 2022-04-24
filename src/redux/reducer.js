@@ -1,5 +1,11 @@
 const initialState = {
   logged_in: false,
+  user_name: '',
+  user_email: '',
+  fcm_token: '',
+  id_token: '',
+  recipes: [],
+  user_avatar: ''
 };
 
 export default (state = initialState, action) => {
