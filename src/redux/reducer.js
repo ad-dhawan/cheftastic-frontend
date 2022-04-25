@@ -5,7 +5,8 @@ const initialState = {
   fcm_token: '',
   id_token: '',
   recipes: [],
-  user_avatar: ''
+  user_avatar: '',
+  feed: [],
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +18,9 @@ export default (state = initialState, action) => {
 
     case 'LOGOUT':
       return {...initialState, loggedIn: false};
+
+    case 'FEED':
+      return {...state, feed: action.payload};
 
     default:
       return state;
