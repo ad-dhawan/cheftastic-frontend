@@ -92,7 +92,7 @@ const OnBoarding = ({navigation}) => {
 
   return (
     <View style={styles.mainContainer}>
-      <StatusBar bgColor={TRANSPARENT} translucent={true} />
+      <StatusBar bgColor={TRANSPARENT} translucent={true} theme={'dark'} />
       <Square scrollX={scrollX} />
       <Animated.FlatList
         data={DATA}

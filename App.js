@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <>
-      <Statusbar translucent={false} bgColor={PRIMARY} />
+      <Statusbar translucent={false} bgColor={PRIMARY} theme={'light'} />
       <NavigationContainer>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>

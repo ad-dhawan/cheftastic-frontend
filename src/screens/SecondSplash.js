@@ -3,7 +3,9 @@ import {View, Text, StyleSheet, Dimensions} from 'react-native'
 import LottieView from 'lottie-react-native';
 import {useSelector} from 'react-redux';
 
+import Statusbar from '../components/StatusBar';
 import {PRIMARY, ACCENT, BACKGROUND, DARK_TEXT, LIGHT_TEXT} from '../utils/colors';
+import {EXTRA_BOLD, BOLD, EXTRA_BOLD_ITALIC} from '../utils/values';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -11,9 +13,10 @@ const SecondSplash = () => {
     const {user_name} = useSelector(state => state);
     return (
         <>
+            <Statusbar translucent={true} bgColor={BACKGROUND} theme={'dark'} />
             <View style={styles.mainContainer}>
 
-                <Text style={styles.text}>hey {user_name}</Text>
+                <Text style={styles.upperText}>hey {user_name}</Text>
 
                 <LottieView
                   style={styles.loadingAnim}
@@ -28,7 +31,7 @@ const SecondSplash = () => {
                   ]}
                 />
 
-                <Text style={styles.text}>preparing meals for you</Text>
+                <Text style={styles.lowerText}>preparing meals for you</Text>
 
             </View>
         </>
@@ -42,10 +45,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    text: {
+    upperText: {
         color: DARK_TEXT,
-        fontSize: 20,
-        fontWeight: 'bold'
+        fontSize: 22,
+        fontFamily: EXTRA_BOLD,
+    },
+    lowerText: {
+        color: DARK_TEXT,
+        fontSize: 18,
+        fontFamily: BOLD
     },
     loadingAnim: {
         height: width / 1.2,

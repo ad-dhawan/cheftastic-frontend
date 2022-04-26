@@ -4,7 +4,7 @@ import {StatusBar} from 'react-native';
 const Statusbar = (props) => {
   return (
     <StatusBar
-      barStyle="light-content"
+      barStyle={`${props.theme}-content`}
       hidden={false}
       translucent={props.translucent}
       backgroundColor={props.bgColor}
