@@ -182,6 +182,10 @@ android {
 
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
@@ -194,6 +198,9 @@ dependencies {
     //Firebase Import Modules
     implementation platform('com.google.firebase:firebase-bom:29.3.0')
     implementation 'com.google.firebase:firebase-analytics'
+
+    //Facebook configuration
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

@@ -52,6 +52,7 @@ export const onGoogleSignIn = async () => {
 };
 
 export const onFacebookSignIn = async () => {
+  // console.log('FACEBOOK SIGN IN')
   LoginManager.logInWithPermissions(["public_profile", "email"]).then(
     function (result) {
     if (result.isCancelled) {

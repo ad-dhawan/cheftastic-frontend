@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Cheftastic</string>
     <string name="facebook_app_id">4815325901910939</string>
+    <string name="facebook_client_token">1e83d4d8199e222bd3f6d866f61335e5</string>
 </resources>

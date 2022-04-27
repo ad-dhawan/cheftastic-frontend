@@ -10,18 +10,20 @@ import {
 } from 'react-native';
 import {
   GoogleSignin,
-  GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLIENT_ID } from '@env'
+import * as Animatable from 'react-native-animatable';
 
-import {PRIMARY, ACCENT, DULL_BG, DARK_TEXT, LIGHT_TEXT} from '../utils/colors';
+import {GOOGLE, FACEBOOK, DULL_BG, DARK_TEXT, LIGHT_TEXT, SUB_HEADING, GREY} from '../utils/colors';
+import { EXTRA_BOLD, BOLD, REGULAR } from '../utils/values';
 import {onGoogleSignIn, onFacebookSignIn} from '../services/AuthProvider';
 
 const {width, height} = Dimensions.get('screen');
 const CONST_HEIGHT = height * 0.6;
 const LOGIN_CONTAINER_HEIGHT = height / 1.7;
 const IMAGE_SIZE = 170;
-const ICON_SIZE = 40;
+const ICON_SIZE = 32;
+const DURATION = 400;
 
 const Auth = ({navigation}) => {
 
@@ -48,21 +50,28 @@ const Auth = ({navigation}) => {
           />
         </View>
 
-        <View style={styles.loginButtonsContainer}>
+        <Animatable.View animation="fadeInUp" delay={DURATION} style={styles.loginButtonsContainer}>
 
-          <Text style={styles.titleText}>Let's get started</Text>
-
-          <View style={styles.authButtonsContainer}>
-            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onGoogleSignIn} >
-              <Image source={require('../assets/google.png')} style={styles.authButton} />
-            </TouchableOpacity>
-
-            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onFacebookSignIn} >
-              <Image source={require('../assets/facebook.png')} style={styles.authButton} />
-            </TouchableOpacity>
+          <View style={styles.headingContainer}>
+            <Text style={styles.titleText}>Let's get started</Text>
+            <Text style={styles.subHeadingText}>Sign in to continue</Text>
           </View>
 
-        </View>
+          <View style={styles.authButtonsContainer}>
+
+            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onGoogleSignIn} style={[styles.authButton, {backgroundColor: GOOGLE}]} >
+              <Image source={require('../assets/google.png')} style={styles.authButtonIcon} />
+              <Text style={[styles.authButtonText, {color: DARK_TEXT}]}>Google</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onFacebookSignIn} style={[styles.authButton, {backgroundColor: FACEBOOK}]} >
+              <Image source={require('../assets/facebook.png')} style={styles.authButtonIcon} />
+              <Text style={styles.authButtonText}>Facebook</Text>
+            </TouchableOpacity>
+
+          </View>
+
+        </Animatable.View>
       </ImageBackground>
     </>
   );
@@ -71,10 +80,9 @@ const Auth = ({navigation}) => {
 const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
-    height: CONST_HEIGHT,
   },
   bgCover: {
-    height: CONST_HEIGHT,
+    flex: 1,
     backgroundColor: DULL_BG,
     alignItems: 'center',
     paddingTop: 60,
@@ -90,23 +98,29 @@ const styles = StyleSheet.create({
     backgroundColor: LIGHT_TEXT,
     position: 'absolute',
     bottom: 0,
-    // alignItems: 'center',
     borderTopStartRadius: LOGIN_CONTAINER_HEIGHT / 5.5,
     borderTopEndRadius: LOGIN_CONTAINER_HEIGHT / 5.5,
     paddingTop: CONST_HEIGHT * 0.1,
   },
+  headingContainer: {
+    paddingHorizontal: 40,
+  },
   titleText: {
     fontSize: 24,
     color: DARK_TEXT,
-    fontWeight: 'bold',
-    marginBottom: 60,
-    paddingHorizontal: 40
+    fontFamily: EXTRA_BOLD,
+  },
+  subHeadingText: {
+    fontSize: 16,
+    color: SUB_HEADING,
+    fontFamily: REGULAR,
+    lineHeight: 35
   },
   authButtonsContainer: {
-    flexDirection: 'row',
-    width: '50%',
-    justifyContent: 'space-between',
-    alignSelf: 'center'
+    width: '100%',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 10
   },
   hitSlop: {
     top: 10,
@@ -115,10 +129,27 @@ const styles = StyleSheet.create({
     right: 10
   },
   authButton: {
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '50%',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: GREY
+  },
+  authButtonIcon: {
     width: ICON_SIZE,
     height: ICON_SIZE,
     resizeMode: 'contain',
   },
+  authButtonText: {
+    fontSize: 16,
+    color: LIGHT_TEXT,
+    marginLeft: 15,
+    fontFamily: BOLD
+  }
 });
 
 export default Auth;
