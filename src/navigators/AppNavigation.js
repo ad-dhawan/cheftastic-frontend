@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 enableScreens();
 
 const AppNavigation = () => {
-  const {loggedIn, data} = useSelector(state => state);
+  const {loggedIn, feed} = useSelector(state => state);
   const [isConnected, setIsConnected] = useState(true);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const AppNavigation = () => {
         }}>
         {!loggedIn ? <Stack.Screen name="Auth" component={Auth} /> : null}
         
-        {isEmpty(data) ? <Stack.Screen name="SecondSplash" component={SecondSplash} /> : null}
+        {isEmpty(feed) ? <Stack.Screen name="SecondSplash" component={SecondSplash} /> : null}
 
         <Stack.Screen name="Feed" component={Feed} />
         

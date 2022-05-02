@@ -24,20 +24,22 @@ export const onGoogleSignIn = async () => {
 
     GetData.registerUser(data).then(res => {
       if (res && res.status === 200) {
+        
         console.log(res.data);
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            ...data,
+            user_name: userInfo.user.name,
+            user_email: userInfo.user.email,
+            user_avatar: userInfo.user.photo,
+            id_token: userInfo.idToken,
+          },
+        });
+
       } else console.log(res);
     });
 
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        ...data,
-        user_name: userInfo.user.name,
-        user_email: userInfo.user.email,
-        user_avatar: userInfo.user.photo,
-        id_token: userInfo.idToken,
-      },
-    });
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       console.log('ERROR: USER CANCELED THE LOGIN FLOW');
