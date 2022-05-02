@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -13,19 +13,24 @@ const {width, height} = Dimensions.get('screen');
 const SecondSplash = ({navigation}) => {
   const {user_name} = useSelector(state => state);
   const dispatch = useDispatch();
+  const [feed, setFeed] = useState([]);
 
   useEffect(() => {
 
     GetData.getFeed(5).then(res => {
       if (res && res.status === 200) {
 
-        navigation.replace('Feed');
-        console.log(res.data);
-        dispatch({
-          type: 'FEED',
-          payload: res.data,
-        });
-        
+        setTimeout(() => {
+
+          navigation.replace('Feed');
+  
+          dispatch({
+            type: 'FEED',
+            payload: res.data,
+          });
+
+        }, 2500)
+
       } else console.log(res);
     });
 

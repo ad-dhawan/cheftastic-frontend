@@ -3,7 +3,6 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 import {TRANSPARENT, PRIMARY} from '../utils/colors';
 import StatusBar from '../components/StatusBar';
-import Carousel from '../components/Caraousel';
 
 const Feed = () => {
 

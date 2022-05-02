@@ -37,7 +37,21 @@ export const onGoogleSignIn = async () => {
           },
         });
 
-      } else console.log(res);
+      } else if (res && res.status === 409) {
+        
+        console.log(res.data.user);
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            ...data,
+            user_name: res.data.user.name,
+            user_email: res.data.user.email,
+            user_avatar: res.data.user.user_avatar,
+            id_token: res.data.user.id_token,
+          },
+        });
+
+      } else console.warn(res)
     });
 
   } catch (error) {

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,10 +13,12 @@ import {
 } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLIENT_ID } from '@env'
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {GOOGLE, FACEBOOK, DULL_BG, DARK_TEXT, LIGHT_TEXT, SUB_HEADING, GREY} from '../utils/colors';
 import { EXTRA_BOLD, BOLD, REGULAR } from '../utils/values';
 import {onGoogleSignIn, onFacebookSignIn} from '../services/AuthProvider';
+import SwipeButton from '../components/SwipeButton';
 
 const {width, height} = Dimensions.get('screen');
 const CONST_HEIGHT = height * 0.6;
@@ -26,6 +28,9 @@ const ICON_SIZE = 32;
 const DURATION = 400;
 
 const Auth = ({navigation}) => {
+  const authRef = useRef(null);
+  const slideButtonRef = useRef(null);
+  const [isAuthVisible, setIsAuthVisible] = useState(false);
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -33,7 +38,15 @@ const Auth = ({navigation}) => {
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });
+
   }, []);
+
+  const onButtonSwipe = () => {
+      slideButtonRef.current.fadeOutDown().then(() => {
+        setIsAuthVisible(true);
+        authRef.current.fadeInUp();
+      })
+  }
 
   return (
     <>
@@ -43,14 +56,25 @@ const Auth = ({navigation}) => {
         imageStyle={{borderRadius: 10}}
         resizeMode="cover"
         blurRadius={3}>
+
         <View style={styles.bgCover}>
           <Image
             source={require('../assets/cheftastic_logo_white.png')}
             style={styles.logo}
           />
+
+          <Animatable.View ref={slideButtonRef} style={{alignItems: 'center', marginBottom: 40}}>
+
+            <Text style={styles.getStartedTitle}>become a cheftastic</Text>
+            <Text style={styles.getStartedSubHeading}>cooking experience like a chef</Text>
+            <SwipeButton text="Get Started" onToggle={onButtonSwipe} />
+
+          </Animatable.View>
+
         </View>
 
-        <Animatable.View animation="fadeInUp" delay={DURATION} style={styles.loginButtonsContainer}>
+        {isAuthVisible && (
+          <Animatable.View ref={authRef} style={styles.loginButtonsContainer}>
 
           <View style={styles.headingContainer}>
             <Text style={styles.titleText}>Let's get started</Text>
@@ -71,7 +95,9 @@ const Auth = ({navigation}) => {
 
           </View>
 
-        </Animatable.View>
+          </Animatable.View>
+        )}
+
       </ImageBackground>
     </>
   );
@@ -85,12 +111,26 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: DULL_BG,
     alignItems: 'center',
-    paddingTop: 60,
+    justifyContent: 'space-between',
+    paddingVertical: 60
   },
   logo: {
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
     resizeMode: 'contain',
+  },
+  getStartedTitle: {
+    color: LIGHT_TEXT,
+    fontFamily: EXTRA_BOLD,
+    textTransform: 'uppercase',
+    fontSize: 22,
+  },
+  getStartedSubHeading: {
+    color: LIGHT_TEXT,
+    fontFamily: BOLD,
+    textTransform: 'uppercase',
+    fontSize: 16,
+    marginTop: 10
   },
   loginButtonsContainer: {
     width: width,

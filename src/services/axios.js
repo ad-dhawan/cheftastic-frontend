@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-export const SERVER_URL = 'https://cheftastic2.herokuapp.com';
+import { STAGING_URL } from '@env'
+
+export const SERVER_URL = STAGING_URL;
 export const BASE_URL = 'api'
 
 console.log(`API_URL : ${SERVER_URL}`);
