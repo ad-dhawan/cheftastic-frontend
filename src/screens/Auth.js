@@ -42,10 +42,14 @@ const Auth = ({navigation}) => {
   }, []);
 
   const onButtonSwipe = () => {
-      slideButtonRef.current.fadeOutDown().then(() => {
-        setIsAuthVisible(true);
-        authRef.current.fadeInUp();
-      })
+      slideButtonRef.current.fadeOutDown()
+      setIsAuthVisible(true)
+      authRef.current.fadeInUp()
+
+      // slideButtonRef.current.fadeOutDown().then(() => {
+      //   setIsAuthVisible(true);
+      //   authRef.current.fadeInUp();
+      // })
   }
 
   return (
@@ -63,7 +67,7 @@ const Auth = ({navigation}) => {
             style={styles.logo}
           />
 
-          <Animatable.View ref={slideButtonRef} style={{alignItems: 'center', marginBottom: 40}}>
+          <Animatable.View ref={slideButtonRef} animation="fadeInUp" style={{alignItems: 'center', marginBottom: 40}}>
 
             <Text style={styles.getStartedTitle}>become a cheftastic</Text>
             <Text style={styles.getStartedSubHeading}>cooking experience like a chef</Text>
@@ -85,12 +89,12 @@ const Auth = ({navigation}) => {
 
             <TouchableOpacity hitSlop={styles.hitSlop} onPress={onGoogleSignIn} style={[styles.authButton, {backgroundColor: GOOGLE}]} >
               <Image source={require('../assets/google.png')} style={styles.authButtonIcon} />
-              <Text style={[styles.authButtonText, {color: DARK_TEXT}]}>Google</Text>
+              <Text style={[styles.authButtonText, {color: DARK_TEXT}]}>Sign in with Google</Text>
             </TouchableOpacity>
 
             <TouchableOpacity hitSlop={styles.hitSlop} onPress={onFacebookSignIn} style={[styles.authButton, {backgroundColor: FACEBOOK}]} >
               <Image source={require('../assets/facebook.png')} style={styles.authButtonIcon} />
-              <Text style={styles.authButtonText}>Facebook</Text>
+              <Text style={styles.authButtonText}>Sign in with Facebook</Text>
             </TouchableOpacity>
 
           </View>
@@ -172,12 +176,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    width: '50%',
+    justifyContent: 'space-evenly',
+    width: '70%',
     paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: GREY
+    borderColor: GREY,
   },
   authButtonIcon: {
     width: ICON_SIZE,
@@ -185,10 +190,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   authButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: LIGHT_TEXT,
     marginLeft: 15,
-    fontFamily: BOLD
+    fontFamily: REGULAR,
   }
 });
 

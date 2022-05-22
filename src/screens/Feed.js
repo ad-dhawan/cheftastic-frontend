@@ -9,7 +9,6 @@ const Feed = () => {
   return (
     <>
       <StatusBar translucent={false} backgroundColor={PRIMARY} theme={'light'} />
-      {/* <Carousel /> */}
 
       <SafeAreaView>
         <Text>Feed</Text>

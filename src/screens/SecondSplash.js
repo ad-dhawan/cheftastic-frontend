@@ -29,7 +29,7 @@ const SecondSplash = ({navigation}) => {
             payload: res.data,
           });
 
-        }, 2500)
+        }, 3000)
 
       } else console.log(res);
     });
