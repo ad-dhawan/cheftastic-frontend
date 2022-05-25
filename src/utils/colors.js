@@ -12,3 +12,6 @@ export const GOOGLE = '#ffffff'
 export const LIGHT_TEXT = '#ffffff';
 export const DARK_TEXT = '#000000';
 export const SUB_HEADING = '#00000070';
+
+//IMAGE
+export const MEAL_IMAGE = '#ffffff20';

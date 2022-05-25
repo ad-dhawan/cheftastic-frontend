@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {enableScreens} from 'react-native-screens';
 import {useSelector} from 'react-redux';
 import NetInfo from '@react-native-community/netinfo';
-import { isEmpty } from 'lodash';
 
 import Auth from '../screens/Auth';
 import SecondSplash from '../screens/SecondSplash';
@@ -16,7 +15,7 @@ const Stack = createStackNavigator();
 enableScreens();
 
 const AppNavigation = () => {
-  const {loggedIn, feed} = useSelector(state => state);
+  const {loggedIn} = useSelector(state => state);
   const [isConnected, setIsConnected] = useState(true);
 
   useEffect(() => {
@@ -43,8 +42,6 @@ const AppNavigation = () => {
           headerShown: false,
         }}>
         {!loggedIn ? <Stack.Screen name="Auth" component={Auth} /> : null}
-        
-        {isEmpty(feed) ? <Stack.Screen name="SecondSplash" component={SecondSplash} /> : null}
 
         <Stack.Screen name="Feed" component={Feed} />
         

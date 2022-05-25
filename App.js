@@ -7,7 +7,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import AppNavigation from './src/navigators/AppNavigation';
 import Statusbar from './src/components/StatusBar';
 import {persistor, store} from './src/redux/store';
-import { PRIMARY } from './src/utils/colors';
+import { BACKGROUND } from './src/utils/colors';
 
 const App = () => {
   useEffect(() => {
@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <>
-      <Statusbar translucent={false} bgColor={PRIMARY} theme={'light'} />
+      <Statusbar translucent={false} bgColor={BACKGROUND} theme={'dark'} />
       <NavigationContainer>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
