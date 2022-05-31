@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import {View, Text, Image, FlatList, StyleSheet, RefreshControl} from 'react-native'
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import { isEmpty, size } from 'lodash';
 import { Avatar } from 'react-native-paper';
 
 import SkeletonHolder from './SkeletonHolder';
-import {LIGHT_TEXT, DARK_TEXT, GREY, ACCENT, BACKGROUND} from '../../utils/colors';
-import {BOLD, EXTRA_BOLD, REGULAR, FEED_ITEM_RADIUS, FEED_MEAL_IMAGE_HEIGHT, FEED_MEAL_IMAGE_WIDTH, MEAL_DETAILS_CONTAINER_HEIGHT, THIN} from '../../utils/values';
+import { UserAvatar } from './FeedHeader';
+import {DARK_TEXT, BACKGROUND} from '../../utils/colors';
+import {EXTRA_BOLD, REGULAR, FEED_ITEM_RADIUS, FEED_MEAL_IMAGE_HEIGHT, FEED_MEAL_IMAGE_WIDTH, MEAL_DETAILS_CONTAINER_HEIGHT} from '../../utils/values';
 import {GetData} from '../../services/axios'
+import CacheImage from '../CacheImage';
 
 const FeedList = (props) => {
     const {feed} = useSelector(state => state);
@@ -41,8 +43,8 @@ const FeedList = (props) => {
         return(
             <>
                 <View>
-                    <Image
-                        source={{uri: item.image_url}}
+                    <CacheImage
+                        uri={item.image_url}
                         style={styles.mealImage}
                     />
 
@@ -54,7 +56,7 @@ const FeedList = (props) => {
                         </View> 
 
                         <View style={styles.userNameContainer}>
-                            <Avatar.Image size={18} source={{uri: item.user_avatar}} />
+                            <UserAvatar size={18} avatar={item.user_avatar} />
                             <Text style={styles.userName}>{item.user_name}</Text>
                         </View>
 

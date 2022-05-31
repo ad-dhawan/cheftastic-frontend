@@ -1,10 +1,12 @@
 import React from 'react';
 import {Text} from 'react-native';
 
-const AddRecipe = () => {
+import PageHeader from '../components/PageHeader';
+
+const AddRecipe = ({navigation}) => {
     return(
         <>
-            <Text>Add Recipe</Text>
+            <PageHeader title="add recipe" navigation={navigation} />
         </>
     )
 }

@@ -1,10 +1,12 @@
 import React from 'react';
 import {Text} from 'react-native';
 
-const Notifications = () => {
+import PageHeader from '../components/PageHeader';
+
+const Notifications = ({navigation}) => {
     return(
         <>
-            <Text>Notifications</Text>
+            <PageHeader title="notifications" navigation={navigation} />
         </>
     )
 };

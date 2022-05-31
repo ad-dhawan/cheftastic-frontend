@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 import {GREY, BACKGROUND} from '../utils/colors';
-const CONTAINER_SIZE = 40;
+export const CONTAINER_SIZE = 40;
 
 const RoundButton = props => {
   return (

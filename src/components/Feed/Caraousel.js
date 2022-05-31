@@ -8,7 +8,7 @@ import {
   Text,
 } from 'react-native';
 
-import {BACKGROUND} from '../utils/colors';
+import {BACKGROUND} from '../../utils/colors';
 
 const MAX_WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
