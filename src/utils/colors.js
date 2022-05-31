@@ -15,3 +15,7 @@ export const SUB_HEADING = '#00000070';
 
 //IMAGE
 export const MEAL_IMAGE = '#ffffff20';
+
+//BOTTOM TAB
+export const ACTIVE = "#7E0CF5";
+export const INACTIVE = "#B5B5B5";

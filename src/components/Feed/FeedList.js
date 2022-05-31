@@ -14,6 +14,7 @@ const FeedList = (props) => {
 
     const [feedData, setFeedData] = useState(feed);
     const [isLoading, setIsLoading] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     useEffect(() => {
         !isEmpty(feedData) ? setIsLoading(false) : null
@@ -65,6 +66,27 @@ const FeedList = (props) => {
         )
     }
 
+    const onRefresh = () => {
+        setIsRefreshing(true);
+
+        if(!isEmpty(feedData)){
+            GetData.getFeed(10, feedData[0]._id, 'pull_refresh').then(res => {
+                if(res && res.status === 200) {
+                    console.log(res.data)
+                    if(!isEmpty(res.data)) {
+                        setTimeout(() => {
+                            setFeedData(data => [...res.data, ...data]);
+                        }, 1000);
+                    }
+                } else console.log(res)
+                setIsRefreshing(false);
+            })
+        } else {
+            getFeedData()
+        }
+
+    }
+
     return (
         <>
             <View style={props.style}>
@@ -72,6 +94,10 @@ const FeedList = (props) => {
                     <FlatList
                         data={feedData}
                         showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{paddingBottom: 150}}
+                        refreshControl={
+                            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+                        }
                         renderItem={({item}) => <RecipeListItem item={item} />}
                     />
                 )}
