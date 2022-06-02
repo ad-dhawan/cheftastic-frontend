@@ -4,6 +4,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { LoginManager } from 'react-native-fbsdk-next'
+import messaging from '@react-native-firebase/messaging';
 
 import {GetData} from '../services/axios';
 
@@ -15,11 +16,14 @@ export const onGoogleSignIn = async () => {
     const userInfo = await GoogleSignin.signIn();
     console.log(userInfo);
 
+    const token = await messaging().getToken();
+
     const data = {
       email: userInfo.user.email,
       name: userInfo.user.name,
       user_avatar: userInfo.user.photo,
       id_token: userInfo.idToken,
+      fcm_token: token
     };
 
     GetData.registerUser(data).then(res => {
@@ -48,6 +52,7 @@ export const onGoogleSignIn = async () => {
             user_email: res.data.user.email,
             user_avatar: res.data.user.user_avatar,
             id_token: res.data.user.id_token,
+            fcm_token: token
           },
         });
 

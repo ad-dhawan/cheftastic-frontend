@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {View, Text, Image, FlatList, StyleSheet, RefreshControl} from 'react-native'
 import {useSelector} from 'react-redux';
 import { isEmpty, size } from 'lodash';
-import { Avatar } from 'react-native-paper';
 
 import SkeletonHolder from './SkeletonHolder';
 import { UserAvatar } from './FeedHeader';
@@ -10,6 +9,7 @@ import {DARK_TEXT, BACKGROUND} from '../../utils/colors';
 import {EXTRA_BOLD, REGULAR, FEED_ITEM_RADIUS, FEED_MEAL_IMAGE_HEIGHT, FEED_MEAL_IMAGE_WIDTH, MEAL_DETAILS_CONTAINER_HEIGHT} from '../../utils/values';
 import {GetData} from '../../services/axios'
 import CacheImage from '../CacheImage';
+import SpecialRecipes from './SpecialRecipes'
 
 const FeedList = (props) => {
     const {feed} = useSelector(state => state);
@@ -100,6 +100,7 @@ const FeedList = (props) => {
                         refreshControl={
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }
+                        ListHeaderComponent={<SpecialRecipes style={{marginBottom: 20}} />}
                         renderItem={({item}) => <RecipeListItem item={item} />}
                     />
                 )}
