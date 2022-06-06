@@ -23,6 +23,16 @@ let GetData = {
       return axios.get(`${SERVER_URL}/${BASE_URL}/post/get_all?page_size=${page_size}&marker_id=${marker_id}&fetch_data=${fetch_data}`).then(res => res).catch(err => err)  
   },
 
+  /** GET SPECIALS */
+  getSpecials() {
+      return axios.get(`${SERVER_URL}/${BASE_URL}/post/get_top`).then(res => res).catch(err => err) 
+  },
+
+  /** GET NOTIFICATIONS */
+  getNotifications(user_id) {
+      return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_notification/${user_id}`).then(res => res).catch(err => err) 
+  },
+
 }
 
 export {GetData};

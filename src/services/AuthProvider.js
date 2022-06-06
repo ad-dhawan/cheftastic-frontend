@@ -29,11 +29,13 @@ export const onGoogleSignIn = async () => {
     GetData.registerUser(data).then(res => {
       if (res && res.status === 200) {
         
-        console.log(res.data);
+        console.log("LOGIN DATA: ", res.data);
+
         dispatch({
           type: 'LOGIN',
           payload: {
             ...data,
+            user_id: res.data.user._id,
             user_name: userInfo.user.name,
             user_email: userInfo.user.email,
             user_avatar: userInfo.user.photo,
@@ -48,6 +50,7 @@ export const onGoogleSignIn = async () => {
           type: 'LOGIN',
           payload: {
             ...data,
+            user_id: res.data.user._id,
             user_name: res.data.user.name,
             user_email: res.data.user.email,
             user_avatar: res.data.user.user_avatar,

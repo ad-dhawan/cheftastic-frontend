@@ -14,7 +14,7 @@ const Feed = () => {
 
         <FeedHeader />
 
-        <FeedList style={{margin: 10}} />
+        <FeedList style={{marginHorizontal: 15}} />
 
       </SafeAreaView>
     </>
