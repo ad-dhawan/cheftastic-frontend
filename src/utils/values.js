@@ -2,6 +2,7 @@ import { Dimensions } from "react-native"
 const {width, height} = Dimensions.get('screen')
 
 //FONT FAMILY
+export const APP_TITLE = 'The-Delicate'
 export const EXTRA_BOLD = 'Lato-Black' //900
 export const EXTRA_BOLD_ITALIC = 'Lato-BlackItalic' //900
 export const BOLD = 'Lato-Bold' //700

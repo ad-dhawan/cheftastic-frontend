@@ -13,7 +13,6 @@ import {
 } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLIENT_ID } from '@env'
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
 
 import {GOOGLE, FACEBOOK, DULL_BG, DARK_TEXT, LIGHT_TEXT, SUB_HEADING, GREY} from '../utils/colors';
 import { EXTRA_BOLD, BOLD, REGULAR } from '../utils/values';
@@ -92,10 +91,10 @@ const Auth = ({navigation}) => {
               <Text style={[styles.authButtonText, {color: DARK_TEXT}]}>Sign in with Google</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onFacebookSignIn} style={[styles.authButton, {backgroundColor: FACEBOOK}]} >
+            {/* <TouchableOpacity hitSlop={styles.hitSlop} onPress={onFacebookSignIn} style={[styles.authButton, {backgroundColor: FACEBOOK}]} >
               <Image source={require('../assets/facebook.png')} style={styles.authButtonIcon} />
               <Text style={styles.authButtonText}>Sign in with Facebook</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
           </View>
 

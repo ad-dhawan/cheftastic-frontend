@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import {DARK_TEXT} from '../../utils/colors';
+import { APP_TITLE } from '../../utils/values';
 import RoundButton from '../RoundButton';
 import CacheImage from '../CacheImage';
 import { CONTAINER_SIZE } from '../RoundButton';
@@ -50,6 +51,11 @@ const styles = StyleSheet.create({
       bottom: 10,
       right: 10,
       left: 10
+  },
+  headerTitle: {
+      fontSize: 16,
+      color: DARK_TEXT,
+      fontFamily: APP_TITLE
   },
 });
 

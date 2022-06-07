@@ -3,7 +3,6 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { LoginManager } from 'react-native-fbsdk-next'
 import messaging from '@react-native-firebase/messaging';
 
 import {GetData} from '../services/axios';
@@ -73,21 +72,4 @@ export const onGoogleSignIn = async () => {
       console.log(error);
     }
   }
-};
-
-export const onFacebookSignIn = async () => {
-  // console.log('FACEBOOK SIGN IN')
-  LoginManager.logInWithPermissions(["public_profile", "email"]).then(
-    function (result) {
-    if (result.isCancelled) {
-    console.log("Login Cancelled " + JSON.stringify(result))
-    } else {
-    console.log("Login success with  permisssions: " + result.grantedPermissions.toString());
-    console.log("Login Success " + result.toString());
-    }
-    },
-    function (error) {
-    console.log("Login failed with error: " + error);
-    }
-    )
 };

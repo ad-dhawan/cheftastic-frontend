@@ -12,13 +12,15 @@ import {EXTRA_BOLD, REGULAR, FEED_ITEM_RADIUS, FEED_MEAL_IMAGE_HEIGHT, FEED_MEAL
 import {GetData} from '../../services/axios'
 import CacheImage from '../CacheImage';
 import SpecialRecipes from './SpecialRecipes'
+import Loader from '../Loader';
 
 const FeedList = (props) => {
-    const {feed, user_id, user_name} = useSelector(state => state);
+    const {feed, user_id} = useSelector(state => state);
 
     const [feedData, setFeedData] = useState(feed);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
 
     useEffect(() => {
         !isEmpty(feedData) ? setIsLoading(false) : null
@@ -26,6 +28,7 @@ const FeedList = (props) => {
         // getSpecials()
     }, [])
 
+    /** GET FEED DATA */
     async function getFeedData () {
         GetData.getFeed(10).then(res => {
             if (res && res.status === 200) {
@@ -40,6 +43,7 @@ const FeedList = (props) => {
         });
     }
 
+    /** GET SPECIALS FEED DATA */
     // async function getSpecials () {
     //     GetData.getSpecials().then(res => {
     //         if (res && res.status === 200) {
@@ -93,25 +97,45 @@ const FeedList = (props) => {
         )
     }
 
+    /** UPWARD PAGINATION */
     const onRefresh = () => {
         setIsRefreshing(true);
 
         if(!isEmpty(feedData)){
             GetData.getFeed(10, feedData[0]._id, 'pull_refresh').then(res => {
                 if(res && res.status === 200) {
-                    console.log(res.data)
                     if(!isEmpty(res.data)) {
                         setTimeout(() => {
                             setFeedData(data => [...res.data, ...data]);
                         }, 1000);
                     }
-                } else console.log(res)
+                } else console.log(res);
                 setIsRefreshing(false);
             })
         } else {
             getFeedData()
         }
 
+    }
+
+    /** DOWNWARD PAGINATION */
+    const onLoadMore = () => {
+        setIsLoadingMore(true);
+
+        if(!isEmpty(feedData)){
+            GetData.getFeed(10, feedData[feedData.length - 1]._id, 'load_more').then(res => {
+                if(res && res.status === 200) {
+                    if(!isEmpty(res.data)) {
+                        setTimeout(() => {
+                            setFeedData(data => [...data, ...res.data]);
+                        }, 1000);
+                    }
+                } else console.log(res);
+                setIsLoadingMore(false);
+            })
+        } else {
+            getFeedData()
+        }
     }
 
     return (
@@ -125,11 +149,14 @@ const FeedList = (props) => {
                         refreshControl={
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }
+                        onEndReached={onLoadMore}
                         ListHeaderComponent={<SpecialRecipes style={{marginBottom: 30}} />}
                         renderItem={({item}) => <RecipeListItem item={item} />}
                     />
                 )}
             </View>
+
+            {isLoadingMore ? <Loader style={{bottom: 80}} /> : null}
         </>
     )
 }
