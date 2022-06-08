@@ -6,6 +6,25 @@ import CacheImage from '../CacheImage';
 import { NOTIFICATION_LIKE_HEIGHT, NOTIFICATION_LIKE_RADIUS, REGULAR } from '../../utils/values'
 import { DARK_TEXT, GREY, LIGHT_TEXT } from '../../utils/colors';
 
+export const momentFormat = moment.locale('en', {
+    relativeTime: {
+      future: 'in %s',
+      past: '%s ago',
+      s:  'seconds',
+      ss: '%ss',
+      m:  'a minute',
+      mm: '%dm',
+      h:  'an hour',
+      hh: '%dh',
+      d:  'a day',
+      dd: '%dd',
+      M:  'a month',
+      MM: '%dM',
+      y:  'a year',
+      yy: '%dY'
+    }
+});
+
 const LikeComponent = (props) => {
     return(
         <>

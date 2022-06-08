@@ -29,8 +29,11 @@ let GetData = {
   },
 
   /** GET NOTIFICATIONS */
-  getNotifications(user_id) {
-      return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_notification/${user_id}`).then(res => res).catch(err => err) 
+  getNotifications(user_id, page_size, marker_id, fetch_data) {
+    if(!marker_id && !fetch_data)
+      return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_notification/${user_id}?page_size=${page_size}`).then(res => res).catch(err => err)
+    else
+      return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_notification/${user_id}?page_size=${page_size}&marker_id=${marker_id}&fetch_data=${fetch_data}`).then(res => res).catch(err => err)   
   },
 
 }

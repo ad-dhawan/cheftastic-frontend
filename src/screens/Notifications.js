@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, FlatList, RefreshControl} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
-import VersionCheck from 'react-native-version-check';
-import { checkVersion } from "react-native-check-version";
+import { isEmpty } from 'lodash';
 
 import PageHeader from '../components/PageHeader';
 import LikeComponent from '../components/Notifications/LikeComponent';
@@ -19,13 +18,14 @@ const Notifications = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isUpdateNeeded, setIsUpdateNeeded] = useState();
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
 
     useEffect(() => {
         getNotificationData();
     }, []);
     
     async function getNotificationData () {
-        GetData.getNotifications(user_id).then(res => {
+        GetData.getNotifications(user_id, 15).then(res => {
             if (res && res.status === 200) {
                 setNotificationData(res.data);
                 setIsLoading(false);
@@ -43,21 +43,41 @@ const Notifications = ({navigation}) => {
     const onRefresh = () => {
         setIsRefreshing(true);
 
-        if(!isEmpty(feedData)){
-            GetData.getNotifications(10, feedData[0]._id, 'pull_refresh').then(res => {
+        if(!isEmpty(notificationData)){
+            GetData.getNotifications(user_id, 15, notificationData[0]._id, 'pull_refresh').then(res => {
                 if(res && res.status === 200) {
                     if(!isEmpty(res.data)) {
                         setTimeout(() => {
-                            setFeedData(data => [...res.data, ...data]);
+                            setNotificationData(data => [...res.data, ...data]);
                         }, 1000);
                     }
                 } else console.log(res);
                 setIsRefreshing(false);
             })
         } else {
-            getFeedData()
+            getNotificationData()
         }
 
+    }
+
+    /** DOWNWARD PAGINATION */
+    const onLoadMore = () => {
+        setIsLoadingMore(true);
+
+        if(!isEmpty(notificationData)){
+            GetData.getNotifications(15, notificationData[notificationData.length - 1]._id, 'load_more').then(res => {
+                if(res && res.status === 200) {
+                    if(!isEmpty(res.data)) {
+                        setTimeout(() => {
+                            setNotificationData(data => [...data, ...res.data]);
+                        }, 1000);
+                    }
+                } else console.log(res);
+                setIsLoadingMore(false);
+            })
+        } else {
+            getNotificationData()
+        }
     }
 
     return(
@@ -70,11 +90,11 @@ const Notifications = ({navigation}) => {
                     <FlatList
                         data={notificationData}
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{margin: 10, paddingBottom: 100}}
-                        // contentContainerStyle={{paddingBottom: 150}}
+                        contentContainerStyle={{margin: 10, paddingBottom: 100, marginTop: 10}}
                         refreshControl={
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }
+                        onEndReached={onLoadMore}
                         ListHeaderComponent={isUpdateNeeded ? <AppUpdate /> : null}
                         renderItem={({item}) => {
                             if(item.type === 'like'){

@@ -19,14 +19,14 @@ export const UserAvatar = ({size, onPress, avatar}) => (
     </TouchableOpacity>
 )
 
-const FeedHeader = () => {
+const FeedHeader = ({navigation}) => {
     const {user_avatar} = useSelector(state => state);
 
     return(
         <>
             <View style={styles.header}>
                 
-                <UserAvatar size={CONTAINER_SIZE} onPress={() => console.log('PROFILE BUTTON PRESSED')} avatar={user_avatar} />
+                <UserAvatar size={CONTAINER_SIZE} onPress={() => navigation.navigate('Profile')} avatar={user_avatar} />
 
                 <Text style={styles.headerTitle}>Cheftastic</Text>
 

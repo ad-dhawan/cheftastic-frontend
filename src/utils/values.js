@@ -13,10 +13,10 @@ export const THIN = 'Lato-Thin' //100
 export const THIN_ITALIC = 'Lato-ThinItalic' //100
 
 //MEAL
-export const FEED_MEAL_IMAGE_HEIGHT = height / 3
+export const FEED_MEAL_IMAGE_HEIGHT = height / 2.5
 export const FEED_ITEM_RADIUS = 12
 export const FEED_MEAL_IMAGE_WIDTH = '100%'
-export const MEAL_DETAILS_CONTAINER_HEIGHT = FEED_MEAL_IMAGE_HEIGHT / 3.2
+export const MEAL_DETAILS_CONTAINER_HEIGHT = FEED_MEAL_IMAGE_HEIGHT / 3.8
 export const CAROUSEL_CONTENT_HEIGHT = height / 4
 export const CAROUSEL_CONTENT_WIDTH = width - 30
 export const NOTIFICATION_LIKE_HEIGHT = 60

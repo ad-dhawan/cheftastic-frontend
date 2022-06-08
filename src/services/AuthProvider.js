@@ -9,7 +9,7 @@ import {GetData} from '../services/axios';
 
 const dispatch = useDispatch()
 
-export const onGoogleSignIn = async () => {
+export const onGoogleSignIn = async (navigation) => {
   try {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
@@ -42,6 +42,8 @@ export const onGoogleSignIn = async () => {
           },
         });
 
+        navigation.replace('BottomTab')
+
       } else if (res && res.status === 409) {
         
         console.log(res.data.user);
@@ -57,6 +59,8 @@ export const onGoogleSignIn = async () => {
             fcm_token: token
           },
         });
+
+        navigation.replace('BottomTab')
 
       } else console.warn(res)
     });

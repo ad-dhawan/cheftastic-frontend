@@ -86,7 +86,7 @@ const Auth = ({navigation}) => {
 
           <View style={styles.authButtonsContainer}>
 
-            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onGoogleSignIn} style={[styles.authButton, {backgroundColor: GOOGLE}]} >
+            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onGoogleSignIn(navigation)} style={[styles.authButton, {backgroundColor: GOOGLE}]} >
               <Image source={require('../assets/google.png')} style={styles.authButtonIcon} />
               <Text style={[styles.authButtonText, {color: DARK_TEXT}]}>Sign in with Google</Text>
             </TouchableOpacity>
