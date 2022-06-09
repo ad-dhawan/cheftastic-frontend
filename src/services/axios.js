@@ -36,6 +36,11 @@ let GetData = {
       return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_notification/${user_id}?page_size=${page_size}&marker_id=${marker_id}&fetch_data=${fetch_data}`).then(res => res).catch(err => err)   
   },
 
+  /** LIKE A RECIPE */
+  likeRecipe(post_id, user_id) {
+      return axios.put(`${SERVER_URL}/${BASE_URL}/post/like/${post_id}`, user_id).then(res => res).catch(err => err) 
+  },
+
 }
 
 export {GetData};

@@ -2,15 +2,16 @@ import React from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import ProfileHeader from '../components/Profile/ProfileHeader';
-import { BACKGROUND, DARK_TEXT } from '../utils/colors';
+import { BACKGROUND, DARK_TEXT, TRANSPARENT } from '../utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
 
+import TopTabNavigation from '../components/Profile/TopTabNavigation';
 import { UserAvatar } from '../components/Feed/FeedHeader';
 import { PRIMARY } from '../utils/colors';
 import { BOLD, EXTRA_BOLD, REGULAR } from '../utils/values';
 
 const {width, height} = Dimensions.get('screen');
-const PROFILE_HEADER_SIZE = width;
+export const PROFILE_HEADER_SIZE = width;
 
 const Profile = ({navigation}) => {
     const {user_id, user_avatar, user_name} = useSelector(state => state);
@@ -34,7 +35,10 @@ const Profile = ({navigation}) => {
 
                 </View>
 
+                <TopTabNavigation />
+
             </View>
+
         </>
     )
 };
@@ -55,6 +59,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         alignItems: 'center',
         top: PROFILE_HEADER_SIZE / 6,
+
     },
     userName: {
         fontSize: 16,

@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from 'react'
-import {View, Text, Image, FlatList, StyleSheet, RefreshControl} from 'react-native'
-import {useSelector} from 'react-redux';
+import React, {useEffect, useState, useRef} from 'react'
+import {View, Text, FlatList, StyleSheet, RefreshControl, TouchableOpacity} from 'react-native'
+import {useSelector, useDispatch} from 'react-redux';
 import { isEmpty, size, includes } from 'lodash';
+import DoubleClick from 'react-native-double-tap';
+import LottieView from 'lottie-react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -16,6 +18,7 @@ import Loader from '../Loader';
 
 const FeedList = (props) => {
     const {feed, user_id} = useSelector(state => state);
+    const dispatch = useDispatch();
 
     const [feedData, setFeedData] = useState(feed);
     const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +28,6 @@ const FeedList = (props) => {
     useEffect(() => {
         !isEmpty(feedData) ? setIsLoading(false) : null
         getFeedData()
-        // getSpecials()
     }, [])
 
     /** GET FEED DATA */
@@ -43,56 +45,71 @@ const FeedList = (props) => {
         });
     }
 
-    /** GET SPECIALS FEED DATA */
-    // async function getSpecials () {
-    //     GetData.getSpecials().then(res => {
-    //         if (res && res.status === 200) {
-    //             setFeedData(res.data);
-    //             setIsLoading(false);
-                
-    //             dispatch({
-    //               type: 'SPECIALS',
-    //               payload: res.data,
-    //             });
-    //         } else console.log(res);
-    //     });
-    // }
-
     const RecipeListItem = ({item}) => {
-        const [likeCount, setLikeCount] = useState(size(item.likes))
+        const [likeCount, setLikeCount] = useState(size(item.likes));
+        const [isLiked, setIsLiked] = useState(item.likes.includes(user_id))
+
+        const LikeAnimRef = useRef(null);
         
         return(
             <>
-                <View style={{marginBottom: 10}}>
-                    <CacheImage
-                        uri={item.image_url}
-                        style={styles.mealImage}
-                    />
+                <DoubleClick
+                    doubleTap={() => {
+                        LikeAnimRef.current.play()
+                        isLiked ? null : setLikeCount(likes => likes+=1)
+                        setIsLiked(true)
+                        
+                        if(!isLiked){
+                            GetData.likeRecipe(item._id, {user_id: user_id}).then(res => {
+                                if (res && res.status === 200) {
+                                    console.log(res.data);
+                                } else console.log(res);
+                            });
+                        }
 
-                    <View style={styles.detailsContainer}>
+                    }}
+                >
+                    <View style={{marginBottom: 10}}>
+                        <CacheImage
+                            uri={item.image_url}
+                            style={styles.mealImage}
+                        />
 
-                        <View style={styles.mealNameContainer}>
-                            <Text style={styles.mealName}>{item.meal_name}</Text>
+                        <View style={styles.detailsContainer}>
 
-                            <View style={styles.likesContainer} >
-                                <MaterialCommunityIcons name={item.likes.includes(user_id) ? 'cards-heart' : 'cards-heart-outline'}
-                                    size={15} color={item.likes.includes(user_id) ? LIKE : GREY} style={{marginRight: 4}}
-                                />
-                                <Text style={[styles.mealLikeCount, {
-                                    color: item.likes.includes(user_id) ? LIKE : GREY
-                                }]}>{likeCount}</Text>
+                            <View style={styles.mealNameContainer}>
+                                <Text style={styles.mealName}>{item.meal_name}</Text>
+
+                                <View style={styles.likesContainer} >
+                                    <MaterialCommunityIcons name={isLiked ? 'cards-heart' : 'cards-heart-outline'}
+                                        size={15} color={isLiked ? LIKE : GREY} style={{marginRight: 4}}
+                                    />
+                                    <Text style={[styles.mealLikeCount, {
+                                        color: isLiked ? LIKE : GREY
+                                    }]}>{likeCount}</Text>
+                                </View>
+                            </View> 
+
+                            <View style={styles.userNameContainer}>
+                                <UserAvatar size={18} avatar={item.user_avatar} />
+                                <Text style={styles.userName}>{item.user_name}</Text>
                             </View>
-                        </View> 
 
-                        <View style={styles.userNameContainer}>
-                            <UserAvatar size={18} avatar={item.user_avatar} />
-                            <Text style={styles.userName}>{item.user_name}</Text>
+                            <Text style={styles.mealType}>{item.meal_type}</Text>
                         </View>
 
-                        <Text style={styles.mealType}>{item.meal_type}</Text>
-                    </View>
+                            <LottieView
+                                ref={LikeAnimRef}
+                                source={require('../../assets/lottie/like_anim.json')}
+                                loop={false}
+                                autoPlay={false}
+                                speed={2}
+                                onAnimationFinish={() => LikeAnimRef.current.reset()}
+                                style={styles.likeAnim}
+                            />
 
-                </View>
+                    </View>
+                </DoubleClick>
             </>
         )
     }
@@ -219,6 +236,12 @@ const styles = StyleSheet.create({
         textTransform: 'lowercase',
         marginTop: 3
     },
+    likeAnim: {
+        height: 250,
+        width: 250,
+        position: 'absolute',
+        alignSelf: 'center',
+    }
 });
 
 export default FeedList
