@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
-import {View, Text, FlatList, StyleSheet, RefreshControl, TouchableOpacity, Touchable} from 'react-native'
+import {View, Text, FlatList, StyleSheet, RefreshControl, TouchableOpacity} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
 import { isEmpty, size, includes, delay } from 'lodash';
 import DoubleClick from 'react-native-double-tap';
@@ -108,10 +108,12 @@ const FeedList = (props) => {
                                 
                             </View> 
 
-                            <View style={styles.userNameContainer}>
+                            <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
+                                onPress={() => props.navigation.navigate('Profile', {"uid": item.user_id, "uavatar": item.user_avatar, "uname": item.user_name})}
+                                style={styles.userNameContainer}>
                                 <UserAvatar size={18} avatar={item.user_avatar} />
                                 <Text style={styles.userName}>{item.user_name}</Text>
-                            </View>
+                            </TouchableOpacity>
 
                             <Text style={styles.mealType}>{item.meal_type}</Text>
                         </View>

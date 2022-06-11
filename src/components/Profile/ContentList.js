@@ -1,63 +1,66 @@
-import React from 'react';
-import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
-import { PROFILE_HEADER_SIZE } from '../../screens/Profile';
-import { BACKGROUND } from '../../utils/colors';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity, ScrollView} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
+
+import { BOLD, PROFILE_ITEM_HEIGHT, PROFILE_ITEM_HEIGHT_DIFFERENCE } from '../../utils/values'
+import { BACKGROUND, DARK_TEXT, LIGHT_TEXT, TRANSPARENT } from '../../utils/colors';
+import { GetData } from '../../services/axios';
+import CacheImage from '../CacheImage';
 
 const {width, height} = Dimensions.get('screen');
-const ITEM_HEIGHT = 300
-const SECOND_ITEM_HEIGHT_DIFFERENCE = 100
+const ITEM_WIDTH = (width / 2) - 20
 
-const colors = [
-    {
-        bg: '#BFEAF5',
-    },
-    {
-        bg: '#BEECC4',
-    },
-    {
-        bg: '#DEEFC4',
-    },
-    {
-        bg: '#D3F0FF',
-    },
-    {
-        bg: '#D5C3EB',
-    },
-    {
-        bg: '#DEEFC4',
-    },
-    {
-        bg: '#BFEAF5',
-    },
-    {
-        bg: '#BEECC4',
-    },
-    {
-        bg: '#DEEFC4',
-    },
-    {
-        bg: '#F3F0EF',
-    },
-    {
-        bg: '#D5C3EB',
-    },
-    {
-        bg: '#DEEFC4',
-    },
-]
+const ContentList = ({route}) => {
+    const {user_id, recipes} = useSelector(state => state);
+    const dispatch = useDispatch();
 
-const ContentList = () => {
+    const [data, setData] = useState(route.params.uid === user_id ? recipes : []);
+
+    useEffect(() => {
+        getUserFeed();
+        // getUserSaved();
+    }, []);
+
+    async function getUserFeed() {
+        await GetData.getUserRecipe(route.params.uid).then(res => {
+            if (res && res.status === 200) {
+                setData(res.data);
+                
+                if(route.params.uid === user_id)
+                    dispatch({
+                        type: 'RECIPES',
+                        payload: res.data,
+                    });
+            } else console.log(res);
+        });
+    }
 
     const ListItem = ({item, index}) => {
         return (
             <>
-                <View style={[styles.itemContainer,{
-                        height: index === 1 ? ITEM_HEIGHT - SECOND_ITEM_HEIGHT_DIFFERENCE :
-                        index === colors.length - 2 ? ITEM_HEIGHT - SECOND_ITEM_HEIGHT_DIFFERENCE : ITEM_HEIGHT,
-                        backgroundColor: item.bg,
-                        bottom: index > 1 && index % 2 !== 0 ? SECOND_ITEM_HEIGHT_DIFFERENCE : 0
+                <TouchableOpacity style={[styles.itemContainer,{
+                        height: index === 1 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE :
+                        index === data.length - 2 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE : PROFILE_ITEM_HEIGHT,
+                        bottom: index > 1 && index % 2 !== 0 ? PROFILE_ITEM_HEIGHT_DIFFERENCE : 0
                     }]}
-                />
+                    activeOpacity={1}
+                >
+
+                    <CacheImage
+                        // uri={item.image_url}
+                        uri="https://images.unsplash.com/photo-1526763025764-2a8073a0cd43?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fG9wZW4lMjBzb3VyY2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
+                        style={[styles.image, {height: index === 1 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE :
+                        index === data.length - 2 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE : PROFILE_ITEM_HEIGHT}]} />
+
+                    <LinearGradient
+                        colors={[TRANSPARENT, '#00000050', DARK_TEXT]}
+                        style={styles.linearGradient}
+                    />
+
+                    <Text style={styles.meal_name} numberOfLines={3} >{item.meal_name}</Text>
+
+                </TouchableOpacity>
             </>
         )
     }
@@ -67,14 +70,15 @@ const ContentList = () => {
             <View style={{flex: 1, backgroundColor: BACKGROUND}}>
                 
                 <FlatList
-                    data={colors}
+                    data={data}
                     numColumns={2}
                     contentContainerStyle={{marginTop: 10}}
-                    columnWrapperStyle={{justifyContent: 'space-between', marginHorizontal: 10}}
+                    columnWrapperStyle={{justifyContent: 'space-between', marginHorizontal:10}}
                     renderItem={({item, index}) => (
                         <ListItem item={item} index={index} />
                     )}
                 />
+
             </View>
         </>
     )
@@ -82,9 +86,33 @@ const ContentList = () => {
 
 const styles = StyleSheet.create({
     itemContainer: {
-        width: (width / 2) - 15,
+        width: ITEM_WIDTH,
         borderRadius: 20,
         marginBottom: 10,
+    },
+    image: {
+        width: ITEM_WIDTH,
+        borderRadius: 20
+    },
+    linearGradient: {
+        position: 'absolute',
+        bottom: 0,
+        height: PROFILE_ITEM_HEIGHT / 3,
+        width: ITEM_WIDTH,
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20
+    },
+    meal_name: {
+        position: 'absolute',
+        bottom: 20,
+        left: 15,
+        textTransform: 'lowercase',
+        color: LIGHT_TEXT,
+        fontSize: 14,
+        fontFamily: BOLD,
+        alignSelf: 'flex-start',
+        flexWrap: 'wrap',
+        width: ITEM_WIDTH - 50
     }
 });
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 import ProfileHeader from '../components/Profile/ProfileHeader';
 import { BACKGROUND, DARK_TEXT, TRANSPARENT } from '../utils/colors';
@@ -13,8 +13,10 @@ import { BOLD, EXTRA_BOLD, REGULAR } from '../utils/values';
 const {width, height} = Dimensions.get('screen');
 export const PROFILE_HEADER_SIZE = width;
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
     const {user_id, user_avatar, user_name} = useSelector(state => state);
+    
+    const {uid, uname, uavatar} = route.params
 
     return(
         <>
@@ -24,20 +26,22 @@ const Profile = ({navigation}) => {
                     start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
                     locations={[0,0.2,0.6]}
                     colors={['#ffffff', '#ffffff60', PRIMARY]}
-                    style={styles.headerOval} />
+                    style={styles.headerOval}
+                />
 
-                <ProfileHeader navigation={navigation} style={{paddingTop: 10, paddingHorizontal: 10}} />
+                <ProfileHeader navigation={navigation} style={{paddingTop: 10, paddingHorizontal: 10}}
+                    uid={route && route.params ? uid : user_id} user_id={user_id} />
 
                 <View style={styles.profileHeaderDetails}>
 
-                    <UserAvatar size={100} avatar={user_avatar} />
-                    <Text style={styles.userName}>{user_name}</Text>
+                    <UserAvatar size={100} avatar={route && route.params ? uavatar : user_avatar} />
+                    <Text style={styles.userName}>{route && route.params ? uname : user_name}</Text>
 
                 </View>
 
             </View>
 
-            <TopTabNavigation />
+            <TopTabNavigation uid={uid} />
         </>
     )
 };

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useState } from 'react';
 import {useDispatch} from 'react-redux';
 import {
   GoogleSignin,
@@ -8,9 +8,13 @@ import messaging from '@react-native-firebase/messaging';
 import { GOOGLE_WEB_CLIENT_ID } from '@env'
 
 import {GetData} from '../services/axios';
+import Loader from '../components/Loader';
+import { BACKGROUND } from '../utils/colors';
 
 export const onGoogleSignIn = async(navigation) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   try {
     await GoogleSignin.hasPlayServices();
@@ -28,6 +32,8 @@ export const onGoogleSignIn = async(navigation) => {
     };
 
     GetData.registerUser(data).then(res => {
+      setIsLoading(true);
+
       if (res && res.status === 200) {
         
         console.log("LOGIN DATA: ", res.data);
@@ -65,6 +71,8 @@ export const onGoogleSignIn = async(navigation) => {
         navigation.replace('BottomTab')
 
       } else console.warn(res)
+
+      setIsLoading(false);
     });
 
   } catch (error) {
@@ -78,4 +86,10 @@ export const onGoogleSignIn = async(navigation) => {
       console.log(error);
     }
   }
+
+  return(
+    <>
+      {isLoading ? <Loader style={{backgroundColor: BACKGROUND}} /> : null}
+    </>
+  )
 };

@@ -15,7 +15,7 @@ const Feed = ({navigation}) => {
 
         <FeedHeader navigation={navigation} />
 
-        <FeedList style={{marginHorizontal: 15, marginTop: 10}} />
+        <FeedList navigation={navigation} style={{marginHorizontal: 15, marginTop: 10}} />
 
       </SafeAreaView>
     </>

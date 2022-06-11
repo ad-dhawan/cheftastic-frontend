@@ -41,6 +41,11 @@ let GetData = {
       return axios.put(`${SERVER_URL}/${BASE_URL}/post/like/${post_id}`, user_id).then(res => res).catch(err => err) 
   },
 
+  /** GET USER RECIPE */
+  getUserRecipe(uid) {
+    return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_user_recipes/${uid}`).then(res => res).catch(err => err) 
+},
+
 }
 
 export {GetData};

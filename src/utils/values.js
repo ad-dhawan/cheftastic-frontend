@@ -21,3 +21,5 @@ export const CAROUSEL_CONTENT_HEIGHT = height / 4
 export const CAROUSEL_CONTENT_WIDTH = width - 30
 export const NOTIFICATION_LIKE_HEIGHT = 60
 export const NOTIFICATION_LIKE_RADIUS = 8
+export const PROFILE_ITEM_HEIGHT = 300;
+export const PROFILE_ITEM_HEIGHT_DIFFERENCE = 100;

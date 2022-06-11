@@ -12,7 +12,7 @@ import { PROFILE_HEADER_SIZE } from '../../screens/Profile';
 const Tab = createMaterialTopTabNavigator();
 const ICON_SIZE = 22;
 
-const TopTabNavigation = () => {
+const TopTabNavigation = ({uid}) => {
   return (
     <>
       <Tab.Navigator
@@ -39,6 +39,7 @@ const TopTabNavigation = () => {
         <Tab.Screen
           name="UserFeed"
           component={ContentList}
+          initialParams={{uid: uid, screen: 'feed'}}
           options={{
             tabBarIcon: ({color, focused}) => (
               <Ionicons
@@ -53,6 +54,7 @@ const TopTabNavigation = () => {
         <Tab.Screen
           name="UserSaved"
           component={ContentList}
+          initialParams={{uid: uid, screen: 'saved'}}
           options={{
             tabBarIcon: ({color, focused}) => (
               <Ionicons

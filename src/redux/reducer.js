@@ -28,8 +28,11 @@ export default (state = initialState, action) => {
     case 'SPECIALS':
       return {...state, specials: action.payload};
 
-      case 'NOTIFICATIONS':
-        return {...state, notifications: action.payload};
+    case 'NOTIFICATIONS':
+      return {...state, notifications: action.payload};
+
+    case 'RECIPES':
+      return {...state, recipes: action.payload};
 
     default:
       return state;

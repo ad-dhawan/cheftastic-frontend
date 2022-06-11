@@ -20,13 +20,15 @@ export const UserAvatar = ({size, onPress, avatar}) => (
 )
 
 const FeedHeader = ({navigation}) => {
-    const {user_avatar} = useSelector(state => state);
+    const {user_id, user_name, user_avatar} = useSelector(state => state);
 
     return(
         <>
             <View style={styles.header}>
                 
-                <UserAvatar size={CONTAINER_SIZE} onPress={() => navigation.navigate('Profile')} avatar={user_avatar} />
+                <UserAvatar size={CONTAINER_SIZE}
+                    onPress={() => navigation.navigate('Profile', {"uid": user_id, "uavatar": user_avatar, "uname": user_name})}
+                    avatar={user_avatar} />
 
                 <Text style={styles.headerTitle}>Cheftastic</Text>
 
