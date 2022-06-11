@@ -18,7 +18,7 @@ const Profile = ({navigation}) => {
 
     return(
         <>
-            <View style={{flex: 1, backgroundColor: BACKGROUND}}>
+            <View style={{height: PROFILE_HEADER_SIZE - 90, backgroundColor: BACKGROUND}}>
 
                 <LinearGradient
                     start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
@@ -35,10 +35,9 @@ const Profile = ({navigation}) => {
 
                 </View>
 
-                <TopTabNavigation />
-
             </View>
 
+            <TopTabNavigation />
         </>
     )
 };

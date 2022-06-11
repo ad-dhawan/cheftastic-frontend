@@ -1,15 +1,17 @@
+import { useEffect } from 'react';
 import {useDispatch} from 'react-redux';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import messaging from '@react-native-firebase/messaging';
+import { GOOGLE_WEB_CLIENT_ID } from '@env'
 
 import {GetData} from '../services/axios';
 
-const dispatch = useDispatch()
+export const onGoogleSignIn = async(navigation) => {
+  const dispatch = useDispatch()
 
-export const onGoogleSignIn = async (navigation) => {
   try {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();

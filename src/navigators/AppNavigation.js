@@ -26,8 +26,8 @@ const StackNavigator = () => {
 
             {!loggedIn ? <Stack.Screen name="Auth" component={Auth} /> : null}
 
-            <Stack.Screen name="BottomTab" component={BottomTab} />
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="BottomTab" component={BottomTab} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Settings" component={Settings} />
         

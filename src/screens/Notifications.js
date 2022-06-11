@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, FlatList, RefreshControl} from 'react-native'
+import {View, FlatList, RefreshControl, Platform} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
 import { isEmpty } from 'lodash';
 
@@ -9,6 +9,7 @@ import { GetData } from '../services/axios';
 import SkeletonHolder from '../components/Notifications/SkeletonHolder';
 import { BACKGROUND } from '../utils/colors';
 import AppUpdate from '../components/Notifications/AppUpdate';
+import VersionCheck from 'react-native-version-check';
 
 const Notifications = ({navigation}) => {
     const {user_id, notifications} = useSelector(state => state);
@@ -22,6 +23,7 @@ const Notifications = ({navigation}) => {
 
     useEffect(() => {
         getNotificationData();
+        getUpdateInfo()     
     }, []);
     
     async function getNotificationData () {
@@ -38,6 +40,13 @@ const Notifications = ({navigation}) => {
             } else console.log(res);
         });
     };
+
+    async function getUpdateInfo() {
+        VersionCheck.needUpdate({country: 'IN'})
+        .then(async res => {
+            console.log("UPDATE REQUIRED: ", res.isNeeded);
+        });
+    }
 
     /** UPWARD PAGINATION */
     const onRefresh = () => {
@@ -90,7 +99,7 @@ const Notifications = ({navigation}) => {
                     <FlatList
                         data={notificationData}
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{margin: 10, paddingBottom: 100, marginTop: 10}}
+                        contentContainerStyle={{margin: 10, paddingBottom: 50, marginTop: 10}}
                         refreshControl={
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }

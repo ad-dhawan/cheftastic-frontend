@@ -16,7 +16,7 @@ import * as Animatable from 'react-native-animatable';
 
 import {GOOGLE, FACEBOOK, DULL_BG, DARK_TEXT, LIGHT_TEXT, SUB_HEADING, GREY} from '../utils/colors';
 import { EXTRA_BOLD, BOLD, REGULAR } from '../utils/values';
-import {onGoogleSignIn, onFacebookSignIn} from '../services/AuthProvider';
+import {onGoogleSignIn} from '../services/AuthProvider';
 import SwipeButton from '../components/SwipeButton';
 
 const {width, height} = Dimensions.get('screen');
@@ -24,32 +24,18 @@ const CONST_HEIGHT = height * 0.6;
 const LOGIN_CONTAINER_HEIGHT = height / 1.7;
 const IMAGE_SIZE = 170;
 const ICON_SIZE = 32;
-const DURATION = 400;
 
 const Auth = ({navigation}) => {
   const authRef = useRef(null);
-  const slideButtonRef = useRef(null);
-  const [isAuthVisible, setIsAuthVisible] = useState(false);
-
+  
   useEffect(() => {
+    authRef.current.fadeInUp();
+
     GoogleSignin.configure({
       webClientId: GOOGLE_WEB_CLIENT_ID,
       offlineAccess: true,
-      forceCodeForRefreshToken: true,
     });
-
-  }, []);
-
-  const onButtonSwipe = () => {
-      slideButtonRef.current.fadeOutDown()
-      setIsAuthVisible(true)
-      authRef.current.fadeInUp()
-
-      // slideButtonRef.current.fadeOutDown().then(() => {
-      //   setIsAuthVisible(true);
-      //   authRef.current.fadeInUp();
-      // })
-  }
+  }, [])
 
   return (
     <>
@@ -66,17 +52,8 @@ const Auth = ({navigation}) => {
             style={styles.logo}
           />
 
-          <Animatable.View ref={slideButtonRef} animation="fadeInUp" style={{alignItems: 'center', marginBottom: 40}}>
-
-            <Text style={styles.getStartedTitle}>become a cheftastic</Text>
-            <Text style={styles.getStartedSubHeading}>cooking experience like a chef</Text>
-            <SwipeButton text="Get Started" onToggle={onButtonSwipe} />
-
-          </Animatable.View>
-
         </View>
 
-        {isAuthVisible && (
           <Animatable.View ref={authRef} style={styles.loginButtonsContainer}>
 
           <View style={styles.headingContainer}>
@@ -91,15 +68,9 @@ const Auth = ({navigation}) => {
               <Text style={[styles.authButtonText, {color: DARK_TEXT}]}>Sign in with Google</Text>
             </TouchableOpacity>
 
-            {/* <TouchableOpacity hitSlop={styles.hitSlop} onPress={onFacebookSignIn} style={[styles.authButton, {backgroundColor: FACEBOOK}]} >
-              <Image source={require('../assets/facebook.png')} style={styles.authButtonIcon} />
-              <Text style={styles.authButtonText}>Sign in with Facebook</Text>
-            </TouchableOpacity> */}
-
           </View>
 
           </Animatable.View>
-        )}
 
       </ImageBackground>
     </>

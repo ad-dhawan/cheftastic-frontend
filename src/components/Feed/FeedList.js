@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react'
-import {View, Text, FlatList, StyleSheet, RefreshControl, TouchableOpacity} from 'react-native'
+import {View, Text, FlatList, StyleSheet, RefreshControl, TouchableOpacity, Touchable} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
-import { isEmpty, size, includes } from 'lodash';
+import { isEmpty, size, includes, delay } from 'lodash';
 import DoubleClick from 'react-native-double-tap';
 import LottieView from 'lottie-react-native';
 
@@ -50,23 +50,39 @@ const FeedList = (props) => {
         const [isLiked, setIsLiked] = useState(item.likes.includes(user_id))
 
         const LikeAnimRef = useRef(null);
+
+        function likeRecipe() {
+            GetData.likeRecipe(item._id, {user_id: user_id}).then(res => {
+                if (res && res.status === 200) {
+                    console.log(res.data);
+                } else console.log(res);
+            });
+        }
+
+        function unlikeRecipe() {
+            if(isLiked){
+                setLikeCount(likes => likes -= 1)
+                setIsLiked(false)
+                likeRecipe()
+            } else {
+                LikeAnimRef.current.play()
+                setLikeCount(likes => likes += 1)
+                setIsLiked(true)
+                likeRecipe()
+            }
+        }
         
         return(
             <>
                 <DoubleClick
                     doubleTap={() => {
                         LikeAnimRef.current.play()
-                        isLiked ? null : setLikeCount(likes => likes+=1)
+                        isLiked ? null : setLikeCount(likes => likes += 1)
                         setIsLiked(true)
                         
                         if(!isLiked){
-                            GetData.likeRecipe(item._id, {user_id: user_id}).then(res => {
-                                if (res && res.status === 200) {
-                                    console.log(res.data);
-                                } else console.log(res);
-                            });
+                            likeRecipe()
                         }
-
                     }}
                 >
                     <View style={{marginBottom: 10}}>
@@ -80,14 +96,16 @@ const FeedList = (props) => {
                             <View style={styles.mealNameContainer}>
                                 <Text style={styles.mealName}>{item.meal_name}</Text>
 
-                                <View style={styles.likesContainer} >
+                                <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
+                                    onPress={() => unlikeRecipe()} style={styles.likesContainer} >
                                     <MaterialCommunityIcons name={isLiked ? 'cards-heart' : 'cards-heart-outline'}
                                         size={15} color={isLiked ? LIKE : GREY} style={{marginRight: 4}}
                                     />
                                     <Text style={[styles.mealLikeCount, {
                                         color: isLiked ? LIKE : GREY
                                     }]}>{likeCount}</Text>
-                                </View>
+                                </TouchableOpacity>
+                                
                             </View> 
 
                             <View style={styles.userNameContainer}>
@@ -162,7 +180,7 @@ const FeedList = (props) => {
                     <FlatList
                         data={feedData}
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{paddingBottom: 150}}
+                        contentContainerStyle={{paddingBottom: 50}}
                         refreshControl={
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }
@@ -241,6 +259,12 @@ const styles = StyleSheet.create({
         width: 250,
         position: 'absolute',
         alignSelf: 'center',
+    },
+    hitSlop: {
+        top: 5,
+        bottom: 5,
+        right: 5,
+        left: 5
     }
 });
 

@@ -18,5 +18,5 @@ export const LIKE = '#ff0000'
 export const MEAL_IMAGE = '#ffffff20';
 
 //BOTTOM TAB
-export const ACTIVE = "#7E0CF5";
+export const ACTIVE = "#f55951";
 export const INACTIVE = "#B5B5B5";

@@ -1,6 +1,8 @@
 import React from 'react';
+import { View } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import CheftasticIcon from '../CheftasicIcon';
 
 import ContentList from './ContentList';
 import {ACCENT, BACKGROUND, DARK_TEXT, GREY, TRANSPARENT} from '../../utils/colors';
@@ -25,7 +27,6 @@ const TopTabNavigation = () => {
             backgroundColor: BACKGROUND,
             elevation: 0,
             height: 55,
-            top: PROFILE_HEADER_SIZE / 2
           },
           indicatorStyle: {
             backgroundColor: ACCENT,
@@ -34,10 +35,6 @@ const TopTabNavigation = () => {
             width: 100,
             left: 45,
           },
-          tabStyle: {
-            //   top: PROFILE_HEADER_SIZE / 2
-            backgroundColor: BACKGROUND
-          }
         }}>
         <Tab.Screen
           name="UserFeed"
@@ -47,7 +44,7 @@ const TopTabNavigation = () => {
               <Ionicons
                 name={focused ? 'grid' : 'grid-outline'}
                 color={color}
-                size={focused ? ICON_SIZE + 5 : ICON_SIZE}
+                size={focused ? ICON_SIZE + 3 : ICON_SIZE}
               />
             ),
           }}
@@ -61,7 +58,7 @@ const TopTabNavigation = () => {
               <Ionicons
                 name={focused ? 'bookmark' : 'bookmark-outline'}
                 color={color}
-                size={focused ? ICON_SIZE + 5 : ICON_SIZE}
+                size={focused ? ICON_SIZE + 3 : ICON_SIZE}
               />
             ),
           }}

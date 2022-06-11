@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import PageHeader from '../components/PageHeader';
 import { BACKGROUND, DARK_TEXT, GREY, LIGHT_TEXT, PRIMARY } from '../utils/colors';
@@ -31,6 +32,17 @@ const list = [
 const Settings = ({navigation}) => {
     const dispatch = useDispatch();
 
+    const onSignOut = async() => {
+        dispatch({type: 'LOGOUT'});
+        navigation.replace('Auth');
+        try {
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <>
             <View style={{flex: 1, backgroundColor: BACKGROUND}}>
@@ -53,10 +65,7 @@ const Settings = ({navigation}) => {
                     <Text style={styles.version}>v {DeviceInfo.getVersion()}</Text>
                     
                     <TouchableOpacity style={styles.signOutButtonContainer} activeOpacity={0.9}
-                        onPress={() => {
-                            dispatch({type: 'LOGOUT'});
-                            navigation.replace('Auth');
-                        }} >
+                        onPress={onSignOut} >
                         <Text style={styles.signOutButtonText}>sign out</Text>
                     </TouchableOpacity>
 

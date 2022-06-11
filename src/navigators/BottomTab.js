@@ -10,7 +10,7 @@ import AddRecipe from '../screens/AddRecipe';
 import Feed from '../screens/Feed';
 import Notifications from '../screens/Notifications';
 
-import { ACCENT, INACTIVE, LIGHT_TEXT, PRIMARY } from '../utils/colors';
+import { ACCENT, INACTIVE, LIGHT_TEXT, ACTIVE } from '../utils/colors';
 
 const ICON_SIZE = 22;
 
@@ -27,7 +27,7 @@ const BottomTab = () => {
         initialRouteName="Feed"
         tabBarOptions={{
           showLabel:false,
-          activeTintColor:PRIMARY,
+          activeTintColor:ACTIVE,
           inactiveTintColor:INACTIVE,
           style:{
             backgroundColor: LIGHT_TEXT,
@@ -116,7 +116,7 @@ const BottomTab = () => {
         style={{
           width: getWidth() - 50,
           height: 3,
-          backgroundColor: ACCENT,
+          backgroundColor: ACTIVE,
           position: 'absolute',
           bottom: 20,
           left: 55,
