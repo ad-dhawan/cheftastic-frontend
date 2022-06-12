@@ -17,17 +17,19 @@ import SpecialRecipes from './SpecialRecipes'
 import Loader from '../Loader';
 
 const FeedList = (props) => {
-    const {feed, user_id} = useSelector(state => state);
+    const {feed, user_id, specials} = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [feedData, setFeedData] = useState(feed);
+    const [specialsData, setSpecialsData] = useState(specials);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 
     useEffect(() => {
         !isEmpty(feedData) ? setIsLoading(false) : null
-        getFeedData()
+        getFeedData();
+        getSpecials();
     }, [])
 
     /** GET FEED DATA */
@@ -39,6 +41,20 @@ const FeedList = (props) => {
                 
                 dispatch({
                   type: 'FEED',
+                  payload: res.data,
+                });
+            } else console.log(res);
+        });
+    }
+
+    /** GET SPECIALS */
+    async function getSpecials () {
+        GetData.getSpecials().then(res => {
+            if (res && res.status === 200) {
+                setSpecialsData(res.data);
+                
+                dispatch({
+                  type: 'SPECIALS',
                   payload: res.data,
                 });
             } else console.log(res);
@@ -187,7 +203,7 @@ const FeedList = (props) => {
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }
                         onEndReached={onLoadMore}
-                        ListHeaderComponent={<SpecialRecipes style={{marginBottom: 30}} />}
+                        ListHeaderComponent={<SpecialRecipes data={specialsData} style={{marginBottom: 30}} />}
                         renderItem={({item}) => <RecipeListItem item={item} />}
                     />
                 )}

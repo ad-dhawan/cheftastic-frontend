@@ -10,7 +10,7 @@ const SpecialRecipes = (props) => {
         <>
             <View style={props.style}>
                 <Text style={styles.heading}>specials for you</Text>
-                <Carousel />
+                <Carousel data={props.data} />
             </View>
             
         </>

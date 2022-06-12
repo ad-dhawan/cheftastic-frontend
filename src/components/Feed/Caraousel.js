@@ -2,22 +2,17 @@ import React, {useRef, useState, useEffect} from 'react';
 import {
   StyleSheet,
   Animated,
-  Image,
-  View,
   Text,
+  View,
   Dimensions
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient'
 
-import {ACCENT, GREY, PRIMARY} from '../../utils/colors';
-import { FEED_ITEM_RADIUS, CAROUSEL_CONTENT_HEIGHT, CAROUSEL_CONTENT_WIDTH } from '../../utils/values';
-
-const images = [
-  'https://images.unsplash.com/photo-1526763025764-2a8073a0cd43?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fG9wZW4lMjBzb3VyY2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1495507015875-089a5c9bd885?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTh8fG9wZW4lMjBzb3VyY2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1624964562774-9d27c0c7d27f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Njh8fG9wZW4lMjBzb3VyY2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1509573563917-a778dc0a5477?ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODN8fG9wZW4lMjBzb3VyY2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-  'https://images.unsplash.com/photo-1506222761176-7f60d01a7cb9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80',
-];
+import {ACCENT, DARK_TEXT, GREY, LIGHT_TEXT, TRANSPARENT} from '../../utils/colors';
+import { FEED_ITEM_RADIUS, CAROUSEL_CONTENT_HEIGHT, CAROUSEL_CONTENT_WIDTH, BOLD, REGULAR } from '../../utils/values';
+import { GetData } from '../../services/axios';
+import CacheImage from '../CacheImage';
+import { UserAvatar } from './FeedHeader';
 
 const {WIDTH} = Dimensions.get('screen')
 const ACTIVE_INDICATOR_SIZE = 10;
@@ -46,13 +41,16 @@ function useInterval(callback, delay) {
 
 const InifiniteCarousel = ({data}) => {
   const animation = useRef(new Animated.Value(0));
+
   const [currentImage, setCurrentImage] = useState(0);
+  const [specialsFeed, setSpecialsFeed] = useState([]);
+
   useInterval(() => handleAnimation(), 4000);
 
   const handleAnimation = () => {
     let newCurrentImage = currentImage + 1;
 
-    if (newCurrentImage >= images.length) {
+    if (newCurrentImage >= specialsFeed.length) {
       newCurrentImage = 0;
     }
 
@@ -63,6 +61,16 @@ const InifiniteCarousel = ({data}) => {
 
     setCurrentImage(newCurrentImage);
   };
+
+  useEffect(() => {
+    data.map(item => {
+      GetData.getSpecificRecipe(item._id).then(res => {
+          if (res && res.status === 200) {
+              specialsFeed.push(res.data)
+          } else console.log(res);
+      });
+    })
+  }, [])
 
   return (
     <>
@@ -76,15 +84,40 @@ const InifiniteCarousel = ({data}) => {
               transform: [{translateX: animation.current}],
             },
           ]}>
-          {images.map(image => (
-            <Image source={{uri: image}} style={styles.image} />
-          ))}
+
+              {specialsFeed.map(item => (
+                <View>
+
+                  <CacheImage
+                      uri={item.image_url}
+                      style={styles.image}
+                  />
+                  
+                  <LinearGradient
+                    colors={[TRANSPARENT, '#00000050', DARK_TEXT]}
+                    style={styles.linearGradient}
+                  />
+
+                  <View style={styles.detailsContainer}>
+
+                    <View style={styles.usernameContainer}>
+                      <UserAvatar size={18} avatar={item.user_avatar} />
+                      <Text style={styles.username}>{item.user_name}</Text>
+                    </View>
+
+                    <Text style={styles.mealName}>{item.meal_name}</Text>
+                  </View>
+
+                </View>
+              ))}
+
         </Animated.View>
 
+
         <View style={styles.indicatorContainer}>
-          {images.map((image, index) => (
+          {specialsFeed.map((item, index) => (
             <View
-              key={`${image}_${index}`}
+              key={`${item.meal_name}_${index}`}
               style={[
                 styles.indicator,
                 index === currentImage
@@ -138,6 +171,41 @@ const styles = StyleSheet.create({
     borderRadius: INACTIVE_INDICATOR_SIZE,
     opacity: 0.7,
     backgroundColor: GREY
+  },
+  linearGradient: {
+    position: 'absolute',
+    bottom: 0,
+    height: CAROUSEL_CONTENT_HEIGHT / 1.5,
+    width: CAROUSEL_CONTENT_WIDTH,
+    borderBottomRightRadius: FEED_ITEM_RADIUS,
+    borderBottomLeftRadius: FEED_ITEM_RADIUS
+  },
+  detailsContainer: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    paddingBottom: 10,
+    width: CAROUSEL_CONTENT_WIDTH,
+    alignItems: 'center'
+  },
+  usernameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  username: {
+    fontSize: 12,
+    color: LIGHT_TEXT,
+    fontFamily: REGULAR,
+    textTransform: 'lowercase',
+    marginLeft: 5
+  },
+  mealName: {
+    fontSize: 12,
+    color: LIGHT_TEXT,
+    fontFamily: BOLD,
+    textTransform: 'lowercase'
   },
 });
 

@@ -25,7 +25,7 @@ let GetData = {
 
   /** GET SPECIALS */
   getSpecials() {
-      return axios.get(`${SERVER_URL}/${BASE_URL}/post/get_top`).then(res => res).catch(err => err) 
+      return axios.get(`${SERVER_URL}/${BASE_URL}/post/get_specials`).then(res => res).catch(err => err) 
   },
 
   /** GET NOTIFICATIONS */
@@ -44,7 +44,12 @@ let GetData = {
   /** GET USER RECIPE */
   getUserRecipe(uid) {
     return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_user_recipes/${uid}`).then(res => res).catch(err => err) 
-},
+  },
+
+  /** GET SPECIFIC RECIPE */
+  getSpecificRecipe(id) {
+    return axios.get(`${SERVER_URL}/${BASE_URL}/post/get/${id}`).then(res => res).catch(err => err)
+  },
 
 }
 

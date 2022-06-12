@@ -3,6 +3,10 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import {useSelector, useDispatch} from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Foundation from 'react-native-vector-icons/Foundation';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import PageHeader from '../components/PageHeader';
 import { BACKGROUND, DARK_TEXT, GREY, LIGHT_TEXT, PRIMARY } from '../utils/colors';
@@ -11,21 +15,27 @@ import { REGULAR, FEED_ITEM_RADIUS } from '../utils/values';
 const list = [
     {
         text: 'account information',
+        icon: <Feather name="user" size={20} color={DARK_TEXT} />
     },
     {
         text: 'share cheftastic',
+        icon: <Entypo name="share" size={20} color={DARK_TEXT} />
     },
     {
         text: 'rate cheftastic',
+        icon: <Entypo name="star" size={20} color={DARK_TEXT} />
     },
     {
         text: 'about us',
+        icon: <Foundation name="info" size={20} color={DARK_TEXT} />
     },
     {
         text: 'community guidelines',
+        icon: <Feather name="book-open" size={20} color={DARK_TEXT} />
     },
     {
         text: 'delete account',
+        icon: <MaterialCommunityIcons name="delete" size={20} color={DARK_TEXT} />
     },
 ]
 
@@ -54,7 +64,11 @@ const Settings = ({navigation}) => {
                     contentContainerStyle={{marginTop: 10}}
                     renderItem={({item}) => (
                         <>
-                            <Text style={styles.listText}>{item.text}</Text>
+                            <View style={styles.listItem}>
+                                {item.icon}
+                                <Text style={styles.listText}>{item.text}</Text>
+                            </View>
+
                             <View style={styles.divider} />
                         </>
                     )}
@@ -77,9 +91,15 @@ const Settings = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-    listText: {
+    listItem: {
+        flexDirection: 'row',
         width: '100%',
         backgroundColor: LIGHT_TEXT,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingHorizontal: 10
+    },
+    listText: {
         fontSize: 18,
         fontFamily: REGULAR,
         paddingHorizontal: 10,
