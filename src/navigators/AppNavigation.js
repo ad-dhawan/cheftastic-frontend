@@ -9,6 +9,7 @@ import BottomTab from './BottomTab';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import Settings from '../screens/Settings';
+import RecipeItem from '../screens/RecipeItem';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ const StackNavigator = () => {
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="RecipeItem" component={RecipeItem} />
         
       </Stack.Navigator>
     </>

@@ -1,20 +1,22 @@
 import React, {useEffect, useState, useRef} from 'react'
-import {View, Text, FlatList, StyleSheet, RefreshControl, TouchableOpacity} from 'react-native'
+import {View, Text, FlatList, StyleSheet, RefreshControl, TouchableOpacity, Share, Alert} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
 import { isEmpty, size, includes, delay } from 'lodash';
 import DoubleClick from 'react-native-double-tap';
 import LottieView from 'lottie-react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import SkeletonHolder from './SkeletonHolder';
 import { UserAvatar } from './FeedHeader';
 import {DARK_TEXT, BACKGROUND, GREY, LIKE} from '../../utils/colors';
 import {EXTRA_BOLD, REGULAR, FEED_ITEM_RADIUS, FEED_MEAL_IMAGE_HEIGHT, FEED_MEAL_IMAGE_WIDTH, MEAL_DETAILS_CONTAINER_HEIGHT} from '../../utils/values';
-import {GetData} from '../../services/axios'
+import {GetData, SERVER_URL, BASE_URL} from '../../services/axios'
 import CacheImage from '../CacheImage';
 import SpecialRecipes from './SpecialRecipes'
 import Loader from '../Loader';
+import RoundButton from '../RoundButton';
 
 const FeedList = (props) => {
     const {feed, user_id, specials} = useSelector(state => state);
@@ -61,6 +63,29 @@ const FeedList = (props) => {
         });
     }
 
+    async function onPressShare(userId, mealName, recipeId) {
+        // console.log(contentId);
+        const message = `Try this delicious *${mealName}* by *${userId}* on cheftastic`
+        try {
+          const result = await Share.share({
+            title: 'Cheftastic',
+            message: `${message} \n\n ${SERVER_URL}/${BASE_URL}/post/get/${recipeId}`,
+            url: `https://cheftastic2.herokuapp.com/uploads/users/male_avatar.jpeg`,
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          Alert.alert(error.message);
+        }
+    }
+
     const RecipeListItem = ({item}) => {
         const [likeCount, setLikeCount] = useState(size(item.likes));
         const [isLiked, setIsLiked] = useState(item.likes.includes(user_id))
@@ -105,6 +130,12 @@ const FeedList = (props) => {
                         <CacheImage
                             uri={item.image_url}
                             style={styles.mealImage}
+                        />
+
+                        <RoundButton
+                            icon={<Ionicons name="share-social-sharp" size={18} color={DARK_TEXT} />}
+                            onPress={() => onPressShare(item.user_name, item.meal_name, item._id)}
+                            style={{position: 'absolute', top: 10, right: 10}}
                         />
 
                         <View style={styles.detailsContainer}>

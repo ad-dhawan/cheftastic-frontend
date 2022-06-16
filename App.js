@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react';
+import { Text } from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 
 import AppNavigation from './src/navigators/AppNavigation';
+import linking from './src/services/linking';
 import Statusbar from './src/components/StatusBar';
 import {persistor, store} from './src/redux/store';
 import { BACKGROUND } from './src/utils/colors';
@@ -23,7 +25,7 @@ const App = () => {
   return (
     <>
       <Statusbar translucent={false} bgColor={BACKGROUND} theme={'dark'} />
-      <NavigationContainer>
+      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>} >
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <AppNavigation />
