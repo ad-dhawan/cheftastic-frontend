@@ -17,7 +17,7 @@ const Notifications = ({navigation}) => {
 
     const [notificationData, setNotificationData] = useState(notifications);
     const [isLoading, setIsLoading] = useState(true);
-    const [isUpdateNeeded, setIsUpdateNeeded] = useState();
+    const [isUpdateNeeded, setIsUpdateNeeded] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 
@@ -42,9 +42,9 @@ const Notifications = ({navigation}) => {
     };
 
     async function getUpdateInfo() {
-        VersionCheck.needUpdate({country: 'IN'})
+        VersionCheck.needUpdate()
         .then(async res => {
-            console.log("UPDATE REQUIRED: ", res.isNeeded);
+            setIsUpdateNeeded(res.needed);
         });
     }
 
@@ -104,7 +104,7 @@ const Notifications = ({navigation}) => {
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }
                         onEndReached={onLoadMore}
-                        ListHeaderComponent={isUpdateNeeded ? <AppUpdate /> : null}
+                        ListHeaderComponent={!isUpdateNeeded ? <AppUpdate /> : null}
                         renderItem={({item}) => {
                             if(item.type === 'like'){
                                 return( <LikeComponent data={item} style={{marginBottom: 10}} /> )

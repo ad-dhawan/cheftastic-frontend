@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
@@ -11,36 +11,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import PageHeader from '../components/PageHeader';
 import { BACKGROUND, DARK_TEXT, GREY, LIGHT_TEXT, PRIMARY } from '../utils/colors';
 import { REGULAR, FEED_ITEM_RADIUS } from '../utils/values';
-
-const list = [
-    {
-        text: 'account information',
-        icon: <Feather name="user" size={20} color={DARK_TEXT} />
-    },
-    {
-        text: 'share cheftastic',
-        icon: <Entypo name="share" size={20} color={DARK_TEXT} />
-    },
-    {
-        text: 'rate cheftastic',
-        icon: <Entypo name="star" size={20} color={DARK_TEXT} />
-    },
-    {
-        text: 'about us',
-        icon: <Foundation name="info" size={20} color={DARK_TEXT} />
-    },
-    {
-        text: 'community guidelines',
-        icon: <Feather name="book-open" size={20} color={DARK_TEXT} />
-    },
-    {
-        text: 'delete account',
-        icon: <MaterialCommunityIcons name="delete" size={20} color={DARK_TEXT} />
-    },
-]
+import Modal from '../components/Modal';
 
 const Settings = ({navigation}) => {
     const dispatch = useDispatch();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
     const onSignOut = async() => {
         dispatch({type: 'LOGOUT'});
@@ -51,6 +27,38 @@ const Settings = ({navigation}) => {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const list = [
+        {
+            text: 'account information',
+            icon: <Feather name="user" size={20} color={DARK_TEXT} />
+        },
+        {
+            text: 'share cheftastic',
+            icon: <Entypo name="share" size={20} color={DARK_TEXT} />
+        },
+        {
+            text: 'rate cheftastic',
+            icon: <Entypo name="star" size={20} color={DARK_TEXT} />
+        },
+        {
+            text: 'about us',
+            icon: <Foundation name="info" size={20} color={DARK_TEXT} />
+        },
+        {
+            text: 'community guidelines',
+            icon: <Feather name="book-open" size={20} color={DARK_TEXT} />
+        },
+        {
+            text: 'delete account',
+            icon: (<MaterialCommunityIcons name="delete" size={20} color={DARK_TEXT} />),
+            onPress: () => onPressDelete()
+        },
+    ]
+
+    function onPressDelete () {
+        setIsDeleteModalVisible(true);
     }
 
     return (
@@ -64,10 +72,10 @@ const Settings = ({navigation}) => {
                     contentContainerStyle={{marginTop: 10}}
                     renderItem={({item}) => (
                         <>
-                            <View style={styles.listItem}>
+                            <TouchableOpacity onPress={item.onPress} activeOpacity={1} style={styles.listItem}>
                                 {item.icon}
                                 <Text style={styles.listText}>{item.text}</Text>
-                            </View>
+                            </TouchableOpacity>
 
                             <View style={styles.divider} />
                         </>
@@ -79,13 +87,39 @@ const Settings = ({navigation}) => {
                     <Text style={styles.version}>v {DeviceInfo.getVersion()}</Text>
                     
                     <TouchableOpacity style={styles.signOutButtonContainer} activeOpacity={0.9}
-                        onPress={onSignOut} >
+                        onPress={() => setIsModalVisible(true)} >
                         <Text style={styles.signOutButtonText}>sign out</Text>
                     </TouchableOpacity>
 
                 </View>
 
             </View>
+
+            <Modal
+                isModalVisible={isDeleteModalVisible}
+                setIsModalVisible={setIsDeleteModalVisible}
+                title={"Are you sure?"}
+                titleAlign={"left"}
+                body={"The action is permanent and irreversible . Make sure you want to do this."}
+                bodyAlign={"left"}
+                leftButtonText={"Cancel"}
+                rightButtonText={"Yes, Delete"}
+                leftButtonAction={() => setIsDeleteModalVisible(false)}
+                rightButtonAction={() => console.log('deleted')}
+            />
+
+            <Modal
+                isModalVisible={isModalVisible}
+                setIsModalVisible={setIsModalVisible}
+                title={"Signout"}
+                titleAlign={"center"}
+                body={"Are you sure you want to sign out?"}
+                bodyAlign={"center"}
+                leftButtonText={"No"}
+                rightButtonText={"Sign out"}
+                leftButtonAction={() => setIsModalVisible(false)}
+                rightButtonAction={onSignOut}
+            />
         </>
     )
 };
@@ -104,11 +138,11 @@ const styles = StyleSheet.create({
         fontFamily: REGULAR,
         paddingHorizontal: 10,
         paddingVertical: 15,
-        color: DARK_TEXT
+        color: DARK_TEXT,
     },
     divider: {
         height: 0.5,
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderColor: GREY
     },
     bottomItemsContainer: {
