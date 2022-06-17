@@ -23,3 +23,5 @@ export const NOTIFICATION_LIKE_HEIGHT = 60
 export const NOTIFICATION_LIKE_RADIUS = 8
 export const PROFILE_ITEM_HEIGHT = 300;
 export const PROFILE_ITEM_HEIGHT_DIFFERENCE = 100;
+export const RECIPE_ITEM_HEIGHT = height * 0.35;
+export const RECIPE_ITEM_WIDTH = '100%'

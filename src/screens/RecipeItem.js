@@ -1,10 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const RecipeItem = ({route}) => {
+import Header from '../components/RecipeItem/Header';
+
+const RecipeItem = ({route, navigation}) => {
+    const data = route.params.data;
     return(
         <>
-            <Text>Recipe Item {route.params.id}</Text>
+            <Header navigation={navigation} item={data} />
         </>
     )
 };

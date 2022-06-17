@@ -18,6 +18,29 @@ import SpecialRecipes from './SpecialRecipes'
 import Loader from '../Loader';
 import RoundButton from '../RoundButton';
 
+export async function onPressShare(userId, mealName, recipeId, imageUrl) {
+    // console.log(contentId);
+    const message = `Try this delicious *${mealName}* by *${userId}* on cheftastic`
+    try {
+      const result = await Share.share({
+        title: 'Cheftastic',
+        message: `${message} \n\n ${SERVER_URL}/${BASE_URL}/post/get/${recipeId}`,
+        url: imageUrl,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+}
+
 const FeedList = (props) => {
     const {feed, user_id, specials} = useSelector(state => state);
     const dispatch = useDispatch();
@@ -63,29 +86,6 @@ const FeedList = (props) => {
         });
     }
 
-    async function onPressShare(userId, mealName, recipeId) {
-        // console.log(contentId);
-        const message = `Try this delicious *${mealName}* by *${userId}* on cheftastic`
-        try {
-          const result = await Share.share({
-            title: 'Cheftastic',
-            message: `${message} \n\n ${SERVER_URL}/${BASE_URL}/post/get/${recipeId}`,
-            url: `https://cheftastic2.herokuapp.com/uploads/users/male_avatar.jpeg`,
-          });
-          if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-              // shared with activity type of result.activityType
-            } else {
-              // shared
-            }
-          } else if (result.action === Share.dismissedAction) {
-            // dismissed
-          }
-        } catch (error) {
-          Alert.alert(error.message);
-        }
-    }
-
     const RecipeListItem = ({item}) => {
         const [likeCount, setLikeCount] = useState(size(item.likes));
         const [isLiked, setIsLiked] = useState(item.likes.includes(user_id))
@@ -116,6 +116,10 @@ const FeedList = (props) => {
         return(
             <>
                 <DoubleClick
+                    singleTap={() => {
+                        props.navigation.navigate('RecipeItem', {data: item})
+                    }}
+
                     doubleTap={() => {
                         LikeAnimRef.current.play()
                         isLiked ? null : setLikeCount(likes => likes += 1)
@@ -134,7 +138,7 @@ const FeedList = (props) => {
 
                         <RoundButton
                             icon={<Ionicons name="share-social-sharp" size={18} color={DARK_TEXT} />}
-                            onPress={() => onPressShare(item.user_name, item.meal_name, item._id)}
+                            onPress={() => onPressShare(item.user_name, item.meal_name, item._id, item.image_url)}
                             style={{position: 'absolute', top: 10, right: 10}}
                         />
 
