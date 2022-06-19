@@ -1,7 +1,6 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native';
 
-
 import FeedList from '../components/Feed/FeedList';
 import FeedHeader from '../components/Feed/FeedHeader';
 import { BACKGROUND } from '../utils/colors';

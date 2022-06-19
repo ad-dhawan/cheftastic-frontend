@@ -16,7 +16,7 @@ import * as Animatable from 'react-native-animatable';
 
 import {GOOGLE, FACEBOOK, DULL_BG, DARK_TEXT, LIGHT_TEXT, SUB_HEADING, GREY} from '../utils/colors';
 import { EXTRA_BOLD, BOLD, REGULAR } from '../utils/values';
-import {onGoogleSignIn} from '../services/AuthProvider';
+import onGoogleSignIn from '../services/AuthProvider';
 import SwipeButton from '../components/SwipeButton';
 
 const {width, height} = Dimensions.get('screen');
@@ -35,7 +35,9 @@ const Auth = ({navigation}) => {
       webClientId: GOOGLE_WEB_CLIENT_ID,
       offlineAccess: true,
     });
+    
   }, [])
+  
 
   return (
     <>
@@ -63,7 +65,7 @@ const Auth = ({navigation}) => {
 
           <View style={styles.authButtonsContainer}>
 
-            <TouchableOpacity hitSlop={styles.hitSlop} onPress={onGoogleSignIn(navigation)} style={[styles.authButton, {backgroundColor: GOOGLE}]} >
+            <TouchableOpacity hitSlop={styles.hitSlop} onPress={() => onGoogleSignIn(navigation)} style={[styles.authButton, {backgroundColor: GOOGLE}]} >
               <Image source={require('../assets/google.png')} style={styles.authButtonIcon} />
               <Text style={[styles.authButtonText, {color: DARK_TEXT}]}>Sign in with Google</Text>
             </TouchableOpacity>

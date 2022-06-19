@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, FlatList, RefreshControl, Platform} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux';
 import { isEmpty } from 'lodash';
+import VersionCheck from 'react-native-version-check';
 
 import PageHeader from '../components/PageHeader';
 import LikeComponent from '../components/Notifications/LikeComponent';
@@ -9,7 +10,7 @@ import { GetData } from '../services/axios';
 import SkeletonHolder from '../components/Notifications/SkeletonHolder';
 import { BACKGROUND } from '../utils/colors';
 import AppUpdate from '../components/Notifications/AppUpdate';
-import VersionCheck from 'react-native-version-check';
+import Welcome from '../components/Notifications/Welcome';
 
 const Notifications = ({navigation}) => {
     const {user_id, notifications} = useSelector(state => state);
@@ -105,6 +106,7 @@ const Notifications = ({navigation}) => {
                         }
                         onEndReached={onLoadMore}
                         ListHeaderComponent={!isUpdateNeeded ? <AppUpdate /> : null}
+                        ListFooterComponent={() => <Welcome />}
                         renderItem={({item}) => {
                             if(item.type === 'like'){
                                 return( <LikeComponent data={item} style={{marginBottom: 10}} /> )

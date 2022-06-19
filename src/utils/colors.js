@@ -1,7 +1,9 @@
 //THEME
 export const PRIMARY = '#f55951';
 export const ACCENT = '#f5ab51';
+export const DULL_ACCENT = '#f5ab5130';
 export const BACKGROUND = '#f7f7f7';
+export const DULL_BACKGROUND = '#f7f7f750';
 export const DULL_BG = '#00000090'
 export const TRANSPARENT = 'transparent';
 export const GREY = '#cccccc';

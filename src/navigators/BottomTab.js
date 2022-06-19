@@ -1,6 +1,7 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import { Dimensions, Animated, Platform, StyleSheet } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { useDispatch } from 'react-redux';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -16,9 +17,27 @@ const ICON_SIZE = 22;
 
 const Tab = createBottomTabNavigator();
 
-const BottomTab = () => {
+const BottomTab = ({route}) => {
+  const dispatch = useDispatch();
 
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if(route && route.params){
+      const {userData, token} = route.params;
+      console.log(userData, token)
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+            user_name: userData.name,
+            user_email: userData.email,
+            user_avatar: userData.user_avatar,
+            id_token: userData.user_token,
+            fcm_token: token
+        },
+        });
+    }
+  }, [])
 
   return (
     <>

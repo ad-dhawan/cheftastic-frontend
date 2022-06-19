@@ -17,7 +17,7 @@ const RecipeItem = ({route, navigation}) => {
                 <Header navigation={navigation} item={data} />
 
                 <View style={styles.itemContainer}>
-                    <Text>Hello world</Text>
+                    <Text>aur vai kidda</Text>
                 </View>
 
             </ScrollView>

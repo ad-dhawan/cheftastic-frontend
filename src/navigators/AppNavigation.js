@@ -5,6 +5,8 @@ import {enableScreens} from 'react-native-screens';
 import {useSelector} from 'react-redux';
 
 import Auth from '../screens/Auth';
+import UserDetails from '../screens/Auth/UserDetails';
+import UserAvatar from '../screens/Auth/UserAvatar';
 import BottomTab from './BottomTab';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
@@ -25,7 +27,13 @@ const StackNavigator = () => {
           headerShown: false,
         }}>
 
-            {!loggedIn ? <Stack.Screen name="Auth" component={Auth} /> : null}
+            {!loggedIn ? (
+              <>
+                <Stack.Screen name="Auth" component={Auth} />
+                <Stack.Screen name="UserDetails" component={UserDetails} />
+                <Stack.Screen name="UserAvatar" component={UserAvatar} />
+              </>
+            ) : null}
 
             <Stack.Screen name="BottomTab" component={BottomTab} />
             <Stack.Screen name="Profile" component={Profile} />

@@ -15,6 +15,11 @@ let GetData = {
     return axios.post(`${SERVER_URL}/${BASE_URL}/auth/register`, data).then(res => res).catch(err => err.response)
   },
 
+  /** EDIT USER */
+  editUser(data) {
+    return axios.put(`${SERVER_URL}/${BASE_URL}/auth/edit`, data).then(res => res).catch(err => err.response)
+  },
+
   /** GET FEED DATA */
   getFeed(page_size, marker_id, fetch_data) {
     if(!marker_id && !fetch_data)
@@ -49,6 +54,11 @@ let GetData = {
   /** GET SPECIFIC RECIPE */
   getSpecificRecipe(id) {
     return axios.get(`${SERVER_URL}/${BASE_URL}/post/get/${id}`).then(res => res).catch(err => err)
+  },
+
+  /** GET DEFAULT AVATARS */
+  getDefaultAvatars() {
+    return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_avatars`).then(res => res).catch(err => err)
   },
 
 }

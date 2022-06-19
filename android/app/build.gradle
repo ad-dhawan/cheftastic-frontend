@@ -195,6 +195,9 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
+    //Admob
+    // implementation 'com.google.android.gms:play-services-ads:21.0.0'
+
     //Firebase Import Modules
     implementation platform('com.google.firebase:firebase-bom:29.3.0')
     implementation 'com.google.firebase:firebase-analytics'
