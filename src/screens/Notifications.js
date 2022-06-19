@@ -96,7 +96,7 @@ const Notifications = ({navigation}) => {
 
                 <PageHeader title="notifications" navigation={navigation} />
 
-                {isLoading ? <SkeletonHolder /> : (
+                {/* {isLoading ? <SkeletonHolder /> : ( */}
                     <FlatList
                         data={notificationData}
                         showsVerticalScrollIndicator={false}
@@ -106,14 +106,14 @@ const Notifications = ({navigation}) => {
                         }
                         onEndReached={onLoadMore}
                         ListHeaderComponent={!isUpdateNeeded ? <AppUpdate /> : null}
-                        ListFooterComponent={() => <Welcome />}
+                        ListFooterComponent={() => <Welcome navigation={navigation} />}
                         renderItem={({item}) => {
                             if(item.type === 'like'){
                                 return( <LikeComponent data={item} style={{marginBottom: 10}} /> )
                             }
                         }}
                     />
-                )}
+                {/* )} */}
 
             </View>
         </>
