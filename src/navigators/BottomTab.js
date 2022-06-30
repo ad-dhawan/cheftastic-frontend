@@ -43,7 +43,8 @@ const BottomTab = ({route}) => {
     <>
 
       <Tab.Navigator
-        initialRouteName="Feed"
+        // initialRouteName="Feed"
+        initialRouteName="AddRecipe"
         tabBarOptions={{
           showLabel:false,
           activeTintColor:ACTIVE,

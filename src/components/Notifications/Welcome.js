@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { DARK_TEXT, LIGHT_TEXT, PRIMARY } from '../../utils/colors';
-import { BOLD, REGULAR } from '../../utils/values';
+import { BOLD, NOTIFICATION_LIKE_RADIUS, REGULAR } from '../../utils/values';
 
 const Welcome = ({navigation}) => {
     return(
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         alignItems: 'center',
         backgroundColor: PRIMARY,
-        borderRadius: 10,
+        borderRadius: NOTIFICATION_LIKE_RADIUS,
     },
     welcomeText: {
         fontSize: 18,
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         paddingVertical: 10,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10
+        borderBottomLeftRadius: NOTIFICATION_LIKE_RADIUS,
+        borderBottomRightRadius: NOTIFICATION_LIKE_RADIUS
     },
     exploreText: {
         fontSize: 14,

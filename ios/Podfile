@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '13.0'
 
 target 'frontend' do
   config = use_native_modules!
@@ -14,7 +14,7 @@ target 'frontend' do
 
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
-  pod 'react-native-admob', :path => '../node_modules/react-native-admob'
+  # pod 'react-native-admob', :path => '../node_modules/react-native-admob'
 
   target 'frontendTests' do
     inherit! :complete

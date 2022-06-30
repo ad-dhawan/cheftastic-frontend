@@ -22,3 +22,16 @@ export const MEAL_IMAGE = '#ffffff20';
 //BOTTOM TAB
 export const ACTIVE = "#f55951";
 export const INACTIVE = "#B5B5B5";
+
+//RECIPE
+export const COOKING_TIME = "#22AA00";
+export const COOKING_DIFFICULTY = "#F1C836";
+export const CALORIES = "#3996E5";
+export const COOKING_TIME_BG = "#22AA0020";
+export const COOKING_DIFFICULTY_BG = "#F1C83620";
+export const CALORIES_BG = "#3996E520";
+export const VEG = '#22AA00';
+export const NON_VEG = '#FB180E';
+export const VEGAN = '#22AA00';
+export const ADD_SERVINGS = '#F5AB51';
+export const MINUS_SERVINGS = '#F5AB5150';

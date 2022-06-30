@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo'
 
-import { DARK_TEXT } from '../utils/colors';
+import { BACKGROUND, DARK_TEXT } from '../utils/colors';
 import {BOLD, REGULAR} from '../utils/values'
 import RoundButton from './RoundButton';
 
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingTop: 8,
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
+        backgroundColor: BACKGROUND
     },
     title: {
         fontSize: 17,
