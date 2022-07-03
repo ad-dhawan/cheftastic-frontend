@@ -8,7 +8,8 @@ export const DULL_BG = '#00000090'
 export const TRANSPARENT = 'transparent';
 export const GREY = '#cccccc';
 export const FACEBOOK = '#2876D1'
-export const GOOGLE = '#ffffff'
+export const GOOGLE = '#ffffff';
+export const CHECK = '#0275D8';
 
 //TEXT
 export const LIGHT_TEXT = '#ffffff';
@@ -35,3 +36,4 @@ export const NON_VEG = '#FB180E';
 export const VEGAN = '#22AA00';
 export const ADD_SERVINGS = '#F5AB51';
 export const MINUS_SERVINGS = '#F5AB5150';
+export const INCOMPLETE = '#ff0000'

@@ -14,7 +14,6 @@ const Instructions = ({route}) => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.mainContainer}
                     nestedScrollEnabled={true}
-                    scrollEnabled={false}
                     renderItem={({item, index}) => (
                         <View style={styles.itemContainer}>
                             <Text style={styles.index}>{index+1}</Text>

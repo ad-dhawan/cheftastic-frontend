@@ -12,6 +12,8 @@ import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import Settings from '../screens/Settings';
 import RecipeItem from '../screens/RecipeItem';
+import AddIngredients from '../screens/AddRecipe/AddIngredients';
+import AddInstructions from '../screens/AddRecipe/AddInstructions';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +42,8 @@ const StackNavigator = () => {
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="RecipeItem" component={RecipeItem} />
+            <Stack.Screen name="AddIngredients" component={AddIngredients} />
+            <Stack.Screen name="AddInstructions" component={AddInstructions} />
         
       </Stack.Navigator>
     </>

@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import AddRecipe from '../screens/AddRecipe';
+import AddRecipe from '../screens/AddRecipe/AddRecipe';
 import Feed from '../screens/Feed';
 import Notifications from '../screens/Notifications';
 
@@ -25,7 +25,7 @@ const BottomTab = ({route}) => {
   useEffect(() => {
     if(route && route.params){
       const {userData, token} = route.params;
-      console.log(userData, token)
+      // console.log(userData, token)
       dispatch({
         type: 'LOGIN',
         payload: {
@@ -33,7 +33,8 @@ const BottomTab = ({route}) => {
             user_email: userData.email,
             user_avatar: userData.user_avatar,
             id_token: userData.user_token,
-            fcm_token: token
+            fcm_token: token,
+            user_id: userData._id
         },
         });
     }
@@ -43,8 +44,7 @@ const BottomTab = ({route}) => {
     <>
 
       <Tab.Navigator
-        // initialRouteName="Feed"
-        initialRouteName="AddRecipe"
+        initialRouteName="Feed"
         tabBarOptions={{
           showLabel:false,
           activeTintColor:ACTIVE,

@@ -61,6 +61,11 @@ let GetData = {
     return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_avatars`).then(res => res).catch(err => err)
   },
 
+  /** CREATE RECIPE */
+  createRecipe(formData) {
+    return axios.post(`${SERVER_URL}/${BASE_URL}/post/create`, formData).then(res => res).catch(err => err.toString())
+  },
+
 }
 
 export {GetData};

@@ -1,12 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
-import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import Header from '../components/RecipeItem/Header';
 import { BACKGROUND, COOKING_DIFFICULTY_BG, COOKING_TIME, COOKING_TIME_BG, COOKING_DIFFICULTY, CALORIES_BG, CALORIES } from '../utils/colors';
-import { RECIPE_ITEM_HEIGHT, RECIPE_ITEM_WIDTH, DARK_TEXT, REGULAR } from '../utils/values'
+import { REGULAR } from '../utils/values'
 import TopTabNavigation from '../components/RecipeItem/TopTabNavigation';
 
 const {width, height} = Dimensions.get('screen')
@@ -16,7 +15,7 @@ const RecipeItem = ({route, navigation}) => {
     const data = route.params.data;
     return(
         <>
-                <ScrollView contentContainerStyle={{flex: 1, height: '100%'}} >
+                <ScrollView nestedScrollEnabled contentContainerStyle={{flex: 1}} >
 
                     <Header navigation={navigation} item={data} />
 
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         bottom: 20,
         padding: 15,
-        height: '100%'
+        height: '100%',
     },
     mealDetailsParentContainer : {
         justifyContent: 'space-evenly',
