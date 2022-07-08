@@ -102,9 +102,9 @@ const AddRecipe = ({navigation}) => {
             formData.append('meal_type', mealType);
 
             formData.append('chef_id', user_id);
-            formData.append('meal_cooking_time', time.hours === 0 ? `${time.minutes}mins` : `${time.hours}hrs${time.minutes}mins`);
+            formData.append('meal_cooking_time', time.hours === 0 ? `${time.minutes}mins` : `${time.hours}hrs ${time.minutes}mins`);
             formData.append('meal_difficulty', difficulty);
-            formData.append('meal_calories', calories);
+            formData.append('meal_calories', `${calories} kcal`);
     
             if(!showTitleWarning && !showIngredientsWarning && !showInstructionsWarning && !showRecipeImageWarning && !showMealTypeWarning){
                 GetData.createRecipe(formData).then(response => {
