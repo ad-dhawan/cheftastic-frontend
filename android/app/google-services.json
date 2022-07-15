@@ -14,8 +14,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "72186085234-efpoe8aj0o9pdjkvvn1abo1lsugn335g.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "72186085234-bimogm8guonc4m8nevlhl4c9fp89m4cv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dhawan.cheftastic",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
         }
       ],
       "api_key": [
@@ -27,8 +31,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "72186085234-efpoe8aj0o9pdjkvvn1abo1lsugn335g.apps.googleusercontent.com",
+              "client_id": "72186085234-4fmvsnneafos62ahbtes812tf11t84l1.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "72186085234-i8iivpt21r2sk9bcod9luo0pnmhag1ro.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.dhawan.cheftastic"
+              }
             }
           ]
         }

@@ -11,7 +11,7 @@ import {
 import {
   GoogleSignin,
 } from '@react-native-google-signin/google-signin';
-import { GOOGLE_WEB_CLIENT_ID } from '@env'
+import { GOOGLE_WEB_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_ANDROID_CLIENT_ID } from '@env'
 import * as Animatable from 'react-native-animatable';
 
 import {GOOGLE, FACEBOOK, DULL_BG, DARK_TEXT, LIGHT_TEXT, SUB_HEADING, GREY} from '../utils/colors';
@@ -31,10 +31,13 @@ const Auth = ({navigation}) => {
   useEffect(() => {
     authRef.current.fadeInUp();
 
-    GoogleSignin.configure({
-      webClientId: GOOGLE_WEB_CLIENT_ID,
-      offlineAccess: true,
-    });
+    GoogleSignin.configure();
+    // GoogleSignin.configure({
+    //   webClientId: GOOGLE_WEB_CLIENT_ID,
+    //   iosClientId: GOOGLE_IOS_CLIENT_ID,
+    //   androidClientId: GOOGLE_ANDROID_CLIENT_ID,
+    //   offlineAccess: false,
+    // });
     
   }, [])
   

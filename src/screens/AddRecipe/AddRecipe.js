@@ -84,7 +84,7 @@ const AddRecipe = ({navigation}) => {
             isEmpty(recipeImage) ? setShowRecipeImageWarning(true) : setShowRecipeImageWarning(false)
             formData.append('image_url', {
                 uri: recipeImage,
-                name: `${title.replace(/ /g,'')}_${user_id}_${Date.now()}`,
+                name: `${title.replace(/ /g,'')}_${user_id}_${Date.now()}.jpeg`,
                 type: 'multipart/form-data',
             });
 

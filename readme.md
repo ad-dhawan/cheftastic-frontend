@@ -38,6 +38,7 @@ Cheftastic is a full stack UGC based application which lets user post and explor
 Create and open `/.env` then edit it with your settings. You will need:
 
 - GOOGLE_WEB_CLIENT_ID
+- GOOGLE_IOS_CLIENT_ID
 - STAGING_URL
 
 ## Folder structure

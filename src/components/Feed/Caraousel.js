@@ -75,6 +75,8 @@ const InifiniteCarousel = ({data}) => {
   return (
     <>
 
+      <Text style={styles.heading}>specials for you</Text>
+
       <View>
 
         <Animated.View
@@ -135,6 +137,13 @@ const InifiniteCarousel = ({data}) => {
 };
 
 const styles = StyleSheet.create({
+  heading: {
+      fontSize: 14,
+      fontFamily: BOLD,
+      textTransform: 'lowercase',
+      color: DARK_TEXT,
+      marginBottom: 10
+  },
   safe: {
     flex: 1,
   },

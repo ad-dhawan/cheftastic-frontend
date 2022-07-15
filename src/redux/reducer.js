@@ -10,6 +10,8 @@ const initialState = {
   feed: [],
   specials: [],
   notifications: [],
+  search_history: [],
+  saved_recipes: [],
 };
 
 export default (state = initialState, action) => {
@@ -33,6 +35,12 @@ export default (state = initialState, action) => {
 
     case 'RECIPES':
       return {...state, recipes: action.payload};
+
+    case 'EDIT_USER':
+      return {...state, ...action.payload};
+
+    case 'SAVE':
+      return {...state, saved_recipes: action.payload};
 
     default:
       return state;

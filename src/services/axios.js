@@ -66,6 +66,11 @@ let GetData = {
     return axios.post(`${SERVER_URL}/${BASE_URL}/post/create`, formData).then(res => res).catch(err => err.toString())
   },
 
+  /** EDIT USER */
+  editUser(formData) {
+    return axios.put(`${SERVER_URL}/${BASE_URL}/auth/edit`, formData).then(res => res).catch(err => err.toString())
+  },
+
 }
 
 export {GetData};
