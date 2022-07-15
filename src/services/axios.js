@@ -71,6 +71,16 @@ let GetData = {
     return axios.put(`${SERVER_URL}/${BASE_URL}/auth/edit`, formData).then(res => res).catch(err => err.toString())
   },
 
+  /** SAVE RECIPE */
+  saveRecipe(mealId, data) {
+    return axios.post(`${SERVER_URL}/${BASE_URL}/auth/save_post/${mealId}`, data).then(res => res).catch(err => err.toString())
+  },
+
+  /** GET SAVED RECIPES */
+  getSavedRecipes(userId) {
+    return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_saved/${userId}`).then(res => res).catch(err => err.toString())
+  },
+
 }
 
 export {GetData};

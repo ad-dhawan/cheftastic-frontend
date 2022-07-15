@@ -42,10 +42,8 @@ export async function onPressShare(userId, mealName, recipeId, imageUrl) {
 }
 
 const FeedList = (props) => {
-    const {feed, user_id, specials, user_avatar} = useSelector(state => state);
+    const {feed, user_id, specials} = useSelector(state => state);
     const dispatch = useDispatch();
-
-    console.log(user_avatar)
 
     const [feedData, setFeedData] = useState(feed);
     const [specialsData, setSpecialsData] = useState(specials);

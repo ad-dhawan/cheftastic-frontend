@@ -1,18 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import {useSelector} from 'react-redux';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CheftasticIcon from '../CheftasicIcon';
 
 import ContentList from './ContentList';
 import {ACCENT, BACKGROUND, DARK_TEXT, GREY, TRANSPARENT} from '../../utils/colors';
-import {REGULAR} from '../../utils/values';
-import { PROFILE_HEADER_SIZE } from '../../screens/Profile';
 
 const Tab = createMaterialTopTabNavigator();
 const ICON_SIZE = 22;
 
-const TopTabNavigation = ({uid}) => {
+const TopTabNavigation = ({uid, navigation}) => {
+  const {user_id} = useSelector(state => state);
+
   return (
     <>
       <Tab.Navigator
@@ -29,7 +28,7 @@ const TopTabNavigation = ({uid}) => {
             height: 55,
           },
           indicatorStyle: {
-            backgroundColor: ACCENT,
+            backgroundColor: uid === user_id ? ACCENT : TRANSPARENT,
             height: 4,
             borderRadius: 4,
             width: 100,
@@ -39,7 +38,7 @@ const TopTabNavigation = ({uid}) => {
         <Tab.Screen
           name="UserFeed"
           component={ContentList}
-          initialParams={{uid: uid, screen: 'feed'}}
+          initialParams={{uid: uid, screen: 'feed', navigation: navigation}}
           options={{
             tabBarIcon: ({color, focused}) => (
               <Ionicons
@@ -50,21 +49,25 @@ const TopTabNavigation = ({uid}) => {
             ),
           }}
         />
-
-        <Tab.Screen
-          name="UserSaved"
-          component={ContentList}
-          initialParams={{uid: uid, screen: 'saved'}}
-          options={{
-            tabBarIcon: ({color, focused}) => (
-              <Ionicons
-                name={focused ? 'bookmark' : 'bookmark-outline'}
-                color={color}
-                size={focused ? ICON_SIZE + 3 : ICON_SIZE}
-              />
-            ),
-          }}
-        />
+        {
+          uid === user_id ? (
+            <Tab.Screen
+              name="UserSaved"
+              component={ContentList}
+              initialParams={{uid: uid, screen: 'saved', navigation: navigation}}
+              options={{
+                tabBarIcon: ({color, focused}) => (
+                  <Ionicons
+                    name={focused ? 'bookmark' : 'bookmark-outline'}
+                    color={color}
+                    size={focused ? ICON_SIZE + 3 : ICON_SIZE}
+                  />
+                ),
+              }}
+            />
+          ) : null
+        }
+        
       </Tab.Navigator>
     </>
   );

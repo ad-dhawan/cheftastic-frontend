@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Linking} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Feather from 'react-native-vector-icons/Feather'
@@ -8,8 +9,29 @@ import CacheImage from '../CacheImage';
 import { RECIPE_ITEM_HEIGHT, RECIPE_ITEM_WIDTH, DARK_TEXT } from '../../utils/values';
 import RoundButton from '../RoundButton';
 import { onPressShare } from '../Feed/FeedList';
+import { GetData } from '../../services/axios';
 
 const Header = ({navigation, item}) => {
+    const {saved_recipes, user_id} = useSelector(state => state);
+
+    const [isSaved, setIsSaved] = useState(saved_recipes.map(data => data._id === item._id))
+
+    const onPressSave = () => {
+        setIsSaved(!isSaved)
+        
+        const data = {
+            user_id: user_id,
+            action: isSaved ? 'unsave' : 'save'
+        }
+
+        GetData.saveRecipe(item._id, data).then(response => {
+            if(response && response.status === 200) {
+                console.log("RESPONSE: ", response.data)
+            }
+            else console.log(response);
+        });
+    }
+
     return(
         <>
             <View>
@@ -23,8 +45,8 @@ const Header = ({navigation, item}) => {
 
                     <View style={{flexDirection: 'row'}}>
                         <RoundButton
-                            icon={<Ionicons name="bookmark-outline" size={20} color={DARK_TEXT} />}
-                            onPress={() => navigation.goBack()}
+                            icon={<Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color={DARK_TEXT} />}
+                            onPress={onPressSave}
                             style={{marginRight: 10}}
                         />
 

@@ -41,7 +41,7 @@ const Profile = ({navigation, route}) => {
 
             </View>
 
-            <TopTabNavigation uid={uid} />
+            <TopTabNavigation uid={uid} navigation={navigation} />
         </>
     )
 };

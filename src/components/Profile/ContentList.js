@@ -12,14 +12,15 @@ const {width, height} = Dimensions.get('screen');
 const ITEM_WIDTH = (width / 2) - 20
 
 const ContentList = ({route}) => {
-    const {user_id, recipes} = useSelector(state => state);
+    const {user_id, recipes, saved_recipes} = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [data, setData] = useState(route.params.uid === user_id ? recipes : []);
+    const [savedRecipes, setSavedRecipes] = useState(saved_recipes);
 
     useEffect(() => {
-        getUserFeed();
-        // getUserSaved();
+        if(route.params.screen === 'feed') getUserFeed()
+        else if (route.params.screen === 'saved') getUserSaved()
     }, []);
 
     async function getUserFeed() {
@@ -36,10 +37,26 @@ const ContentList = ({route}) => {
         });
     }
 
+    async function getUserSaved() {
+        await GetData.getSavedRecipes(route.params.uid).then(res => {
+            if (res && res.status === 200) {
+                setSavedRecipes(res.data);
+                
+                if(route.params.uid === user_id)
+                    dispatch({
+                        type: 'SAVE',
+                        payload: res.data,
+                    });
+            } else console.log(res);
+        });
+    }
+
     const ListItem = ({item, index}) => {
         return (
             <>
-                <TouchableOpacity style={[styles.itemContainer,{
+                <TouchableOpacity
+                    onPress={() => route.params.screen === 'feed' ? route.params.navigation.navigate('RecipeItem', {data: item}) : null}
+                     style={[styles.itemContainer,{
                         height: index === 1 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE :
                         index === data.length - 2 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE : PROFILE_ITEM_HEIGHT,
                         bottom: index > 1 && index % 2 !== 0 ? PROFILE_ITEM_HEIGHT_DIFFERENCE : 0
@@ -70,7 +87,7 @@ const ContentList = ({route}) => {
             <View style={{flex: 1, backgroundColor: BACKGROUND}}>
                 
                 <FlatList
-                    data={data}
+                    data={route.params.screen === 'feed' ? data : savedRecipes}
                     numColumns={2}
                     contentContainerStyle={{marginTop: 10}}
                     columnWrapperStyle={{justifyContent: 'space-between', marginHorizontal:10}}

@@ -52,10 +52,14 @@ const RecipeItem = ({route, navigation}) => {
                             </View>
                         </View>
 
-                        <View style={styles.userAvatarContainer}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Profile', {"uid": data.user_id, "uavatar": data.user_avatar, "uname": data.user_name})}
+                            activeOpacity={1}
+                            style={styles.userAvatarContainer}
+                        >
                             <UserAvatar size={18} avatar={data.user_avatar} />
                             <Text style={styles.userName}>{data.user_name}</Text>
-                        </View>
+                        </TouchableOpacity>
 
                         <View style={styles.mealDetailsParentContainer}>
 
