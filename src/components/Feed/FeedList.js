@@ -17,6 +17,7 @@ import CacheImage from '../CacheImage';
 import SpecialRecipes from './SpecialRecipes'
 import Loader from '../Loader';
 import RoundButton from '../RoundButton';
+import AdComp from '../AdComponents';
 
 export async function onPressShare(userId, mealName, recipeId, imageUrl) {
     // console.log(contentId);
@@ -115,6 +116,7 @@ const FeedList = (props) => {
         
         return(
             <>
+
                 <DoubleClick
                     singleTap={() => {
                         props.navigation.navigate('RecipeItem', {data: item})
@@ -181,6 +183,7 @@ const FeedList = (props) => {
 
                     </View>
                 </DoubleClick>
+                <AdComp />
             </>
         )
     }

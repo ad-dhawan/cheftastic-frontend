@@ -137,6 +137,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -195,8 +196,9 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    //Admob
-    // implementation 'com.google.android.gms:play-services-ads:21.0.0'
+    implementation("com.google.firebase:firebase-iid")
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     //Firebase Import Modules
     implementation platform('com.google.firebase:firebase-bom:29.3.0')

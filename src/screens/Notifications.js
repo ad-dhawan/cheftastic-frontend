@@ -105,7 +105,7 @@ const Notifications = ({navigation}) => {
                             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
                         }
                         onEndReached={onLoadMore}
-                        ListHeaderComponent={!isUpdateNeeded ? <AppUpdate /> : null}
+                        ListHeaderComponent={isUpdateNeeded ? <AppUpdate /> : null}
                         ListFooterComponent={() => <Welcome navigation={navigation} />}
                         renderItem={({item}) => {
                             if(item.type === 'like'){
