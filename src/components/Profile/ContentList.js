@@ -55,7 +55,7 @@ const ContentList = ({route}) => {
         return (
             <>
                 <TouchableOpacity
-                    onPress={() => route.params.screen === 'feed' ? route.params.navigation.navigate('RecipeItem', {data: item}) : null}
+                    onPress={() => route.params.navigation.navigate('RecipeItem', {data: item})}
                      style={[styles.itemContainer,{
                         height: index === 1 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE :
                         index === data.length - 2 ? PROFILE_ITEM_HEIGHT - PROFILE_ITEM_HEIGHT_DIFFERENCE : PROFILE_ITEM_HEIGHT,

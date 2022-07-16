@@ -81,6 +81,16 @@ let GetData = {
     return axios.get(`${SERVER_URL}/${BASE_URL}/auth/get_saved/${userId}`).then(res => res).catch(err => err.toString())
   },
 
+  /** DELETE RECIPE */
+  deleteRecipe(mealId) {
+    return axios.delete(`${SERVER_URL}/${BASE_URL}/post/delete/${mealId}`).then(res => res).catch(err => err.toString())
+  },
+
+  /** DELETE ACCOUNT */
+  deleteAccount(userId) {
+    return axios.delete(`${SERVER_URL}/${BASE_URL}/auth/delete/${userId}`).then(res => res).catch(err => err.toString())
+  },
+
 }
 
 export {GetData};

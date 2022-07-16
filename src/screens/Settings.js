@@ -13,8 +13,10 @@ import PageHeader from '../components/PageHeader';
 import { BACKGROUND, DARK_TEXT, GREY, LIGHT_TEXT, PRIMARY } from '../utils/colors';
 import { REGULAR, FEED_ITEM_RADIUS } from '../utils/values';
 import Modal from '../components/Modal';
+import { GetData } from '../services/axios';
 
 const Settings = ({navigation}) => {
+    const {user_id} = useSelector(state => state);
     const dispatch = useDispatch();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
@@ -54,6 +56,19 @@ const Settings = ({navigation}) => {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const onDeleteAccount = async() => {
+        GetData.deleteAccount(user_id).then(res => {
+            if (res && res.status === 200) {
+                
+                console.log(res.data)
+                setIsDeleteModalVisible(false)
+                navigation.replace('Auth');
+                onSignOut()
+                
+            } else console.log(res);
+        });
     }
 
     function onPressDelete () {
@@ -146,7 +161,7 @@ const Settings = ({navigation}) => {
                 leftButtonText={"Cancel"}
                 rightButtonText={"Yes, Delete"}
                 leftButtonAction={() => setIsDeleteModalVisible(false)}
-                rightButtonAction={() => console.log('deleted')}
+                rightButtonAction={onDeleteAccount}
             />
 
             <Modal
