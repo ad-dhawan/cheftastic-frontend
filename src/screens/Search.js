@@ -11,10 +11,11 @@ import { BOLD, FEED_ITEM_RADIUS, REGULAR } from '../utils/values';
 import { GetData } from '../services/axios';
 import { UserAvatar } from '../components/Feed/FeedHeader';
 import CacheImage from '../components/CacheImage';
+import PageHeader from '../components/PageHeader'
 
 const MEAL_IMAGE_SIZE = 60
 
-const Search = () => {
+const Search = ({navigation}) => {
     const dispatch = useDispatch();
     const {recent_searches} = useSelector(state => state);
 
@@ -48,6 +49,8 @@ const Search = () => {
 
     const RecipeComponent = ({data}) => {
         const onPressItem = () => {
+            navigation.navigate('RecipeItem', {data: data})
+            
             dispatch({
                 type: 'RECENT_SEARCHES',
                 payload: {
@@ -84,6 +87,8 @@ const Search = () => {
 
     const UsersComponent = ({data}) => {
         const onPressItem = () => {
+            navigation.navigate('Profile', {"uid": data._id, "uavatar": data.user_avatar, "uname": data.name})
+
             dispatch({
                 type: 'RECENT_SEARCHES',
                 payload: {
@@ -109,19 +114,21 @@ const Search = () => {
         <>
             <View style={styles.mainContainer}>
 
-                <SearchBar
-                    placeholder="Search any recipe or user"
-                    onPress={() => alert("onPress")}
-                    onChangeText={(text) => setSearchText(text)}
-                    autoFocus={true}
-                    style={styles.searchBar}
-                    placeholderTextColor={GREY}
-                    fontColor={DARK_TEXT}
-                    iconColor={DARK_TEXT}
-                    shadowColor={GREY}
-                    cancelIconColor={DARK_TEXT}
-                    backgroundColor={LIGHT_TEXT}
-                />
+                <PageHeader title="Search" navigation={navigation} />
+
+                    <SearchBar
+                        placeholder="Search any recipe or user"
+                        onPress={() => alert("onPress")}
+                        onChangeText={(text) => setSearchText(text)}
+                        autoFocus={true}
+                        style={styles.searchBar}
+                        placeholderTextColor={GREY}
+                        fontColor={DARK_TEXT}
+                        iconColor={DARK_TEXT}
+                        shadowColor={GREY}
+                        cancelIconColor={DARK_TEXT}
+                        backgroundColor={LIGHT_TEXT}
+                    />
 
                 {isEmpty(recent_searches) && isEmpty(value) ? (
                     <>

@@ -87,7 +87,7 @@ const FeedList = (props) => {
         });
     }
 
-    const RecipeListItem = ({item}) => {
+    const RecipeListItem = ({index, item}) => {
         const [likeCount, setLikeCount] = useState(size(item.likes));
         const [isLiked, setIsLiked] = useState(item.likes.includes(user_id))
 
@@ -116,8 +116,11 @@ const FeedList = (props) => {
         
         return(
             <>
-
-                <DoubleClick
+                {index%6 === 0 ? (
+                    <AdComp />
+                ) : (
+                    <DoubleClick
+                    //active opacity of touchable opacity from node modules
                     singleTap={() => {
                         props.navigation.navigate('RecipeItem', {data: item})
                     }}
@@ -131,7 +134,7 @@ const FeedList = (props) => {
                             likeRecipe()
                         }
                     }}
-                >
+                    >
                     <View style={{marginBottom: 10}}>
                         <CacheImage
                             uri={item.image_url}
@@ -182,8 +185,8 @@ const FeedList = (props) => {
                             />
 
                     </View>
-                </DoubleClick>
-                <AdComp />
+                    </DoubleClick>
+                )}
             </>
         )
     }
@@ -242,7 +245,7 @@ const FeedList = (props) => {
                         }
                         onEndReached={onLoadMore}
                         ListHeaderComponent={<SpecialRecipes data={specialsData} style={{marginBottom: 30}} />}
-                        renderItem={({item}) => <RecipeListItem item={item} />}
+                        renderItem={({index, item}) => <RecipeListItem index={index} item={item} />}
                     />
                 )}
             </View>

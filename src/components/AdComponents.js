@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { BOLD, FEED_ITEM_RADIUS, FEED_MEAL_IMAGE_HEIGHT, FEED_MEAL_IMAGE_WIDTH, REGULAR } from '../utils/values';
 import { DARK_TEXT, LIGHT_TEXT, TRANSPARENT } from '../utils/colors';
+import { ADMOB_ANDROID_ID, AD_TEST_DEVICE_ID, ADMOB_IOS_ID } from '@env'
 
 
 const AdComp = (props) => {
@@ -18,7 +19,7 @@ const AdComp = (props) => {
         nativeAdViewRef.current?.loadAd();
       }, []);
 
-    const adUnitId = __DEV__ ? TestIds.BANNER : Platform.OS === 'ios' ? 'ca-app-pub-7219418832686766~9968128741' : 'ca-app-pub-7219418832686766~4075005367';
+    const adUnitId = Platform.OS === 'ios' ? ADMOB_IOS_ID : ADMOB_ANDROID_ID;
 
     const onAdFailedToLoad = event => {
       console.log('AD', 'FAILED', event.error.message);
@@ -44,7 +45,7 @@ const AdComp = (props) => {
     return(
         <NativeAdView
             ref={nativeAdViewRef}
-            adUnitID="ca-app-pub-7219418832686766/4075005367"
+            adUnitID={adUnitId}
             mediaAspectRatio="square"
             onNativeAdLoaded={onNativeAdLoaded}
             onAdLoaded={onAdLoaded}
