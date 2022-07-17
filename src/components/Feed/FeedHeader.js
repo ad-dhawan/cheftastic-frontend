@@ -32,7 +32,7 @@ const FeedHeader = ({navigation}) => {
 
                 <Text style={styles.headerTitle}>Cheftastic</Text>
 
-                <RoundButton icon={<Ionicons name="ios-search" size={22} color={DARK_TEXT} />} onPress={() => console.log("PRESSED MENU BUTTON")} />
+                <RoundButton icon={<Ionicons name="ios-search" size={22} color={DARK_TEXT} />} onPress={() => navigation.navigate('Search')} />
 
             </View>
         </>

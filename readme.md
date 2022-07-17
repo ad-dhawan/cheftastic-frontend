@@ -24,6 +24,7 @@ Cheftastic is a full stack UGC based application which lets user post and explor
 - [redux-thunk](https://github.com/gaearon/redux-thunk) to dispatch asynchronous actions.
 - [@react-native-firebase/messaging](https://www.npmjs.com/package/@react-native-firebase/messaging) for notifications.
 - [react-native-fast-image](https://github.com/DylanVann/react-native-fast-image) for image caching
+- [@react-native-firebase/admob](https://github.com/sbugert/react-native-admob#readme) for monetization
 
 ---
 

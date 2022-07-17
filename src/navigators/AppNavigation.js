@@ -14,6 +14,7 @@ import Settings from '../screens/Settings';
 import RecipeItem from '../screens/RecipeItem';
 import AddIngredients from '../screens/AddRecipe/AddIngredients';
 import AddInstructions from '../screens/AddRecipe/AddInstructions';
+import Search from '../screens/Search';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ const StackNavigator = () => {
             <Stack.Screen name="RecipeItem" component={RecipeItem} />
             <Stack.Screen name="AddIngredients" component={AddIngredients} />
             <Stack.Screen name="AddInstructions" component={AddInstructions} />
+            <Stack.Screen name="Search" component={Search} />
         
       </Stack.Navigator>
     </>

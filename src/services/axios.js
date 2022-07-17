@@ -91,6 +91,11 @@ let GetData = {
     return axios.delete(`${SERVER_URL}/${BASE_URL}/auth/delete/${userId}`).then(res => res).catch(err => err.toString())
   },
 
+  /** SEARCH */
+  getSearch(searchText) {
+    return axios.get(`${SERVER_URL}/${BASE_URL}/post/search?search_text=${searchText}`).then(res => res).catch(err => err.toString())
+  },
+
 }
 
 export {GetData};

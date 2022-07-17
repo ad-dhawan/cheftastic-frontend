@@ -12,6 +12,7 @@ const initialState = {
   notifications: [],
   search_history: [],
   saved_recipes: [],
+  recent_searches: [],
 };
 
 export default (state = initialState, action) => {
@@ -41,6 +42,9 @@ export default (state = initialState, action) => {
 
     case 'SAVE':
       return {...state, saved_recipes: action.payload};
+
+    case 'RECENT_SEARCHES':
+      return {...state, recent_searches: [...state.recent_searches, action.payload]};
 
     default:
       return state;
