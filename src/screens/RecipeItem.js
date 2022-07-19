@@ -32,7 +32,7 @@ const RecipeItem = ({route, navigation}) => {
 
     return(
         <>
-                <ScrollView nestedScrollEnabled contentContainerStyle={{flex: 1, height: '100%'}} >
+                <ScrollView nestedScrollEnabled contentContainerStyle={{flexGrow: 1}} >
 
                     <Header navigation={navigation} item={data} />
 
@@ -63,27 +63,33 @@ const RecipeItem = ({route, navigation}) => {
 
                         <View style={styles.mealDetailsParentContainer}>
 
-                            <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_TIME_BG}]}>
-                                <Feather name="clock" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_TIME} />
-                                <Text numberOfLines={2} style={[styles.mealDetailText, {color: COOKING_TIME}]}>{data.meal_cooking_time}</Text>
-                            </View>
+                            {data.meal_cooking_time ? (
+                                <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_TIME_BG}]}>
+                                    <Feather name="clock" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_TIME} />
+                                    <Text numberOfLines={2} style={[styles.mealDetailText, {color: COOKING_TIME}]}>{data.meal_cooking_time}</Text>
+                                </View>
+                            ) : null}
 
-                            <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_DIFFICULTY_BG}]}>
-                                <Fontisto name="star" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_DIFFICULTY} />
-                                <Text style={[styles.mealDetailText, {color: COOKING_DIFFICULTY}]}>{data.meal_difficulty}</Text>
-                            </View>
+                            {data.meal_difficulty ? (
+                                <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_DIFFICULTY_BG}]}>
+                                    <Fontisto name="star" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_DIFFICULTY} />
+                                    <Text style={[styles.mealDetailText, {color: COOKING_DIFFICULTY}]}>{data.meal_difficulty}</Text>
+                                </View>
+                            ) : null}
 
-                            <View style={[styles.mealDetailsContainer, {backgroundColor: CALORIES_BG}]}>
-                                <Fontisto name="fire" size={MEAL_DETAILS_ICON_SIZE} color={CALORIES} />
-                                <Text style={[styles.mealDetailText, {color: CALORIES}]}>{data.meal_calories}</Text>
-                            </View>
+                            {data.meal_calories ? (
+                                <View style={[styles.mealDetailsContainer, {backgroundColor: CALORIES_BG}]}>
+                                    <Fontisto name="fire" size={MEAL_DETAILS_ICON_SIZE} color={CALORIES} />
+                                    <Text style={[styles.mealDetailText, {color: CALORIES}]}>{data.meal_calories}</Text>
+                                </View>
+                            ) : null}
 
                         </View>
 
                         <TopTabNavigation data={data} />
 
                     </View>
-
+                        
                 </ScrollView>
         </>
     )

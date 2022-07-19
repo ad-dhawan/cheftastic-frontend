@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 
 import { ACCENT, BACKGROUND, DARK_TEXT } from '../../utils/colors';
 import { REGULAR } from '../../utils/values';

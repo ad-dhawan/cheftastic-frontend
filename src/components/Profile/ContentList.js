@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import LottieView from 'lottie-react-native';
 
 import { BOLD, PROFILE_ITEM_HEIGHT, PROFILE_ITEM_HEIGHT_DIFFERENCE } from '../../utils/values'
-import { BACKGROUND, DARK_TEXT, LIGHT_TEXT, TRANSPARENT } from '../../utils/colors';
+import { BACKGROUND, CHECK, DARK_TEXT, LIGHT_TEXT, TRANSPARENT } from '../../utils/colors';
 import { GetData } from '../../services/axios';
 import CacheImage from '../CacheImage';
 
@@ -82,6 +83,39 @@ const ContentList = ({route}) => {
         )
     }
 
+    const ListEmptyComponent = ({type}) => {
+        return(
+            <>
+                <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+                    <LottieView
+                        source={require('../../assets/lottie/cooking_loading.json')}
+                        loop={true}
+                        autoPlay={true}
+                        style={{width: '60%'}}
+                        colorFilters={[
+                            {
+                            keypath: 'White Solid 4',
+                            color: BACKGROUND,
+                            },
+                        ]}
+                    />
+                    <Text
+                        style={{fontSize: 14, fontFamily: BOLD, color: DARK_TEXT, marginTop: 20}}
+                    >{type === 'feed' ? 'your feed is empty' : "you don't have any saved posts"}</Text>
+                    <TouchableOpacity
+                        onPress={() => type === 'feed' ? route.params.navigation.navigate('AddRecipe') : route.params.navigation.navigate('Feed')}
+                        activeOpacity={1}
+                        hitSlop={styles.hitSlop}
+                    >
+                        <Text
+                            style={{fontSize: 14, fontFamily: BOLD, color: CHECK, marginTop: 10}}
+                        >{type === 'feed' ? 'share your first recipe' : 'explore and save new recipes for later'}</Text>
+                    </TouchableOpacity>
+                </View>
+            </>
+        )
+    }
+
     return(
         <>
             <View style={{flex: 1, backgroundColor: BACKGROUND}}>
@@ -94,6 +128,7 @@ const ContentList = ({route}) => {
                     renderItem={({item, index}) => (
                         <ListItem item={item} index={index} />
                     )}
+                    ListEmptyComponent={() => <ListEmptyComponent type={route.params.screen === 'feed' ? 'feed' : 'saved'}  />}
                 />
 
             </View>
@@ -130,6 +165,12 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         flexWrap: 'wrap',
         width: ITEM_WIDTH - 50
+    },
+    hitSlop: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10
     }
 });
 

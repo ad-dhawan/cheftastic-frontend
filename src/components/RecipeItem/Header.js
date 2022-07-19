@@ -68,7 +68,7 @@ const Header = ({navigation, item}) => {
                         ) : null}
 
                         <RoundButton
-                            icon={<Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color={DARK_TEXT} />}
+                            icon={<Ionicons name={isSaved.toString() === 'true' ? "bookmark" : "bookmark-outline"} size={20} color={DARK_TEXT} />}
                             onPress={onPressSave}
                             style={{marginRight: 10}}
                         />
