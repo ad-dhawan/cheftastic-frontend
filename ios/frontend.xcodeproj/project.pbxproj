@@ -17,6 +17,7 @@
 		48F93AD47F034FEF83313EAE /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1EF9B2A9074E4170A5309473 /* Lato-LightItalic.ttf */; };
 		5F601F89623443C691DD06A2 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25DAEDFB45244B76A6153D7A /* Lato-BoldItalic.ttf */; };
 		60239A0826CCD3C800F251F5 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60239A0726CCD3C800F251F5 /* BootSplash.storyboard */; };
+		602CB11C2887261D00066184 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 602CB11B2887261D00066184 /* GoogleService-Info.plist */; };
 		60A83F922807151400CDED9C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 60A83F912807151400CDED9C /* FirebaseAnalytics */; };
 		60A83F942807151400CDED9C /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 60A83F932807151400CDED9C /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		60DF20C6281722E400AD745C /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DF20C5281722E400AD745C /* File.swift */; };
@@ -70,6 +71,7 @@
 		5EA1BFDFCFA64B3EA58E0016 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		60239A0726CCD3C800F251F5 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = frontend/BootSplash.storyboard; sourceTree = "<group>"; };
 		602BDE5726CCC47C00B1FC32 /* frontend-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "frontend-Bridging-Header.h"; sourceTree = "<group>"; };
+		602CB11B2887261D00066184 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		60DF20C5281722E400AD745C /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		62EE020DBDFC42A78CFCC64E /* Lato-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Italic.ttf"; path = "../src/assets/fonts/Lato-Italic.ttf"; sourceTree = "<group>"; };
 		6776C1D37F2542180AAC00CC /* libPods-frontend-frontendTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-frontend-frontendTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,6 +216,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				602CB11B2887261D00066184 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* frontend */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* frontendTests */,
@@ -347,6 +350,7 @@
 				5F601F89623443C691DD06A2 /* Lato-BoldItalic.ttf in Resources */,
 				66FA027E402549E68E4A07E5 /* Lato-Italic.ttf in Resources */,
 				96AB4FDD8CF24FC3A660B2BE /* Lato-Light.ttf in Resources */,
+				602CB11C2887261D00066184 /* GoogleService-Info.plist in Resources */,
 				48F93AD47F034FEF83313EAE /* Lato-LightItalic.ttf in Resources */,
 				CB82F4F1712D4240A04917FC /* Lato-Regular.ttf in Resources */,
 				CF40EDF50D54476996ACDE34 /* Lato-Thin.ttf in Resources */,

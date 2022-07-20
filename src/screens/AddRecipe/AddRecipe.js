@@ -7,11 +7,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { isEmpty } from 'lodash';
 import { Portal, Modal } from 'react-native-paper';
+import ImageResizer from 'react-native-image-resizer';
 
 import { GetData } from '../../services/axios';
 import PageHeader from '../../components/PageHeader';
 import { ACCENT, ADD_SERVINGS, BACKGROUND, DARK_TEXT, DULL_ACCENT, GREY, INCOMPLETE, LIGHT_TEXT, MINUS_SERVINGS, NON_VEG, TRANSPARENT, VEG, VEGAN } from '../../utils/colors';
-import { BOLD, REGULAR } from '../../utils/values';
+import { BOLD, FEED_MEAL_IMAGE_HEIGHT, REGULAR } from '../../utils/values';
 import Loader from '../../components/Loader';
 
 const IMAGE_SIZE = 140
@@ -42,7 +43,7 @@ const AddRecipe = ({navigation}) => {
     const [caloriesFocus, setCaloriesFocus] = useState(false);
     const [time, setTime] = useState({
         hours: 0,
-        minutes: 10,
+        minutes: 0,
     });
     const [loader, setLoader] = useState(false);
 
@@ -67,7 +68,18 @@ const AddRecipe = ({navigation}) => {
                 // console.log(res);
                 
                 if(res && res.assets){
-                    setRecipeImage(res.assets[0].uri)
+                    // setRecipeImage(res.assets[0].uri)
+                    ImageResizer.createResizedImage(res.assets[0].uri, 1080, 1080, 'JPEG', 50, undefined)
+                    .then(response => {
+                        setRecipeImage(response.uri)
+                        // response.uri is the URI of the new image that can now be displayed, uploaded...
+                        // response.path is the path of the new image
+                        // response.name is the name of the new image with the extension
+                        // response.size is the size of the new image
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    });
                 }
             },
         );
@@ -102,9 +114,14 @@ const AddRecipe = ({navigation}) => {
             formData.append('meal_type', mealType);
 
             formData.append('chef_id', user_id);
-            formData.append('meal_cooking_time', time.hours === 0 ? `${time.minutes}mins` : `${time.hours}hrs ${time.minutes}mins`);
+
+            time.hours !== 0 && time.minutes !== 0 ?
+            formData.append('meal_cooking_time', time.hours === 0 ? `${time.minutes}mins` : `${time.hours}hrs ${time.minutes}mins`) : null
+
             formData.append('meal_difficulty', difficulty);
-            formData.append('meal_calories', `${calories} kcal`);
+
+            !isEmpty(calories) ?
+            formData.append('meal_calories', `${calories} kcal`) : null
     
             if(!showTitleWarning && !showIngredientsWarning && !showInstructionsWarning && !showRecipeImageWarning && !showMealTypeWarning){
                 GetData.createRecipe(formData).then(response => {

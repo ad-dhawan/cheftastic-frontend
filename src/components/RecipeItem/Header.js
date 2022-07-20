@@ -81,7 +81,7 @@ const Header = ({navigation, item}) => {
 
                 </View>
 
-                {item.meal_video_url !== "" ? (
+                {item.meal_video_url ? (
                     <RoundButton
                         icon={<Feather name="play" size={18} color={DARK_TEXT} />}
                         onPress={() => {
