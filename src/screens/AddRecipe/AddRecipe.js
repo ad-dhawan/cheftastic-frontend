@@ -59,7 +59,7 @@ const AddRecipe = ({navigation}) => {
         </View>
     )
 
-    const onPressPickImage = () => {
+    const onPressPickImage = async () => {
         ImagePicker.launchImageLibrary(
             {
               mediaType: 'photo',
@@ -68,7 +68,6 @@ const AddRecipe = ({navigation}) => {
                 // console.log(res);
                 
                 if(res && res.assets){
-                    // setRecipeImage(res.assets[0].uri)
                     ImageResizer.createResizedImage(res.assets[0].uri, 1080, 1080, 'JPEG', 50, undefined)
                     .then(response => {
                         setRecipeImage(response.uri)

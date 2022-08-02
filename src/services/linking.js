@@ -1,4 +1,4 @@
-import { SERVER_URL } from "./axios";
+import { SERVER_URL, BASE_URL } from "./axios";
 
 const config = {
     screens: {
@@ -12,7 +12,7 @@ const config = {
 };
 
 const linking = {
-    prefixes: [SERVER_URL, "https://cheftastic2.herokuapp", "cheftastic2", "cheftastic2.herokuapp"],
+    prefixes: [`${SERVER_URL}/${BASE_URL}`],
     config
 };
 

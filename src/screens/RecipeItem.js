@@ -48,7 +48,7 @@ const RecipeItem = ({route, navigation}) => {
                             <Text style={styles.mealName}>{data.meal_name}</Text>
 
                             <View style={[styles.filterIcon, {borderColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]}>
-                                <View style={[styles.filterCircle, {backgroundColor: NON_VEG}]} />
+                                <View style={[styles.filterCircle, {backgroundColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]} />
                             </View>
                         </View>
 

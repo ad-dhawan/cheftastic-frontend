@@ -14,6 +14,7 @@ import Statusbar from './src/components/StatusBar';
 import {persistor, store} from './src/redux/store';
 import { BACKGROUND } from './src/utils/colors';
 import { AD_TEST_DEVICE_ID } from '@env'
+import FallBack from './src/components/FallBack';
 
 const App = () => {
   useEffect(() => {
@@ -46,7 +47,7 @@ const App = () => {
     <>
       <RNPProvider>
         <Statusbar translucent={false} bgColor={BACKGROUND} theme={'dark'} />
-        <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>} >
+        <NavigationContainer linking={linking} fallback={<FallBack />} >
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <AppNavigation />

@@ -13,7 +13,7 @@ const TopTabNavigation = ({data}) => {
   return (
     <>
       <Tab.Navigator
-      swipeEnabled={false}
+        swipeEnabled={false}
         tabBarOptions={{
           showIcon: false,
           showLabel: true,
