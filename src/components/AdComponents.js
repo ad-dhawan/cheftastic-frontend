@@ -13,7 +13,7 @@ const AdComp = (props) => {
     const nativeAdViewRef = useRef();
     const [headline, setHeadline] = useState('Cheftastic 2.0');
     const [tagline, setTagline] = useState('be your own chef');
-    const [imageUrl, setImageUrl] = useState('https://storage.googleapis.com/default-user-avatars/Cheftastic%20Logo.png');
+    const [imageUrl, setImageUrl] = useState('https://storage.googleapis.com/users-profile-image/Cheftastic%20Logo.png');
 
     useEffect(() => {
         nativeAdViewRef.current?.loadAd();

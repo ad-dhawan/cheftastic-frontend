@@ -28,7 +28,7 @@ const EditProfile = ({navigation}) => {
 
             userAvatar !== user_avatar ? formData.append('user_avatar', {
                 uri: userAvatar,
-                name: `${user_id}_${Date.now()}`,
+                name: `${user_id}_${Date.now()}.jpeg`,
                 type: 'multipart/form-data',
             }) : null
 

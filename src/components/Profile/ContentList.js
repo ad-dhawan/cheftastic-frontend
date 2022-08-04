@@ -123,7 +123,7 @@ const ContentList = ({route}) => {
                 <FlatList
                     data={route.params.screen === 'feed' ? data : savedRecipes}
                     numColumns={2}
-                    contentContainerStyle={{marginTop: 10}}
+                    contentContainerStyle={{marginTop: 10, paddingBottom: 50}}
                     columnWrapperStyle={{justifyContent: 'space-between', marginHorizontal:10}}
                     renderItem={({item, index}) => (
                         <ListItem item={item} index={index} />

@@ -113,80 +113,85 @@ const FeedList = (props) => {
                 likeRecipe()
             }
         }
+
+        const ItemComponent = () => (
+            <DoubleClick
+            //active opacity of touchable opacity from node modules
+            singleTap={() => {
+                props.navigation.navigate('RecipeItem', {data: item})
+            }}
+
+            doubleTap={() => {
+                LikeAnimRef.current.play()
+                isLiked ? null : setLikeCount(likes => likes += 1)
+                setIsLiked(true)
+                
+                if(!isLiked){
+                    likeRecipe()
+                }
+            }}
+            >
+            <View style={{marginBottom: 10}}>
+                <CacheImage
+                    uri={item.image_url}
+                    style={styles.mealImage}
+                />
+
+                <RoundButton
+                    icon={<Ionicons name="share-social-sharp" size={18} color={DARK_TEXT} />}
+                    onPress={() => onPressShare(item.user_name, item.meal_name, item._id, item.image_url)}
+                    style={{position: 'absolute', top: 10, right: 10}}
+                />
+
+                <View style={styles.detailsContainer}>
+
+                    <View style={styles.mealNameContainer}>
+                        <Text style={styles.mealName}>{item.meal_name}</Text>
+
+                        <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
+                            onPress={() => unlikeRecipe()} style={styles.likesContainer} >
+                            <MaterialCommunityIcons name={isLiked ? 'cards-heart' : 'cards-heart-outline'}
+                                size={15} color={isLiked ? LIKE : GREY} style={{marginRight: 4}}
+                            />
+                            <Text style={[styles.mealLikeCount, {
+                                color: isLiked ? LIKE : GREY
+                            }]}>{likeCount}</Text>
+                        </TouchableOpacity>
+                        
+                    </View> 
+
+                    <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
+                        onPress={() => props.navigation.navigate('Profile', {"uid": item.user_id, "uavatar": item.user_avatar, "uname": item.user_name})}
+                        style={styles.userNameContainer}>
+                        <UserAvatar size={18} avatar={item.user_avatar} />
+                        <Text style={styles.userName}>{item.user_name}</Text>
+                    </TouchableOpacity>
+
+                    <Text style={styles.mealType}>{item.meal_type}</Text>
+                </View>
+
+                    <LottieView
+                        ref={LikeAnimRef}
+                        source={require('../../assets/lottie/like_anim.json')}
+                        loop={false}
+                        autoPlay={false}
+                        speed={2}
+                        onAnimationFinish={() => LikeAnimRef.current.reset()}
+                        style={styles.likeAnim}
+                    />
+
+            </View>
+            </DoubleClick>
+        )
         
         return(
             <>
-                {index%6 === 0 ? (
-                    <AdComp />
-                ) : (
-                    <DoubleClick
-                    //active opacity of touchable opacity from node modules
-                    singleTap={() => {
-                        props.navigation.navigate('RecipeItem', {data: item})
-                    }}
-
-                    doubleTap={() => {
-                        LikeAnimRef.current.play()
-                        isLiked ? null : setLikeCount(likes => likes += 1)
-                        setIsLiked(true)
-                        
-                        if(!isLiked){
-                            likeRecipe()
-                        }
-                    }}
-                    >
-                    <View style={{marginBottom: 10}}>
-                        <CacheImage
-                            uri={item.image_url}
-                            style={styles.mealImage}
-                        />
-
-                        <RoundButton
-                            icon={<Ionicons name="share-social-sharp" size={18} color={DARK_TEXT} />}
-                            onPress={() => onPressShare(item.user_name, item.meal_name, item._id, item.image_url)}
-                            style={{position: 'absolute', top: 10, right: 10}}
-                        />
-
-                        <View style={styles.detailsContainer}>
-
-                            <View style={styles.mealNameContainer}>
-                                <Text style={styles.mealName}>{item.meal_name}</Text>
-
-                                <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
-                                    onPress={() => unlikeRecipe()} style={styles.likesContainer} >
-                                    <MaterialCommunityIcons name={isLiked ? 'cards-heart' : 'cards-heart-outline'}
-                                        size={15} color={isLiked ? LIKE : GREY} style={{marginRight: 4}}
-                                    />
-                                    <Text style={[styles.mealLikeCount, {
-                                        color: isLiked ? LIKE : GREY
-                                    }]}>{likeCount}</Text>
-                                </TouchableOpacity>
-                                
-                            </View> 
-
-                            <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
-                                onPress={() => props.navigation.navigate('Profile', {"uid": item.user_id, "uavatar": item.user_avatar, "uname": item.user_name})}
-                                style={styles.userNameContainer}>
-                                <UserAvatar size={18} avatar={item.user_avatar} />
-                                <Text style={styles.userName}>{item.user_name}</Text>
-                            </TouchableOpacity>
-
-                            <Text style={styles.mealType}>{item.meal_type}</Text>
-                        </View>
-
-                            <LottieView
-                                ref={LikeAnimRef}
-                                source={require('../../assets/lottie/like_anim.json')}
-                                loop={false}
-                                autoPlay={false}
-                                speed={2}
-                                onAnimationFinish={() => LikeAnimRef.current.reset()}
-                                style={styles.likeAnim}
-                            />
-
-                    </View>
-                    </DoubleClick>
-                )}
+                {index % 6 === 0 ? (
+                    <>
+                        <AdComp />
+                        <ItemComponent />
+                    </>
+                ) : <ItemComponent />}
             </>
         )
     }

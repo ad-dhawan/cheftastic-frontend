@@ -1,63 +1,38 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, TextInput, StyleSheet, TouchableOpacity, ScrollView, Image} from 'react-native';
-import { useSelector } from 'react-redux';
-import {TimePicker, ValueMap} from 'react-native-simple-time-picker';
+import {Text, View, TextInput, StyleSheet, TouchableOpacity, ScrollView, Image, Dimensions} from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { isEmpty } from 'lodash';
-import { Portal, Modal } from 'react-native-paper';
 import ImageResizer from 'react-native-image-resizer';
-
-import { GetData } from '../../services/axios';
 import PageHeader from '../../components/PageHeader';
-import { ACCENT, ADD_SERVINGS, BACKGROUND, DARK_TEXT, DULL_ACCENT, GREY, INCOMPLETE, LIGHT_TEXT, MINUS_SERVINGS, NON_VEG, TRANSPARENT, VEG, VEGAN } from '../../utils/colors';
-import { BOLD, FEED_MEAL_IMAGE_HEIGHT, REGULAR } from '../../utils/values';
-import Loader from '../../components/Loader';
+import { ACCENT, BACKGROUND, DARK_TEXT, DULL_ACCENT, GREY, INCOMPLETE, LIGHT_TEXT, NON_VEG, TRANSPARENT, VEG, VEGAN } from '../../utils/colors';
+import { BOLD, REGULAR } from '../../utils/values';
 
-const IMAGE_SIZE = 140
+const {width, height} = Dimensions.get('screen')
+const IMAGE_SIZE = width - 100
 const BORDER_RADIUS = 5
+const ARROW_SIZE = 50
+
+export const PlusButton = (props) => (
+    <View style={[styles.plus, props.style]}>
+        <Entypo name="plus" size={18} color={LIGHT_TEXT} />
+    </View>
+)
+
+export const TitleText = (props) => {
+    return(
+        <Text style={styles.titleText}>{props.text}</Text>
+    )
+}
 
 const AddRecipe = ({navigation}) => {
-    const {user_id} = useSelector(state => state);
-
+    const [isIncomplete, setIsIncomplete] = useState(false);
     const [title, setTitle] = useState('');
     const [titleFocus, setTitleFocus] = useState(false);
-    const [showTitleWarning, setShowTitleWarning] = useState(false);
-
-    const [ingredients, setIngredients] = useState([]);
-    const [showIngredientsWarning, setShowIngredientsWarning] = useState(false);
-
-    const [instructions, setInstructions] = useState([]);
-    const [showInstructionsWarning, setShowInstructionsWarning] = useState(false);
-
     const [recipeImage, setRecipeImage] = useState('');
-    const [showRecipeImageWarning, setShowRecipeImageWarning] = useState(false);
-
     const [mealType, setMealType] = useState('');
-    const [showMealTypeWarning, setShowMealTypeWarning] = useState(false);
-
-    const [servings, setServings] = useState(1);
-    const [difficulty, setDifficulty] = useState('');
-    const [calories, setCalories] = useState('');
-    const [caloriesFocus, setCaloriesFocus] = useState(false);
-    const [time, setTime] = useState({
-        hours: 0,
-        minutes: 0,
-    });
-    const [loader, setLoader] = useState(false);
-
-    const TitleText = (props) => {
-        return(
-            <Text style={styles.titleText}>{props.text}</Text>
-        )
-    }
-
-    const PlusButton = (props) => (
-        <View style={[styles.plus, props.style]}>
-            <Entypo name="plus" size={18} color={LIGHT_TEXT} />
-        </View>
-    )
 
     const onPressPickImage = async () => {
         ImagePicker.launchImageLibrary(
@@ -84,75 +59,18 @@ const AddRecipe = ({navigation}) => {
         );
     }
 
-    const onPressShareRecipe = () => {
-        try{
-            setLoader(true);
-            const formData = new FormData();
-
-            isEmpty(title) ? setShowTitleWarning(true) : setShowTitleWarning(false)
-            formData.append('meal_name', title);
-
-            isEmpty(recipeImage) ? setShowRecipeImageWarning(true) : setShowRecipeImageWarning(false)
-            formData.append('image_url', {
-                uri: recipeImage,
-                name: `${title.replace(/ /g,'')}_${user_id}_${Date.now()}.jpeg`,
-                type: 'multipart/form-data',
-            });
-
-            isEmpty(ingredients) ? setShowIngredientsWarning(true) : setShowIngredientsWarning(false)
-            ingredients.map(item => {
-                formData.append('ingredients', item.text)
-            })
-
-            isEmpty(instructions) ? setShowInstructionsWarning(true) : setShowInstructionsWarning(false)
-            instructions.map(item => {
-                formData.append('recipe', item.text)
-            })
-
-            isEmpty(mealType) ?setShowMealTypeWarning(true) :setShowMealTypeWarning(false)
-            formData.append('meal_type', mealType);
-
-            formData.append('chef_id', user_id);
-
-            time.hours !== 0 && time.minutes !== 0 ?
-            formData.append('meal_cooking_time', time.hours === 0 ? `${time.minutes}mins` : `${time.hours}hrs ${time.minutes}mins`) : null
-
-            formData.append('meal_difficulty', difficulty);
-
-            !isEmpty(calories) ?
-            formData.append('meal_calories', `${calories} kcal`) : null
-    
-            if(!showTitleWarning && !showIngredientsWarning && !showInstructionsWarning && !showRecipeImageWarning && !showMealTypeWarning){
-                GetData.createRecipe(formData).then(response => {
-                    if(response && response.status === 200) {
-                        console.log("RESPONSE: ", response.data)
-                        setTitle('')
-                        setIngredients([])
-                        setInstructions([])
-                        setRecipeImage('')
-                        setMealType('')
-                        setServings(1)
-                        setDifficulty('')
-                        setCalories('')
-                        setTime({
-                            hours: 0,
-                            minutes: 10,
-                        })
-                        setLoader(false);
-                        navigation.navigate('Feed')
-                    }
-                    else console.log(response);
-                });
-            }
-
-        } catch (e) {
-            console.log(e)
+    const onPressNextArrow = () => {
+        if(!isEmpty(title) || !isEmpty(recipeImage) || !isEmpty(mealType)){
+            navigation.navigate('Recipe', {title: title, recipeImage: recipeImage, mealType: mealType})
+            setIsIncomplete(false)
+        } else {
+            setIsIncomplete(true)
         }
     }
 
     return(
         <>
-            <ScrollView>
+            <ScrollView style={{height: '100%', backgroundColor: BACKGROUND}} >
 
             <PageHeader title="add recipe" navigation={navigation} />
 
@@ -170,68 +88,8 @@ const AddRecipe = ({navigation}) => {
                         style={[styles.title, {
                             backgroundColor: titleFocus || !isEmpty(title) ? LIGHT_TEXT : TRANSPARENT,
                             borderStyle: titleFocus || !isEmpty(title) ? null : 'dashed',
-                            borderColor: showTitleWarning ? INCOMPLETE : GREY
                         }]}
                     />
-                </View>
-
-                <View>
-                    <TitleText text={"ingredients"} />
-                    <TouchableOpacity 
-                        activeOpacity={1} 
-                        onPress={() => navigation.navigate('AddIngredients', {setIngredients: setIngredients, ingredients: ingredients})} 
-                        style={[styles.placeholderContainer, {
-                            backgroundColor: isEmpty(ingredients) ? TRANSPARENT : LIGHT_TEXT,
-                            borderStyle: !isEmpty(ingredients) ? null : 'dashed',
-                            borderColor: showIngredientsWarning ? INCOMPLETE : GREY
-                        }]}
-                    >
-                        <Text numberOfLines={4} ellipsizeMode="tail" style={[styles.ingredientsPlaceholder, {
-                            color: isEmpty(ingredients) ? GREY : DARK_TEXT
-                        }]}>
-                            {isEmpty(ingredients) ? 'Add your ingredients here' : ingredients.map(item => `${item.text} , `)}
-                        </Text>
-                    </TouchableOpacity>
-                    <PlusButton />
-                </View>
-
-                <View>
-                    <TitleText text={"instructions"} />
-                    <TouchableOpacity 
-                        activeOpacity={1} 
-                        onPress={() => navigation.navigate('AddInstructions', {setInstructions: setInstructions, instructions, instructions})} 
-                        style={[styles.placeholderContainer, {
-                            backgroundColor: isEmpty(instructions) ? TRANSPARENT : LIGHT_TEXT,
-                            borderStyle: !isEmpty(instructions) ? null : 'dashed',
-                            borderColor: showInstructionsWarning ? INCOMPLETE : GREY
-                        }]}
-                    >
-                        <Text numberOfLines={4} ellipsizeMode="tail" style={[styles.ingredientsPlaceholder, {
-                            color: isEmpty(instructions) ? GREY : DARK_TEXT
-                        }]}>
-                            {isEmpty(instructions) ? 'Add your instructions here' : instructions.map(item => `${item.text} , `)}
-                        </Text>
-                    </TouchableOpacity>
-                    <PlusButton />
-                </View>
-
-                <View>
-                    <TitleText text={"recipe image"} />
-                    <TouchableOpacity activeOpacity={1} onPress={onPressPickImage} style={[styles.recipeImageContainer, {
-                        borderColor: showRecipeImageWarning ? INCOMPLETE : GREY
-                    }]}>
-                        {recipeImage === '' ? (
-                            <>
-                                <Ionicons name="image-outline" size={40} color={GREY} />
-                                <PlusButton style={{right: 25, bottom: 25, top: 'auto'}} />
-                            </>
-                        ) : (
-                            <Image
-                                source={{uri : recipeImage}}
-                                style={styles.recipeImage}
-                            />
-                        )}
-                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.filtersContainer}>
@@ -241,7 +99,6 @@ const AddRecipe = ({navigation}) => {
                         onPress={() => setMealType('veg')}
                         style={[styles.filterMainContainer, {
                             backgroundColor: mealType === 'veg' ? DULL_ACCENT : LIGHT_TEXT,
-                            borderColor: showMealTypeWarning ? INCOMPLETE : GREY
                         }]}
                     >
                         <View style={[styles.filterIcon, {borderColor: VEG}]}>
@@ -255,7 +112,6 @@ const AddRecipe = ({navigation}) => {
                         onPress={() => setMealType('non-veg')}
                         style={[styles.filterMainContainer, {
                             backgroundColor: mealType === 'non-veg' ? DULL_ACCENT : LIGHT_TEXT,
-                            borderColor: showMealTypeWarning ? INCOMPLETE : GREY
                         }]}
                     >
                         <View style={[styles.filterIcon, {borderColor: NON_VEG}]}>
@@ -269,7 +125,6 @@ const AddRecipe = ({navigation}) => {
                         onPress={() => setMealType('vegan')}
                         style={[styles.filterMainContainer, {
                             backgroundColor: mealType === 'vegan' ? DULL_ACCENT : LIGHT_TEXT,
-                            borderColor: showMealTypeWarning ? INCOMPLETE : GREY
                         }]}
                     >
                         <View style={[styles.filterIcon, {borderColor: VEGAN}]}>
@@ -281,97 +136,44 @@ const AddRecipe = ({navigation}) => {
                 </View>
 
                 <View>
-                    <TitleText text={"servings"} />
-
-                    <View style={styles.servingsContainer}>
-                        <TouchableOpacity
-                            activeOpacity={1}
-                            style={[styles.servingsButton, {backgroundColor: MINUS_SERVINGS}]}
-                            onPress={() => setServings(servings => servings-=1)}
-                            disabled={servings<=1 ? true : false}
-                        >
-                            <Entypo name="minus" size={18} color={LIGHT_TEXT} />
-                        </TouchableOpacity>
-
-                        <Text style={styles.servingsText}>{servings}</Text>
-
-                        <TouchableOpacity
-                            activeOpacity={1}
-                            style={[styles.servingsButton, {backgroundColor: ADD_SERVINGS}]}
-                            onPress={() => setServings(servings => servings+=1)}
-                            disabled={servings>=10 ? true : false}
-                        >
-                            <Entypo name="plus" size={18} color={LIGHT_TEXT} />
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-
-                <View style={styles.filtersContainer}>
-
-                    <TouchableOpacity activeOpacity={1} onPress={() => setDifficulty('easy')} style={[styles.filterMainContainer, {backgroundColor: difficulty === 'easy' ? DULL_ACCENT : LIGHT_TEXT}]}>
-                        <Text style={[styles.filterText, {marginLeft: 0}]}>Easy</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity activeOpacity={1} onPress={() => setDifficulty('intermediate')} style={[styles.filterMainContainer, {backgroundColor: difficulty === 'intermediate' ? DULL_ACCENT : LIGHT_TEXT}]}>
-                        <Text style={[styles.filterText, {marginLeft: 0}]}>Intermediate</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity activeOpacity={1} onPress={() => setDifficulty('difficult')} style={[styles.filterMainContainer, {backgroundColor: difficulty === 'difficult' ? DULL_ACCENT : LIGHT_TEXT}]}>
-                        <Text style={[styles.filterText, {marginLeft: 0}]}>Difficult</Text>
-                    </TouchableOpacity>
-
-                </View>
-
-                <View>
-                    <TitleText text={"meal calories"} />
-                    <TextInput
-                        value={calories}
-                        onChangeText={text => setCalories(text)}
-                        placeholder={"Enter your meal calories in kcal"}
-                        keyboardType='numeric'
-                        placeholderTextColor={GREY}
-                        onFocus={() => setCaloriesFocus(true)}
-                        onBlur={() => setCaloriesFocus(false)}
-                        style={[styles.title, {
-                            backgroundColor: caloriesFocus || !isEmpty(title) ? LIGHT_TEXT : TRANSPARENT,
-                            borderStyle: caloriesFocus || !isEmpty(title) ? null : 'dashed'
-                        }]}
-                    />
-                </View>
-
-                <View>
-                    <TitleText text={"time"} />
-                    <TimePicker
-                        value={time}
-                        onChange={(newValue) => setTime(newValue)}
-                        pickerShows={["hours", "minutes"]}
-                        hoursUnit="hr"
-                        minutesUnit="min"
-                        textColor={DARK_TEXT}
-                    />
-                </View>
-
-                <View style={{paddingBottom: 30}}>
-                    <TouchableOpacity activeOpacity={1} style={styles.postButton} onPress={onPressShareRecipe}>
-                        <Text style={styles.postText}>share recipe</Text>
+                    <TitleText text={"recipe image"} />
+                    <TouchableOpacity activeOpacity={1} onPress={onPressPickImage} style={[styles.recipeImageContainer]}>
+                        {recipeImage === '' ? (
+                            <>
+                                <Ionicons name="image-outline" size={40} color={GREY} />
+                                <PlusButton style={{right: 25, bottom: 25, top: 'auto'}} />
+                            </>
+                        ) : (
+                            <Image
+                                source={{uri : recipeImage}}
+                                style={styles.recipeImage}
+                            />
+                        )}
                     </TouchableOpacity>
                 </View>
+                
+                {isIncomplete ? (
+                    <Text style={styles.incompleteText} >Please fill all the details</Text>
+                ) : null }
+
+                <TouchableOpacity 
+                    onPress={onPressNextArrow} 
+                    hitSlop={styles.hitSlop} 
+                    activeOpacity={1}
+                    style={styles.arrowContainer}
+                >
+                    <AntDesign name="arrowright" size={20} color={LIGHT_TEXT} />
+                </TouchableOpacity>
 
             </View>
-
-            <Portal>
-                <Modal visible={loader}>
-                    <Loader />
-                </Modal>
-            </Portal>
 
             </ScrollView>
 
         </>
     )
 }
-const styles = StyleSheet.create({
+
+export const styles = StyleSheet.create({
     mainContainer: {
         paddingHorizontal: 20,
         flex: 1,
@@ -393,7 +195,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         paddingVertical: 10,
         paddingHorizontal: 5,
-        color: DARK_TEXT
+        color: DARK_TEXT,
+        marginTop: 10
     },
     placeholderContainer: {
         borderWidth: 1,
@@ -402,7 +205,7 @@ const styles = StyleSheet.create({
         borderStyle: 'dashed',
         paddingVertical: 10,
         paddingHorizontal: 5,
-        height: 120
+        height: 120,
     },
     ingredientsPlaceholder: {
         fontSize: 14,
@@ -428,7 +231,9 @@ const styles = StyleSheet.create({
         height: IMAGE_SIZE,
         width: IMAGE_SIZE,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 10
     },
     recipeImage: {
         height: IMAGE_SIZE,
@@ -438,7 +243,7 @@ const styles = StyleSheet.create({
     filtersContainer: {
         marginTop: 20,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     filterMainContainer: {
         flexDirection: 'row',
@@ -448,7 +253,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 15,
         borderWidth: 1,
-        borderColor: GREY
+        borderColor: GREY,
+        marginVertical: 15
     },
     filterIcon: {
         height: 22,
@@ -516,7 +322,26 @@ const styles = StyleSheet.create({
         fontFamily: BOLD,
         color: LIGHT_TEXT,
         textTransform: 'uppercase'
-    }
+    },
+    incompleteText: {
+        fontSize: 14,
+        fontFamily: REGULAR,
+        textTransform: 'lowercase',
+        textAlign: 'center',
+        color: INCOMPLETE,
+        marginTop: 20
+    },
+    arrowContainer: {
+        backgroundColor: ACCENT,
+        padding: 15,
+        borderRadius: ARROW_SIZE,
+        width: ARROW_SIZE,
+        height: ARROW_SIZE,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        marginTop: 30
+    },
 })
 
 export default AddRecipe;
