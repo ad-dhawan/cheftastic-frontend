@@ -25,7 +25,7 @@ export async function onPressShare(userId, mealName, recipeId, imageUrl) {
     try {
       const result = await Share.share({
         title: 'Cheftastic',
-        message: `${message} \n ${SERVER_URL}/${BASE_URL}/post/get/${recipeId}`,
+        message: `${message} \n https://cheftastic-2.netlify.app/recipe/${recipeId}`,
         url: imageUrl,
       });
       if (result.action === Share.sharedAction) {
@@ -151,7 +151,7 @@ const FeedList = (props) => {
                         <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
                             onPress={() => unlikeRecipe()} style={styles.likesContainer} >
                             <MaterialCommunityIcons name={isLiked ? 'cards-heart' : 'cards-heart-outline'}
-                                size={15} color={isLiked ? LIKE : GREY} style={{marginRight: 4}}
+                                size={20} color={isLiked ? LIKE : GREY} style={{marginRight: 4}}
                             />
                             <Text style={[styles.mealLikeCount, {
                                 color: isLiked ? LIKE : GREY
@@ -163,7 +163,9 @@ const FeedList = (props) => {
                     <TouchableOpacity activeOpacity={1} hitSlop={styles.hitSlop}
                         onPress={() => props.navigation.navigate('Profile', {"uid": item.user_id, "uavatar": item.user_avatar, "uname": item.user_name})}
                         style={styles.userNameContainer}>
-                        <UserAvatar size={18} avatar={item.user_avatar} />
+                        {item.user_avatar ? (
+                            <UserAvatar size={18} avatar={item.user_avatar} />
+                        ) : null}
                         <Text style={styles.userName}>{item.user_name}</Text>
                     </TouchableOpacity>
 
@@ -295,7 +297,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     mealLikeCount: {
-        fontSize: 12,
+        fontSize: 15,
         color: DARK_TEXT,
         fontFamily: REGULAR,
     },

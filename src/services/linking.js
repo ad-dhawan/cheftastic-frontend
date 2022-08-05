@@ -3,7 +3,7 @@ import { SERVER_URL, BASE_URL } from "./axios";
 const config = {
     screens: {
         RecipeItem: {
-            path: "/api/post/get/:id",
+            path: "/recipe/:id",
             parse: {
                 id: (id) => `${id}`
             }
@@ -12,7 +12,7 @@ const config = {
 };
 
 const linking = {
-    prefixes: [`${SERVER_URL}/${BASE_URL}`],
+    prefixes: ['https://cheftastic-2', 'https://cheftastic-2.el.r.appspot', 'https://cheftastic-2.netlify.app'],
     config
 };
 

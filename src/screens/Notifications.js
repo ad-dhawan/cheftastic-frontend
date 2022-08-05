@@ -101,9 +101,9 @@ const Notifications = ({navigation}) => {
                         data={notificationData}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{margin: 10, paddingBottom: 50, marginTop: 10}}
-                        refreshControl={
-                            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-                        }
+                        // refreshControl={
+                        //     <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+                        // }
                         onEndReached={onLoadMore}
                         ListHeaderComponent={isUpdateNeeded ? <AppUpdate /> : null}
                         ListFooterComponent={() => <Welcome navigation={navigation} />}

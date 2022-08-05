@@ -103,7 +103,9 @@ const Search = ({navigation}) => {
         return(
             <>
                 <TouchableOpacity onPress={onPressItem} activeOpacity={1} style={styles.rowContainer}>
-                    <UserAvatar size={35} avatar={data.user_avatar} />
+                    {data.user_avatar ? (
+                        <UserAvatar size={35} avatar={data.user_avatar} />
+                    ) : null }
                     <Text style={styles.title}>{data.name}</Text>
                 </TouchableOpacity>
             </>

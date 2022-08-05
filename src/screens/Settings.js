@@ -37,10 +37,6 @@ const Settings = ({navigation}) => {
             icon: <Foundation name="info" size={20} color={DARK_TEXT} />
         },
         {
-            text: 'community guidelines',
-            icon: <Feather name="book-open" size={20} color={DARK_TEXT} />
-        },
-        {
             text: 'delete account',
             icon: (<MaterialCommunityIcons name="delete" size={20} color={DARK_TEXT} />),
             onPress: () => onPressDelete()

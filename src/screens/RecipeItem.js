@@ -1,24 +1,40 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useSelector } from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LottieView from 'lottie-react-native';
+import { GetData } from '../services/axios';
 
 import Header from '../components/RecipeItem/Header';
 import { BACKGROUND, COOKING_DIFFICULTY_BG, COOKING_TIME, COOKING_TIME_BG, COOKING_DIFFICULTY, CALORIES_BG, CALORIES, DARK_TEXT, VEG, NON_VEG, LIKE, GREY, LIGHT_TEXT } from '../utils/colors';
 import { EXTRA_BOLD, RECIPE_ITEM_HEIGHT, REGULAR } from '../utils/values'
 import TopTabNavigation from '../components/RecipeItem/TopTabNavigation';
 import { UserAvatar } from '../components/Feed/FeedHeader';
-import { GetData } from '../services/axios';
 
 const MEAL_DETAILS_ICON_SIZE = 25
 
 const RecipeItem = ({route, navigation}) => {
     const {user_id} = useSelector(state => state);
-    const data = route.params.data;
 
-    const [isLiked, setIsLiked] = useState(data.likes.includes(user_id))
+    useEffect(() => {
+        if(route.params.data){
+            setData(route.params.data)
+        } else {
+            GetData.getSpecificRecipe(route.params.id).then(res => {
+                if (res && res.status === 200) {
+                    setData(res.data)
+                    console.log(res.data)
+                } else console.log(res);
+            })
+        }
+        setLoaded(true);
+    }, [])
+
+    const [data, setData] = useState()
+    const [loaded, setLoaded] = useState(false);
+    const [isLiked, setIsLiked] = useState()
 
     function likeRecipe() {
         isLiked ? setIsLiked(false) : setIsLiked(true);
@@ -32,65 +48,83 @@ const RecipeItem = ({route, navigation}) => {
 
     return(
         <>
+            {loaded ? (
                 <ScrollView nestedScrollEnabled contentContainerStyle={{flexGrow: 1}} >
 
-                    <Header navigation={navigation} item={data} />
+                <Header navigation={navigation} item={data} />
 
-                    <TouchableOpacity onPress={() => likeRecipe()} activeOpacity={1} style={styles.heartContainer} >
-                        <MaterialCommunityIcons name={isLiked ? 'cards-heart' : 'cards-heart-outline'}
-                            size={28} color={isLiked ? LIKE : GREY}
-                        />
+                <TouchableOpacity onPress={() => likeRecipe()} activeOpacity={1} style={styles.heartContainer} >
+                    <MaterialCommunityIcons name={isLiked ? 'cards-heart' : 'cards-heart-outline'}
+                        size={28} color={isLiked ? LIKE : GREY}
+                    />
+                </TouchableOpacity>
+
+                <View style={styles.itemContainer}>
+
+                    <View style={styles.mealNameContainer}>
+                        <Text style={styles.mealName}>{data.meal_name}</Text>
+
+                        <View style={[styles.filterIcon, {borderColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]}>
+                            <View style={[styles.filterCircle, {backgroundColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]} />
+                        </View>
+                    </View>
+
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Profile', {"uid": data.user_id, "uavatar": data.user_avatar, "uname": data.user_name})}
+                        activeOpacity={1}
+                        style={styles.userAvatarContainer}
+                    >
+                        <UserAvatar size={18} avatar={data.user_avatar} />
+                        <Text style={styles.userName}>{data.user_name}</Text>
                     </TouchableOpacity>
 
-                    <View style={styles.itemContainer}>
+                    <View style={styles.mealDetailsParentContainer}>
 
-                        <View style={styles.mealNameContainer}>
-                            <Text style={styles.mealName}>{data.meal_name}</Text>
-
-                            <View style={[styles.filterIcon, {borderColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]}>
-                                <View style={[styles.filterCircle, {backgroundColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]} />
+                        {data.meal_cooking_time ? (
+                            <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_TIME_BG}]}>
+                                <Feather name="clock" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_TIME} />
+                                <Text numberOfLines={2} style={[styles.mealDetailText, {color: COOKING_TIME}]}>{data.meal_cooking_time}</Text>
                             </View>
-                        </View>
+                        ) : null}
 
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('Profile', {"uid": data.user_id, "uavatar": data.user_avatar, "uname": data.user_name})}
-                            activeOpacity={1}
-                            style={styles.userAvatarContainer}
-                        >
-                            <UserAvatar size={18} avatar={data.user_avatar} />
-                            <Text style={styles.userName}>{data.user_name}</Text>
-                        </TouchableOpacity>
+                        {data.meal_difficulty ? (
+                            <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_DIFFICULTY_BG}]}>
+                                <Fontisto name="star" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_DIFFICULTY} />
+                                <Text style={[styles.mealDetailText, {color: COOKING_DIFFICULTY}]}>{data.meal_difficulty}</Text>
+                            </View>
+                        ) : null}
 
-                        <View style={styles.mealDetailsParentContainer}>
-
-                            {data.meal_cooking_time ? (
-                                <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_TIME_BG}]}>
-                                    <Feather name="clock" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_TIME} />
-                                    <Text numberOfLines={2} style={[styles.mealDetailText, {color: COOKING_TIME}]}>{data.meal_cooking_time}</Text>
-                                </View>
-                            ) : null}
-
-                            {data.meal_difficulty ? (
-                                <View style={[styles.mealDetailsContainer, {backgroundColor: COOKING_DIFFICULTY_BG}]}>
-                                    <Fontisto name="star" size={MEAL_DETAILS_ICON_SIZE} color={COOKING_DIFFICULTY} />
-                                    <Text style={[styles.mealDetailText, {color: COOKING_DIFFICULTY}]}>{data.meal_difficulty}</Text>
-                                </View>
-                            ) : null}
-
-                            {data.meal_calories ? (
-                                <View style={[styles.mealDetailsContainer, {backgroundColor: CALORIES_BG}]}>
-                                    <Fontisto name="fire" size={MEAL_DETAILS_ICON_SIZE} color={CALORIES} />
-                                    <Text style={[styles.mealDetailText, {color: CALORIES}]}>{data.meal_calories}</Text>
-                                </View>
-                            ) : null}
-
-                        </View>
-
-                        <TopTabNavigation data={data} />
+                        {data.meal_calories ? (
+                            <View style={[styles.mealDetailsContainer, {backgroundColor: CALORIES_BG}]}>
+                                <Fontisto name="fire" size={MEAL_DETAILS_ICON_SIZE} color={CALORIES} />
+                                <Text style={[styles.mealDetailText, {color: CALORIES}]}>{data.meal_calories}</Text>
+                            </View>
+                        ) : null}
 
                     </View>
-                        
+
+                    <TopTabNavigation data={data} />
+
+                </View>
+                    
                 </ScrollView>
+            ) : (
+                <>
+                    <View style={{
+                        backgroundColor: BACKGROUND,
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }} >
+                        <LottieView
+                            source={require('../assets/lottie/cookingAnim.json')}
+                            loop={true}
+                            autoPlay={true}
+                            style={{width: '60%'}}
+                        />
+                    </View>
+                </>
+            )}
         </>
     )
 };

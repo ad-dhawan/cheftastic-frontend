@@ -86,7 +86,35 @@ const ContentList = ({route}) => {
     const ListEmptyComponent = ({type}) => {
         return(
             <>
-                <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+                {route.params.uid === user_id ? (
+                    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+                        <LottieView
+                            source={require('../../assets/lottie/cooking_loading.json')}
+                            loop={true}
+                            autoPlay={true}
+                            style={{width: '60%'}}
+                            colorFilters={[
+                                {
+                                keypath: 'White Solid 4',
+                                color: BACKGROUND,
+                                },
+                            ]}
+                        />
+                        <Text
+                            style={{fontSize: 14, fontFamily: BOLD, color: DARK_TEXT, marginTop: 20}}
+                        >{type === 'feed' ? 'your feed is empty' : "you don't have any saved posts"}</Text>
+                        <TouchableOpacity
+                            onPress={() => type === 'feed' ? route.params.navigation.navigate('AddRecipe') : route.params.navigation.navigate('Feed')}
+                            activeOpacity={1}
+                            hitSlop={styles.hitSlop}
+                        >
+                            <Text
+                                style={{fontSize: 14, fontFamily: BOLD, color: CHECK, marginTop: 10}}
+                            >{type === 'feed' ? 'share your first recipe' : 'explore and save new recipes for later'}</Text>
+                        </TouchableOpacity>
+                    </View>
+                ) : (
+                    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
                     <LottieView
                         source={require('../../assets/lottie/cooking_loading.json')}
                         loop={true}
@@ -101,17 +129,9 @@ const ContentList = ({route}) => {
                     />
                     <Text
                         style={{fontSize: 14, fontFamily: BOLD, color: DARK_TEXT, marginTop: 20}}
-                    >{type === 'feed' ? 'your feed is empty' : "you don't have any saved posts"}</Text>
-                    <TouchableOpacity
-                        onPress={() => type === 'feed' ? route.params.navigation.navigate('AddRecipe') : route.params.navigation.navigate('Feed')}
-                        activeOpacity={1}
-                        hitSlop={styles.hitSlop}
-                    >
-                        <Text
-                            style={{fontSize: 14, fontFamily: BOLD, color: CHECK, marginTop: 10}}
-                        >{type === 'feed' ? 'share your first recipe' : 'explore and save new recipes for later'}</Text>
-                    </TouchableOpacity>
-                </View>
+                    >the user has no recipes yet</Text>
+                    </View>
+                )}
             </>
         )
     }
