@@ -25,7 +25,7 @@ export async function onPressShare(userId, mealName, recipeId, imageUrl) {
     try {
       const result = await Share.share({
         title: 'Cheftastic',
-        message: `${message} \n https://cheftastic-2.netlify.app/recipe/${recipeId}`,
+        message: `${message} \n ${SERVER_URL}/${BASE_URL}/post/${recipeId}`,
         url: imageUrl,
       });
       if (result.action === Share.sharedAction) {

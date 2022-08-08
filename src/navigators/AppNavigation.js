@@ -17,6 +17,7 @@ import AddInstructions from '../screens/AddRecipe/AddInstructions';
 import Recipe from '../screens/AddRecipe/Recipe';
 import Optional from '../screens/AddRecipe/Optional';
 import Search from '../screens/Search';
+import WebView from '../screens/WebView';
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,7 @@ const StackNavigator = () => {
             <Stack.Screen name="Recipe" component={Recipe} />
             <Stack.Screen name="Optional" component={Optional} />
             <Stack.Screen name="Search" component={Search} />
+            <Stack.Screen name="WebView" component={WebView} />
         
       </Stack.Navigator>
     </>

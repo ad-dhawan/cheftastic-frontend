@@ -34,7 +34,18 @@ const Settings = ({navigation}) => {
         },
         {
             text: 'about us',
-            icon: <Foundation name="info" size={20} color={DARK_TEXT} />
+            icon: <Foundation name="info" size={20} color={DARK_TEXT} />,
+            onPress: () => navigation.navigate('WebView', {title: 'About Us', navigation: navigation, url: 'https://cheftastic-2.el.r.appspot.com/about.html'})
+        },
+        {
+            text: 'privacy policy',
+            icon: <Entypo name="lock" size={20} color={DARK_TEXT} />,
+            onPress: () => navigation.navigate('WebView', {title: 'Privacy Policy', navigation: navigation, url: 'https://cheftastic-2.el.r.appspot.com/privacy.html'})
+        },
+        {
+            text: 'terms of use',
+            icon: <Entypo name="shield" size={20} color={DARK_TEXT} />,
+            onPress: () => navigation.navigate('WebView', {title: 'Terms of Use', navigation: navigation, url: 'https://cheftastic-2.el.r.appspot.com/terms.html'})
         },
         {
             text: 'delete account',
@@ -93,7 +104,7 @@ const Settings = ({navigation}) => {
     }
 
     async function onPressShareApp () {
-        const message = `Download Cheftastic and share your best recipes with the world\n\nAndroid:https://dhawan.netlify.app/\niOS:https://bhumika-chauhan.netlify.app/`
+        const message = `Explore and share your favourite recipes around the world on Cheftastic\n\nhttps://play.google.com/store/apps/details?id=com.dhawan.cheftastic`
         try {
         const result = await Share.share({
             title: 'Cheftastic',

@@ -12,7 +12,7 @@ const config = {
 };
 
 const linking = {
-    prefixes: ['https://cheftastic-2', 'https://cheftastic-2.el.r.appspot', 'https://cheftastic-2.netlify.app'],
+    prefixes: ['https://cheftastic-2', 'https://cheftastic-2.el.r.appspot'],
     config
 };
 

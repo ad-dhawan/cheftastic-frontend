@@ -4,11 +4,12 @@ import { useSelector } from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import LottieView from 'lottie-react-native';
 import { GetData } from '../services/axios';
 
 import Header from '../components/RecipeItem/Header';
-import { BACKGROUND, COOKING_DIFFICULTY_BG, COOKING_TIME, COOKING_TIME_BG, COOKING_DIFFICULTY, CALORIES_BG, CALORIES, DARK_TEXT, VEG, NON_VEG, LIKE, GREY, LIGHT_TEXT } from '../utils/colors';
+import { BACKGROUND, COOKING_DIFFICULTY_BG, COOKING_TIME, COOKING_TIME_BG, COOKING_DIFFICULTY, CALORIES_BG, CALORIES, DARK_TEXT, VEG, NON_VEG, LIKE, GREY, LIGHT_TEXT, VEGAN } from '../utils/colors';
 import { EXTRA_BOLD, RECIPE_ITEM_HEIGHT, REGULAR } from '../utils/values'
 import TopTabNavigation from '../components/RecipeItem/TopTabNavigation';
 import { UserAvatar } from '../components/Feed/FeedHeader';
@@ -65,7 +66,11 @@ const RecipeItem = ({route, navigation}) => {
                         <Text style={styles.mealName}>{data.meal_name}</Text>
 
                         <View style={[styles.filterIcon, {borderColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]}>
-                            <View style={[styles.filterCircle, {backgroundColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]} />
+                            {data.meal_type === 'vegan' ? (
+                                <Entypo name="leaf" size={15} color={VEGAN} />
+                            ) : (
+                                <View style={[styles.filterCircle, {backgroundColor: data.meal_type === 'non-veg' ? NON_VEG : VEG}]} />
+                            )}
                         </View>
                     </View>
 
